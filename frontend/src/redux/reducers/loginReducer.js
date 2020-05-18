@@ -10,7 +10,9 @@ var myReducer = (state = initialState, action) => (
             case loginActionTypes.LOGIN_SUCCESS:
                 draft = action.data;
                 return draft;
-
+            case "LOGOUT_SUCCESS":
+                draft = {};
+                return draft;
             default:
                 return draft;
         }

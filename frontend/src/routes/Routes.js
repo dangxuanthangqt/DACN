@@ -26,7 +26,7 @@ const Routes = () => {
             </AuthLayout>
            </Route>
         */}
-
+            <Redirect exact from="/" to="/test"></Redirect>
             {
                 publicRoutes.map((element, index) => {
                     let temp = element.subroutes.map((e, i) => e.path);

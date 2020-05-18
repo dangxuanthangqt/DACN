@@ -11,7 +11,6 @@ function PublicRoutes(props) {
             </Component>
         ) }
         >
-
         </Route>
     );
 }

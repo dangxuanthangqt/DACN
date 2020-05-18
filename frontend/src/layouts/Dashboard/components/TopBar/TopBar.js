@@ -28,6 +28,7 @@ import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import history from '../../../../helper/history';
+import { logoutRequest } from '../../../../redux/actionCreators/logoutActionCreator';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -121,9 +122,7 @@ const TopBar = props => {
   // }, []);
 
   const handleLogout = () => {
-    history.push('/auth/login');
-    // dispatch(logout());
-    console.log("as");
+    dispatch(logoutRequest());
   };
 
   const handlePricingOpen = () => {

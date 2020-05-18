@@ -8,7 +8,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/dacn', {useNewUrlParser: true,  useUnifiedTopology: true,useFindAndModify:false,useCreateIndex: true})
+mongoose.connect('mongodb+srv://thang:thang@cluster0-q8vge.mongodb.net/DACN?retryWrites=true&w=majority', {useNewUrlParser: true,  useUnifiedTopology: true,useFindAndModify:false,useCreateIndex: true})
 .then(() => console.log('DB Connected!'))
 .catch(err => {
 console.log(Error, err.message);
