@@ -10,6 +10,7 @@ import configStore from './redux/configStore/configStore';
 import theme from './theme';
 import Routes from './routes/Routes';
 import { ToastContainer } from 'react-toastify';
+import GlobalLoading from 'components/GlobalLoading/GlobalLoading';
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <Router history={history}>
               <ToastContainer></ToastContainer>
+              <GlobalLoading></GlobalLoading>
              <Routes></Routes>
              {/* <Dashboard></Dashboard> */}
           </Router>

@@ -16,12 +16,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NavigationList = props => {
-  const { pages, ...rest } = props;
+  const {onCloseNavBar, pages, ...rest } = props;
 
   return (
     <List>
       {pages.reduce(
-        (items, page) => reduceChildRoutes({ items, page, ...rest }),
+        (items, page) => reduceChildRoutes({ onCloseNavBar,items, page, ...rest }),
         []
       )}
     </List>
@@ -34,13 +34,14 @@ NavigationList.propTypes = {
 };
 
 const reduceChildRoutes = props => {
-  const {  items, page, depth } = props;
+  const {onCloseNavBar,  items, page, depth } = props;
 
   if (page.children) {
     
 
     items.push(
       <NavigationListItem
+      onCloseNavBar={onCloseNavBar}
         depth={depth}
         icon={page.icon}
         key={page.title}
@@ -49,6 +50,7 @@ const reduceChildRoutes = props => {
         title={page.title}
       >
         <NavigationList
+          onCloseNavBar={onCloseNavBar}
           depth={depth + 1}
           pages={page.children}
         />
@@ -57,6 +59,7 @@ const reduceChildRoutes = props => {
   } else {
     items.push(
       <NavigationListItem
+        onCloseNavBar={onCloseNavBar}
         depth={depth}
         href={page.href}
         icon={page.icon}
@@ -71,7 +74,7 @@ const reduceChildRoutes = props => {
 };
 
 const Navigation = props => {
-  const { title, pages, className, component: Component, ...rest } = props;
+  const {onCloseNavBar, title, pages, className, component: Component, ...rest } = props;
 
   const classes = useStyles();
  
@@ -83,6 +86,7 @@ const Navigation = props => {
     >
       {title && <Typography variant="overline">{title}</Typography>}
       <NavigationList
+        onCloseNavBar={onCloseNavBar}
         depth={0}
         pages={pages}
         

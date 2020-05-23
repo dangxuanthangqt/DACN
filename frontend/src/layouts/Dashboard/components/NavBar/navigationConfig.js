@@ -61,8 +61,8 @@ export default [
             href: '/management/customers/1/summary'
           },
           {
-            title: 'Projects',
-            href: '/management/projects'
+            title: 'Room Types',
+            href: '/management/room-types'
           },
           {
             title: 'Orders',

@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NavBar = props => {
-  const { openMobile, onMobileClose, className, ...rest } = props;
+  const {onCloseNavBar, openMobile, onMobileClose, className, ...rest } = props;
 
   const classes = useStyles();
 
@@ -76,6 +76,7 @@ const NavBar = props => {
       <nav className={classes.navigation}>
         {navigationConfig.map(list => (
           <Navigation
+            onCloseNavBar={onCloseNavBar}
             component="div"
             key={list.title}
             pages={list.pages}
@@ -91,7 +92,7 @@ const NavBar = props => {
       <Hidden xlUp>
         <Drawer
           anchor="left"
-          onClose={onMobileClose}
+          onClose={onCloseNavBar}
           open={openMobile}
           variant="temporary"
         >
