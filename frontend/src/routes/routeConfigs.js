@@ -55,6 +55,18 @@ export const privateRoutes =[
                 path: '/test',
                 exact: true,
                 component: lazy(()=> import('../views/Test/Test'))
+            },
+            {
+                key:'room type',
+                path:'/management/room-types',
+                exact: true,
+                component: lazy(()=> import('../views/RoomTypeView'))
+            },
+            {
+                key:"detail room type",
+                path:'/management/room-types/:id',
+                exact: true,
+                component: lazy(()=> import('../views/RoomTypeDetailView/RoomTypeDetailView'))
             }
         ]
     }

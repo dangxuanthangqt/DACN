@@ -40,11 +40,11 @@ const Dashboard = props => {
   const classes = useStyles();
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
 
-  const handleNavBarMobileOpen = () => {
+  const handleNavBarOpen = () => {
     setOpenNavBarMobile(true);
   };
 
-  const handleNavBarMobileClose = () => {
+  const handleNavBarClose = () => {
     setOpenNavBarMobile(false);
   };
 
@@ -52,12 +52,12 @@ const Dashboard = props => {
     <div className={classes.root}>
       <TopBar
         className={classes.topBar}
-        onOpenNavBarMobile={handleNavBarMobileOpen}
+        onOpenNavBar={handleNavBarOpen}
       />
       <div className={classes.container}>
         <NavBar
           className={classes.navBar}
-          onMobileClose={handleNavBarMobileClose}
+          onCloseNavBar={handleNavBarClose}
           openMobile={openNavBarMobile}
         />
         <main className={classes.content}>

@@ -75,6 +75,7 @@ const useStyles = makeStyles(theme => ({
 
 const NavigationListItem = props => {
   const {
+    onCloseNavBar,
     title,
     href,
     depth,
@@ -140,9 +141,11 @@ const NavigationListItem = props => {
         disableGutters
       >
         <Button
+          onClick={onCloseNavBar}
           activeClassName={classes.active}
           className={clsx(classes.buttonLeaf, `depth-${depth}`)}
           component={CustomRouterLink}
+
           exact
           style={style}
           to ={href}

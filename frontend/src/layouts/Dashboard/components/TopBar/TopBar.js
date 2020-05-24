@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TopBar = props => {
-  const { onOpenNavBarMobile, className, ...rest } = props;
+  const { onOpenNavBar, className, ...rest } = props;
 
   const classes = useStyles();
   //const { history } = useRouter();
@@ -169,7 +169,7 @@ const TopBar = props => {
       <Hidden xlUp>
           <IconButton
             color="inherit"
-            onClick={onOpenNavBarMobile}
+            onClick={onOpenNavBar}
           >
             <MenuIcon />
           </IconButton>
