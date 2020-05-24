@@ -67,7 +67,25 @@ export const privateRoutes =[
                 path:'/management/room-types/:id',
                 exact: true,
                 component: lazy(()=> import('../views/RoomTypeDetailView/RoomTypeDetailView'))
-            }
+            },
+            {
+                key:" list guest",
+                path:'/management/guests',
+                exact: true,
+                component : lazy(()=> import('../views/GuestManagementListView'))
+            },
+            {
+                key:"guest detail",
+                path:"/management/guests/:id",
+                exact: true,
+                component: lazy(()=> import('../views/GuestManagementDetailView'))
+            },
+            {
+                key:"guest detail1",
+                path:"/management/guests/:id/:tab",
+                exact: true,
+                component: lazy(()=> import('../views/GuestManagementDetailView'))
+            },
         ]
     }
 ]
