@@ -53,13 +53,10 @@ export default [
         icon: BarChartIcon,
         children: [
           {
-            title: 'Customers',
-            href: '/management/customers'
+            title: 'Guests',
+            href: '/management/guests'
           },
-          {
-            title: 'Customer Details',
-            href: '/management/customers/1/summary'
-          },
+          
           {
             title: 'Room Types',
             href: '/management/room-types'
