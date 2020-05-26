@@ -46,12 +46,12 @@ router.post('/auth/login', function(req, res, next) {
 router.post('/auth/register', function(req, res, next) {
   let user = req.body;
   let email= user.email.toLowerCase();
-  //user.birthday = new Date(user.birthday)
-  email ={
-    ...email,
+  user.birthday = new Date(user.birthday)
+  user ={
+    ...user,
     role:"admin"
   }
-  console.log(user);
+  console.log(user.birthday);
   console.log(new Date(user.birthday),typeof(user.birthday))
   userModel.findOne({email: email})
   .then((data)=>{
@@ -64,6 +64,7 @@ router.post('/auth/register', function(req, res, next) {
         bcrypt.hash(password, salt, function (err, hash) {
             
             user.password = hash;
+            //console.log(user);
             let data = new userModel(user);
             data.save().then(()=>{
                 res.status(201).json({

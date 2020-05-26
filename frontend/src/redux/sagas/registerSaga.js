@@ -1,4 +1,4 @@
-import { takeLatest,call } from 'redux-saga/effects';
+import { takeLatest,call , put, delay} from 'redux-saga/effects';
 import axiosService from '../../services/axios/axiosService';
 import { toastifySuccess, toastifyError } from '../../helper/Toastify';
 import history from '../../helper/history';
@@ -7,10 +7,13 @@ export function* registerSaga(){
 }
 function* watchRegister({payload}){
     try{
+        yield put({type: "SHOW_LOADING"})
         console.log(payload)
         yield call(axiosService.post,'/auth/register',payload);
         yield call(toastifySuccess,'Register successfully!');
         yield call(history.push,"/auth/login")
+        yield delay(500);
+        yield put({type:'HIDE_LOADING'})
     }catch(e){
        // console.log(e.response);
         yield call(toastifyError,e.response.data.message);
