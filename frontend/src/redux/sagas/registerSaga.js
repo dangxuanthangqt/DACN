@@ -16,7 +16,9 @@ function* watchRegister({payload}){
         yield put({type:'HIDE_LOADING'})
     }catch(e){
        // console.log(e.response);
+       yield put({type:'HIDE_LOADING'})
         yield call(toastifyError,e.response.data.message);
     }
+    
     
 }
