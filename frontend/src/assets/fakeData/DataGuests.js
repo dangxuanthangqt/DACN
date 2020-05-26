@@ -132,3 +132,84 @@ export const DataGuests = [
       location: 'Utah, USA'
     }
   ]
+  export const DataGuestStandar = [
+    {
+      id:"122313",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com",
+      role: "admin",
+    },
+    {
+      id:"1234243",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com",
+      role: "admin",
+    },
+    {
+      role: "guest",
+      id:"127673",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com"
+    },
+    {
+      role: "guest",
+      id:"12ggf3",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com"
+    },
+    {
+      role: "guest",
+      id:"123gfhkjh",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com"
+    },
+    {role: "guest",
+      id:"12asaf3",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com"
+    },
+    {
+      role: "admin",
+      id:"12kjjl3",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: false,
+      email:"dangxuanthangqt@gmail.com"
+    },
+    {
+      role: "guest",
+      id:"12rewwe3",
+      firstName : "dang",
+      lastName:" thang",
+      birthday : new Date(1997, 8,5),
+      phoneNumber:"0979475213",
+      status: true,
+      email:"dangxuanthangqt@gmail.com"
+    },
+  ]

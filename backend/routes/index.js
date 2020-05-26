@@ -46,6 +46,13 @@ router.post('/auth/login', function(req, res, next) {
 router.post('/auth/register', function(req, res, next) {
   let user = req.body;
   let email= user.email.toLowerCase();
+  //user.birthday = new Date(user.birthday)
+  email ={
+    ...email,
+    role:"admin"
+  }
+  console.log(user);
+  console.log(new Date(user.birthday),typeof(user.birthday))
   userModel.findOne({email: email})
   .then((data)=>{
     if(data) return res.status(500).json({
@@ -73,6 +80,7 @@ router.post('/auth/register', function(req, res, next) {
     
     }
   })
+  
 
 });
 

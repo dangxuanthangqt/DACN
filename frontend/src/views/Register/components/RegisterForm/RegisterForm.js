@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import { registerRequest } from '../../../../redux/actionCreators/registerActionCreator';
 import { useDispatch } from 'react-redux';
+import { KeyboardDatePicker, DatePicker } from '@material-ui/pickers';
 
 // import useRouter from 'utils/useRouter';
 
@@ -22,7 +23,7 @@ import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
-   
+
   },
   fields: {
     margin: theme.spacing(-1),
@@ -50,14 +51,8 @@ const RegisterForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
- 
+
   const dispatch = useDispatch();
-
-
-
- 
-
-
 
   return (
 
@@ -65,10 +60,12 @@ const RegisterForm = props => {
       initialValues={{
         firstName: "",
         lastName: "",
+        phoneNumber: "",
+        birthday: new Date(2000, 1, 11),
         email: "",
         password: "",
         confirmPassword: "",
-        secretCode:"",
+        secretCode: "",
         checked: false
       }}
       validationSchema={Yup.object().shape({ // Validate form field
@@ -78,32 +75,36 @@ const RegisterForm = props => {
         lastName: Yup.string()
           .required('LastName is required')
           .max(32, 'LastName have max 32 characters'),
+        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,"Phone number is not valid"),
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
         password: Yup.string()
           .required('Password is required')
-          .min(6, "Password have min 6 characters")
+          .min(8, "Password have min 8 characters")
           .max(32, "Password have max 32 characters"),
         confirmPassword: Yup.string()
           .oneOf([Yup.ref('password'), null], "Password does not match !")
           .required('Confirm is required'),
         secretCode: Yup.string()
-        .required('Secret code is required'),
+          .required('Secret code is required'),
         checked: Yup.boolean()
           .oneOf([true], 'Must Accept Terms and Conditions')
       })}
-      onSubmit={ ({firstName, lastName, email, password}) => {
-        
-         dispatch(registerRequest({firstName, lastName, email, password}))
+      onSubmit={({firstName, lastName, phoneNumber,birthday, password, email}) => {
+
+        dispatch(registerRequest({firstName, lastName, phoneNumber,birthday : new Date(birthday), password, email}))
       }}
     >
       {
-        (props) => (
-          <Form
+        (props) => {
+          console.log(props.values);
+          return (
+            <Form
             className={clsx(classes.root, className)}
           >
             <div className={classes.fields}>
+
               <TextField
                 size="small"
                 error={props.errors.firstName && props.touched.firstName ? true : false}
@@ -118,7 +119,7 @@ const RegisterForm = props => {
                 variant="outlined"
               />
               <TextField
-              size="small"
+                size="small"
                 error={props.errors.lastName && props.touched.lastName ? true : false}
                 helperText={
                   props.errors.lastName && props.touched.lastName ? props.errors.lastName : null
@@ -130,8 +131,38 @@ const RegisterForm = props => {
                 onBlur={props.handleBlur}
                 variant="outlined"
               />
+               <TextField
+               
+                size="small"
+                error={props.errors.phoneNumber && props.touched.phoneNumber ? true : false}
+                helperText={
+                  props.errors.phoneNumber && props.touched.phoneNumber ? props.errors.phoneNumber : null
+                }
+                label="Phone number"
+                name="phoneNumber"
+                onChange={props.handleChange}
+                value={props.values.phoneNumber}
+                onBlur={props.handleBlur}
+                variant="outlined"
+                
+              />
+              <KeyboardDatePicker
+               autoOk
+                size="small"
+                name="birthday"
+                label="Birthday"
+                format="MM/dd/yyyy"
+                value={props.values.birthday}
+                onChange={(date) => props.setFieldValue("birthday", date)
+                }
+                
+                variant="inline"
+                inputVariant="outlined"
+              />
+             
+
               <TextField
-              size="small"
+                size="small"
                 error={props.errors.email && props.touched.email ? true : false}
                 fullWidth
                 helperText={props.errors.email && props.touched.email ? props.errors.email : null}
@@ -143,7 +174,7 @@ const RegisterForm = props => {
                 variant="outlined"
               />
               <TextField
-              size="small"
+                size="small"
                 error={props.errors.password && props.touched.password ? true : false}
                 fullWidth
                 helperText={
@@ -158,7 +189,7 @@ const RegisterForm = props => {
                 variant="outlined"
               />
               <TextField
-              size="small"
+                size="small"
                 error={props.errors.confirmPassword && props.touched.confirmPassword ? true : false}
                 fullWidth
                 helperText={
@@ -173,7 +204,7 @@ const RegisterForm = props => {
                 variant="outlined"
               />
               <TextField
-              size="small"
+                size="small"
                 error={props.errors.secretCode && props.touched.secretCode ? true : false}
                 fullWidth
                 helperText={
@@ -183,14 +214,14 @@ const RegisterForm = props => {
                 name="secretCode"
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
-                
+
                 value={props.values.secretCode}
                 variant="outlined"
               />
               <div>
                 <div className={classes.policy}>
                   <Checkbox
-                    checked={props.values.checked }
+                    checked={props.values.checked}
                     className={classes.policyCheckbox}
                     color="primary"
                     name="checked"
@@ -220,7 +251,7 @@ const RegisterForm = props => {
             <Button
               className={classes.submitButton}
               color="secondary"
-              disabled={! props.isValid  }
+              disabled={!props.isValid}
               size="large"
               type="submit"
               variant="contained"
@@ -233,7 +264,8 @@ const RegisterForm = props => {
           </Form>
 
 
-        )
+          )
+        }
       }
 
 

@@ -1,10 +1,7 @@
+import { Avatar, Button, Card, CardContent, CardHeader, Divider, Link, makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { format } from 'date-fns';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Card, CardHeader, Divider, Table, TableHead, TableCell, Avatar, Link, TableRow, Button, TableBody, CardContent } from '@material-ui/core';
-import { DataGuests } from 'assets/fakeData/DataGuests';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
-import ReviewStars from 'components/ReviewStars';
-
 
 Result.propTypes = {
 
@@ -45,23 +42,23 @@ function Result(props) {
             </Divider>
             <CardContent className={classes.content}
             >
-                <Table>
+                <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <TableCell>
                                 Name
                         </TableCell>
                             <TableCell>
-                                Location
+                                Phone nummber
                         </TableCell>
                             <TableCell>
-                                Money spent
+                                Birthday
                         </TableCell>
                             <TableCell>
-                                abc
+                                Status
                         </TableCell>
                             <TableCell>
-                                Reviews
+                                Role
                         </TableCell>
                             <TableCell align='right'>
                                 Action
@@ -78,17 +75,17 @@ function Result(props) {
                                             classes.nameCell
                                         }>
                                             <Avatar>
-                                                {guest.name}
+                                                {guest.firstName}
                                             </Avatar>
                                             <div>
                                                 <Link
                                                     color='inherit'
                                                     component={RouterLink}
-                                                    to="/test"
+                                                    to={`${match.url}/${guest.id}`}
                                                     variant='h6'
 
                                                 >
-                                                    {guest.name}
+                                                   {guest.firstName} &nbsp; {guest.lastName}
                                                 </Link>
                                                 <div>{guest.email}</div>
                                             </div>
@@ -96,17 +93,39 @@ function Result(props) {
 
                                     </TableCell>
                                     <TableCell>
-                                        {guest.location}
+                                        {guest.phoneNumber}
                                     </TableCell>
                                     <TableCell>
-                                        {guest.spent}
+                                    {format(guest.birthday, 'MM/dd/yyyy')}
                                     </TableCell>
                                     <TableCell>
-                                        {guest.type}
+                                        {guest.status === true ? <Button style={
+                                            {
+                                                color:"white",
+                                                backgroundColor:"green",
+                                            }
+                                        }>Active</Button>:<Button style={
+                                            {   color:"white",
+                                                backgroundColor:"red",
+                                            }
+                                        }>Locked</Button>
+                                    }
                                     </TableCell>
                                     <TableCell>
+                                        {guest.role === "admin" ? <Button style={
+                                            {   color:"white",
+                                                backgroundColor:"#e65100",
+                                            }
+                                        }>Admin</Button>:<Button style={
+                                            {color:"white",
+                                                backgroundColor:"#81c784",
+                                            }
+                                        }>Guest</Button>
+                                    }
+                                    </TableCell>
+                                    {/* <TableCell>
                                         <ReviewStars value={guest.rating}></ReviewStars>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell align="right">
                                         <Button
                                             color="primary"

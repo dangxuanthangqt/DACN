@@ -19,11 +19,11 @@ import { RegisterForm } from './components';
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor:"#c5cae9",
-    height: '100%',
+   // height: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: theme.spacing(10),
+   // paddingTop: theme.spacing(10),
     padding: theme.spacing(6, 2)
   },
   card: {

@@ -56,10 +56,11 @@ const GuestManagementDetailView = (props) => {
            </Tabs>
            <Divider></Divider>
            <div className={classes.content}>
-                <Switch>
+                {/* <Switch>
                 <Route exact path={`/management/guests/:id/summary`} component={Summary}></Route>
-                <Route path='*' component={Error404}></Route>
-                </Switch>
+                <Route path='*' render={()=> (<Redirect to="/errors/error-404" ></Redirect>)}></Route>
+                </Switch> */}
+                {tab==='summary' && <Summary></Summary>}
                 
            </div>
         </div>
