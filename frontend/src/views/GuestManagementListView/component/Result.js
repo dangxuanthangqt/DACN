@@ -85,7 +85,7 @@ function Result(props) {
                                                     variant='h6'
 
                                                 >
-                                                   {guest.firstName} &nbsp; {guest.lastName}
+                                                   {guest.firstName}&nbsp;{guest.lastName}
                                                 </Link>
                                                 <div>{guest.email}</div>
                                             </div>
@@ -93,13 +93,13 @@ function Result(props) {
 
                                     </TableCell>
                                     <TableCell>
-                                        {guest.phoneNumber}
+                                        {guest.phone}
                                     </TableCell>
                                     <TableCell>
-                                    {format(guest.birthday, 'MM/dd/yyyy')}
+                                    {format(new Date(guest.birthday), 'dd/MM/yyyy')}
                                     </TableCell>
-                                    <TableCell>
-                                        {guest.status === true ? <Button style={
+                                     <TableCell>
+                                        {guest.status === "ACTIVE" ? <Button style={
                                             {
                                                 color:"white",
                                                 backgroundColor:"green",
@@ -108,21 +108,27 @@ function Result(props) {
                                             {   color:"white",
                                                 backgroundColor:"red",
                                             }
-                                        }>Locked</Button>
+                                        }>Disable</Button>
                                     }
                                     </TableCell>
                                     <TableCell>
-                                        {guest.role === "admin" ? <Button style={
-                                            {   color:"white",
-                                                backgroundColor:"#e65100",
+                                        {guest.roleEntities.map((item , index)=>{
+                                            if(item.name === "ROLE_USER") return <Button key={index} style={
+                                                {   color:"white",
+                                                    backgroundColor:"#1976d2",
+                                                    marginRight: "5px"
+                                                }
+                                            }>User</Button>;
+                                            else{
+                                                return <Button key={index} style={
+                                                    {   color:"white",
+                                                        backgroundColor:"#e65100",
+                                                    }
+                                                }>Admin</Button>
                                             }
-                                        }>Admin</Button>:<Button style={
-                                            {color:"white",
-                                                backgroundColor:"#81c784",
-                                            }
-                                        }>Guest</Button>
+                                    }) 
                                     }
-                                    </TableCell>
+                                    </TableCell> 
                                     {/* <TableCell>
                                         <ReviewStars value={guest.rating}></ReviewStars>
                                     </TableCell> */}
@@ -137,6 +143,7 @@ function Result(props) {
                                             View
                                     </Button>
                                     </TableCell>
+                                
                                 </TableRow>
 
                             ))

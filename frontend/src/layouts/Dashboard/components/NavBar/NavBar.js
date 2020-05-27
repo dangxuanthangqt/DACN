@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Drawer, Divider, Paper, Avatar, Typography } from '@material-ui/core';
 import { Hidden } from '@material-ui/core';
-
+import jwt_decode from 'jwt-decode';
 //import useRouter from 'utils/useRouter';
 
 import navigationConfig from './navigationConfig';
 import { Navigation } from '../../../../components';
+import { getAccessToken } from 'helper/localStorage';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,7 +46,20 @@ const NavBar = props => {
   const {onCloseNavBar, openMobile, onMobileClose, className, ...rest } = props;
 
   const classes = useStyles();
-
+  const [user ,setUser] = useState({
+    "sub": "khanh@gmail.com",
+    "scopes": "ROLE_ADMIN,ROLE_USER",
+    "first_name": "khanh",
+    "last_name": "nguyen",
+    "birth_day": 1590537600000,
+    "iat": 1590587146,
+    "exp": 1593179146
+  });
+  useEffect(() => {
+    let token = getAccessToken();
+    setUser(jwt_decode(token));
+    
+  }, []);
   useEffect(() => {
     if (openMobile) {
       onMobileClose && onMobileClose();
@@ -61,16 +75,16 @@ const NavBar = props => {
           alt="Person"
           className={classes.avatar}
           component={RouterLink}
-          src={'/images/avatars/avatar_1.png'}
+          src={'https://scontent.fdad3-3.fna.fbcdn.net/v/t1.0-9/68501562_2215015038620325_5125752814454177792_o.jpg?_nc_cat=108&_nc_sid=84a396&_nc_ohc=loXGP8XapPAAX9QWYq_&_nc_ht=scontent.fdad3-3.fna&oh=6d8504a81a89238352fb938e06c274a6&oe=5EF5C047'}
           to="/profile/1/timeline"
         />
         <Typography
           className={classes.name}
           variant="h4"
         >
-          {"Đặng Xuân "} {"Thắng"}
+          {user.first_name} {user.last_name}
         </Typography>
-        <Typography variant="body2">{"CEO"}</Typography>
+        <Typography variant="body2">{user.sub}</Typography>
       </div>
       <Divider className={classes.divider} />
       <nav className={classes.navigation}>

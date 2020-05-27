@@ -8,7 +8,7 @@ export function* registerSaga() {
 function* watchRegister({ payload }) {
     try {
         yield put({ type: "SHOW_LOADING" })
-        console.log(payload)
+        //console.log(payload)
         yield call(axiosService.post, '/api/auth/register', payload);
         yield call(toastifySuccess, 'Register successfully!');
         yield call(history.push, "/auth/login")

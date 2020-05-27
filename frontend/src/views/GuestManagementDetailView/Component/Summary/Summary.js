@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import GuestInfor from './GuestInfor';
 
 
-const Summary = () => {
+const Summary = (props) => {
+    const {guestInfor, handleOpenEdit, handleCloseEdit, open} = props;
     return (
         <div>
-            <GuestInfor></GuestInfor>
+            <GuestInfor handleOpenEdit={handleOpenEdit} 
+            handleCloseEdit={handleCloseEdit}
+            open={open}
+            guestInfor={guestInfor}></GuestInfor>
         </div>
     );
 };

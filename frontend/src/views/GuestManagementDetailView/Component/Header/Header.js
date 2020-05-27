@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 
 
 const Header = (props) => {
-    const {guest} = props;
+    const {email} = props;
     return (
         <div>
             <Typography
@@ -18,7 +18,7 @@ const Header = (props) => {
             component="h1"
             variant="h3"
             >
-               Dang xuan thang
+              {email}
             </Typography>
         </div>
     );

@@ -8,27 +8,28 @@ import Result from './component/Result';
 import { fetchListGuestsRequest } from 'redux/actionCreators/guestsActionCreator';
 
 GuestManagementListView.propTypes = {
-    
+
 };
-const useStyles = makeStyles(theme =>({
-    root:{
+const useStyles = makeStyles(theme => ({
+    root: {
         padding: '2rem'
     }
 }))
 function GuestManagementListView(props) {
     const classes = useStyles();
-    const guestList = useSelector(state => (state.guest.guestList));
+    const guestList = useSelector(state => (state.guest.body));
+    const length = useSelector(state => (state.guest.length))
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchListGuestsRequest())
-       
+
     }, []);
     return (
         <Container
         >
             <Header></Header>
             <Search></Search>
-            <Result guests = {guestList}></Result>
+            <Result guests={guestList}  length ={length}></Result>
         </Container>
     );
 }
