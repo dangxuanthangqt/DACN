@@ -2,7 +2,8 @@ import axios from 'axios';
 class axiosService {
     constructor() {
         const instance = axios.create();
-        instance.defaults.baseURL = '';
+        instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        instance.defaults.baseURL = 'https://online-hotel-kunlezisme.herokuapp.com';
         instance.interceptors.response.use(this.handlesuccess, this.handleError)
         this.instance = instance;
     }

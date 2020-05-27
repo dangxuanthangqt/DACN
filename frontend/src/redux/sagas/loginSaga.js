@@ -1,27 +1,38 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, delay } from 'redux-saga/effects';
 import { LOGIN_REQUEST } from '../actionTypes/loginActionTypes';
 import { loginSuccess, loginError } from '../actionCreators/loginActionCreator';
 import axiosService from '../../services/axios/axiosService';
 import { toastifySuccess, toastifyError } from '../../helper/Toastify';
 import { setAccessToken } from '../../helper/localStorage';
 import history from '../../helper/history';
+import { checkRole } from 'helper/checkRole';
 
 
-export function * loginSaga (){
+export function* loginSaga() {
     yield takeEvery(LOGIN_REQUEST, watchLogin);
 }
-function* watchLogin({payload}){
-    try{
-        const res = yield call(axiosService.post,"/auth/login",payload);
-        yield call(toastifySuccess,"Login successfully !");
-        yield put(loginSuccess(payload));
-       // console.log(res);
-        yield call(setAccessToken,res.data.accessToken)
-        yield call(history.push,'/test')
+function* watchLogin({ payload }) {
+    try {
+        yield put({ type: "SHOW_LOADING" })
+        const res = yield call(axiosService.post, "/api/auth/login", payload);
+        console.log(res);
+        if(checkRole(res.data.body.token)){
+            yield call(toastifySuccess, "Login successfully !");
+            yield put(loginSuccess(payload));
+            yield call(setAccessToken, res.data.body.token);
+            yield call(history.push, '/test');
+        }else {
+            yield call(toastifyError,"Please login with admin role !")
+        }
+        
+      
+        yield delay(500);
+        yield put({ type: "HIDE_LOADING" });
 
     }
-    catch(e){
-        yield call(toastifyError,e.response.data.message);
+    catch (e) {
+        yield call(toastifyError, e.response.data.debugMessage ? e.response.data.debugMessage : "Please check your email or password !");
+        yield put({ type: "HIDE_LOADING" });
     }
-   
+
 }

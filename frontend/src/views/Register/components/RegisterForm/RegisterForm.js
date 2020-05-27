@@ -60,12 +60,12 @@ const RegisterForm = props => {
       initialValues={{
         firstName: "",
         lastName: "",
-        phoneNumber: "",
+        phone: "",
         birthday: new Date(2000, 1, 11),
         email: "",
         password: "",
         confirmPassword: "",
-        secretCode: "",
+        //secretCode: "",
         checked: false
       }}
       validationSchema={Yup.object().shape({ // Validate form field
@@ -75,30 +75,30 @@ const RegisterForm = props => {
         lastName: Yup.string()
           .required('LastName is required')
           .max(32, 'LastName have max 32 characters'),
-        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,"Phone number is not valid"),
+        phone: Yup.string().matches(/^(0)+([0-9]{9})\b$/,"Phone number is not valid !"),
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
-        password: Yup.string()
-          .required('Password is required')
-          .min(8, "Password have min 8 characters")
-          .max(32, "Password have max 32 characters"),
+        password: Yup.string().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,"Password must have minimum 8 characters, at least one uppercase letter, one lowercase letter and one number")
+           .required('Password is required')
+          // .min(8, "Password have min 8 characters")
+           .max(32, "Password have max 32 characters"),
         confirmPassword: Yup.string()
           .oneOf([Yup.ref('password'), null], "Password does not match !")
           .required('Confirm is required'),
-        secretCode: Yup.string()
-          .required('Secret code is required'),
+        // secretCode: Yup.string()
+        //   .required('Secret code is required'),
         checked: Yup.boolean()
           .oneOf([true], 'Must Accept Terms and Conditions')
       })}
-      onSubmit={({firstName, lastName, phoneNumber,birthday, password, email}) => {
+      onSubmit={({firstName, lastName, phone,birthday, password, email}) => {
 
-        dispatch(registerRequest({firstName, lastName, phoneNumber,birthday : new Date(birthday), password, email}))
+        dispatch(registerRequest({firstName, lastName, phone,birthday, password, email}))
       }}
     >
       {
         (props) => {
-          console.log(props.values);
+         // console.log(props.values);
           return (
             <Form
             className={clsx(classes.root, className)}
@@ -134,14 +134,14 @@ const RegisterForm = props => {
                <TextField
                
                 size="small"
-                error={props.errors.phoneNumber && props.touched.phoneNumber ? true : false}
+                error={props.errors.phone && props.touched.phone ? true : false}
                 helperText={
-                  props.errors.phoneNumber && props.touched.phoneNumber ? props.errors.phoneNumber : null
+                  props.errors.phone && props.touched.phone ? props.errors.phone : null
                 }
                 label="Phone number"
-                name="phoneNumber"
+                name="phone"
                 onChange={props.handleChange}
-                value={props.values.phoneNumber}
+                value={props.values.phone}
                 onBlur={props.handleBlur}
                 variant="outlined"
                 
@@ -203,7 +203,7 @@ const RegisterForm = props => {
                 value={props.values.confirmPassword}
                 variant="outlined"
               />
-              <TextField
+              {/* <TextField
                 size="small"
                 error={props.errors.secretCode && props.touched.secretCode ? true : false}
                 fullWidth
@@ -217,7 +217,7 @@ const RegisterForm = props => {
 
                 value={props.values.secretCode}
                 variant="outlined"
-              />
+              /> */}
               <div>
                 <div className={classes.policy}>
                   <Checkbox
