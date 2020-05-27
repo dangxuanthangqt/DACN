@@ -15,11 +15,13 @@ function* watchLogin({ payload }) {
     try {
         yield put({ type: "SHOW_LOADING" })
         const res = yield call(axiosService.post, "/api/auth/login", payload);
-        console.log(res);
+       // console.log(res);
         if(checkRole(res.data.body.token)){
             yield call(toastifySuccess, "Login successfully !");
-            yield put(loginSuccess(payload));
+          
             yield call(setAccessToken, res.data.body.token);
+            console.log(res.data.body.token);
+            yield put(loginSuccess(res.data.body.token));
             yield call(history.push, '/test');
         }else {
             yield call(toastifyError,"Please login with admin role !")
