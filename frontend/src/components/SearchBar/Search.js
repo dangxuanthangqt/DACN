@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Paper, Button, Input } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { useDispatch } from 'react-redux';
+import { searchUserRequest, fetchListGuestsRequest } from 'redux/actionCreators/guestsActionCreator';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +37,20 @@ const Search = props => {
   const { onSearch, className, ...rest } = props;
 
   const classes = useStyles();
-
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+  const handleChange=(event)=>{
+    setValue(event.target.value);
+  }
+  const handleClick=()=>{
+    dispatch(searchUserRequest(value));
+  }
+  useEffect(() => {
+    if(value.length === 0){
+      dispatch(fetchListGuestsRequest());
+    }
+    
+  },[value]);
   return (
     <div
       {...rest}
@@ -47,14 +62,18 @@ const Search = props => {
       >
         <SearchIcon className={classes.searchIcon} />
         <Input
+          name="search"
+          value={value}
+          onChange={handleChange}
           className={classes.searchInput}
           disableUnderline
           placeholder="Search"
         />
       </Paper>
       <Button
+        onClick={handleClick}
         className={classes.searchButton}
-        onClick={onSearch}
+
         size="large"
         variant="contained"
       >

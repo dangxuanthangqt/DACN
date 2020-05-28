@@ -1,21 +1,13 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Divider,
-  Link,
-  Avatar
-} from '@material-ui/core';
+import { Avatar, Card, CardContent, CardMedia, Divider, Link, Typography } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
-
+import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 // import { Page } from 'components';
 import gradients from '../../utils/gradients';
 import { LoginForm } from './components';
-import { useSelector, useDispatch } from 'react-redux';
+
 
 const useStyles = makeStyles(theme => ({
   root: {

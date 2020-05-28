@@ -20,7 +20,7 @@ function* watchLogin({ payload }) {
             yield call(toastifySuccess, "Login successfully !");
           
             yield call(setAccessToken, res.data.body.token);
-            console.log(res.data.body.token);
+           // console.log(res.data.body.token);
             yield put(loginSuccess(res.data.body.token));
             yield call(history.push, '/test');
         }else {

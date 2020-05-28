@@ -42,14 +42,14 @@ const Header = props => {
             GUESTS
           </Typography>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Button
             color="primary"
             variant="contained"
           >
             ADD GUEST
           </Button>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

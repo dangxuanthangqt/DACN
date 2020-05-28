@@ -9,6 +9,7 @@ var myReducer = (state = initialState, action) => (
         switch (action.type) {
             case loginActionTypes.LOGIN_SUCCESS:
                 { let token = action.payload;
+                 //   console.log(jwt_decode(token))
                     draft = jwt_decode(token);
                 return draft;}
             case "LOGOUT_SUCCESS":

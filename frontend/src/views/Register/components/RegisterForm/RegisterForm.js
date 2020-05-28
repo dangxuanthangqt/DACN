@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup'
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { Button, Checkbox, FormHelperText, Link, TextField, Typography } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Button,
-  Checkbox,
-  FormHelperText,
-  TextField,
-  Typography,
-  Link
-} from '@material-ui/core';
-import { registerRequest } from '../../../../redux/actionCreators/registerActionCreator';
+import clsx from 'clsx';
+import { Form, Formik } from 'formik';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { KeyboardDatePicker, DatePicker } from '@material-ui/pickers';
+import { Link as RouterLink } from 'react-router-dom';
+import * as Yup from 'yup';
+import { registerRequest } from '../../../../redux/actionCreators/registerActionCreator';
 
 // import useRouter from 'utils/useRouter';
 

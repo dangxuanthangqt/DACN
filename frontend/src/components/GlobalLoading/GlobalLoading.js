@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, { node } from 'prop-types';
 import { useSelector } from 'react-redux';
 import Loading from '../../assets/images/gif/loading.gif';
 GlobalLoading.propTypes = {

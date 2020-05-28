@@ -1,28 +1,13 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Button,
-  Divider,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  colors
-} from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, Table, TableBody, TableCell, TableRow } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined';
-import PersonIcon from '@material-ui/icons/PersonOutline';
 import { makeStyles } from '@material-ui/styles';
 import { format } from 'date-fns';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchGuestInforRequest } from 'redux/actionCreators/guestsActionCreator';
-import { useRouteMatch } from 'react-router-dom';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { changeStatusRequest, deleteUserRequest, uptoAdminRequest } from 'redux/actionCreators/guestsActionCreator';
 import EditGuestInfor from '../EditGuestInfor/EditGuestInfor';
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,11 +42,28 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 const GuestInfor = (props) => {
-  
+
   const { guestInfor, open, handleOpenEdit, handleCloseEdit } = props;
   const classes = useStyles();
-  const match = useRouteMatch()
 
+  const dispatch = useDispatch();
+  const handleChangeStatus = () => {
+    if (window.confirm("Do you want to change status this user?")) {
+      dispatch(changeStatusRequest(guestInfor.id));
+      //console.log('aaaaaaaaaaaaaaaa')
+    }
+  }
+  const handleUptoAdmin = () => {
+    if (window.confirm("Up to admin ?")) {
+      dispatch(uptoAdminRequest(guestInfor.id));
+      //console.log('aaaaaaaaaaaaaaaa')
+    }
+  }
+  const handleDeleteUser = () => {
+    if (window.confirm("Do you want to delete this user?")) {
+      dispatch(deleteUserRequest(guestInfor.id))
+    }
+  }
   //console.log(guestInfor);
   return (
     <div className={classes.root}>
@@ -87,31 +89,33 @@ const GuestInfor = (props) => {
                 <TableCell><h4>Email</h4></TableCell>
                 <TableCell>{guestInfor.email}</TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow selected>
                 <TableCell><h4>Phone number</h4></TableCell>
                 <TableCell>{guestInfor.phone}</TableCell>
               </TableRow>
-              <TableRow selected>
+              <TableRow >
                 <TableCell><h4>Birthday</h4></TableCell>
                 <TableCell>{
                   format(new Date(guestInfor.birthday), 'MM/dd/yyyy')
                   //"adddd"
                 } </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow selected>
                 <TableCell><h4>Status</h4></TableCell>
                 <TableCell>
                   {guestInfor.status === "ACTIVE" ? <Button style={
                     {
+                      width: "5rem",
                       color: "white",
                       backgroundColor: "green",
                     }
                   }>Active</Button> : <Button style={
                     {
+                      width: "5rem",
                       color: "white",
                       backgroundColor: "red",
                     }
-                  }>Disable</Button>
+                  }>inactive</Button>
                   }</TableCell>
               </TableRow>
               <TableRow>
@@ -121,6 +125,7 @@ const GuestInfor = (props) => {
                   guestInfor.roleEntities.map((item, index) => {
                     if (item.name === "ROLE_USER") return <Button key={index} style={
                       {
+                        width: "5rem",
                         color: "white",
                         backgroundColor: "#1976d2",
                         marginRight: "5px"
@@ -129,6 +134,7 @@ const GuestInfor = (props) => {
                     else {
                       return <Button key={index} style={
                         {
+                          width: "5rem",
                           color: "white",
                           backgroundColor: "#e65100",
                         }
@@ -141,15 +147,21 @@ const GuestInfor = (props) => {
             </TableBody>
           </Table>
         </CardContent>
-       <EditGuestInfor
-       open={open}
-       handleCloseEdit={handleCloseEdit}
-       >
+        <EditGuestInfor
+          open={open}
+          handleCloseEdit={handleCloseEdit}
+          guestInfor={guestInfor}
+        >
 
-       </EditGuestInfor>
+        </EditGuestInfor>
       </Card >
 
-      <Action handleOpenEdit={handleOpenEdit} roleEntities={guestInfor.roleEntities}></Action>
+      <Action
+        handleDeleteUser={handleDeleteUser}
+        handleUptoAdmin={handleUptoAdmin}
+        handleChangeStatus={handleChangeStatus}
+        handleOpenEdit={handleOpenEdit}
+        roleEntities={guestInfor.roleEntities}></Action>
 
     </div>
 
@@ -158,16 +170,18 @@ const GuestInfor = (props) => {
 
 const Action = (props) => {
   const classes = useStyles();
-  const { roleEntities, handleOpenEdit } = props;
-  console.log(roleEntities)
+
+  const { roleEntities, handleOpenEdit, handleChangeStatus, handleUptoAdmin, handleDeleteUser } = props;
+  // console.log(roleEntities)
+
   if (roleEntities.length > 1) return (
     <Card className={classes.content2}>
       <CardHeader title="Action" />
       <Divider></Divider>
       <CardActions className={classes.actions}>
         <Button
-        
-         className={classes.button} variant="contained" color="primary" >
+          onClick={handleOpenEdit}
+          className={classes.button} variant="contained" color="primary" >
           <EditIcon className={classes.buttonIcon} />
         Edit
       </Button>
@@ -181,31 +195,33 @@ const Action = (props) => {
         <Divider></Divider>
         <CardActions className={classes.actions}>
           <Button
-          onClick={handleOpenEdit}
-           className={classes.button} variant="contained" color="primary" >
+            onClick={handleOpenEdit}
+            className={classes.button} variant="contained" color="primary" >
             <EditIcon className={classes.buttonIcon} />
           Edit
         </Button>
           <Button
+            onClick={handleChangeStatus}
             className={classes.buttonRed}
           >
             <LockOpenIcon className={classes.buttonIcon} />
-          Disable user
+          Change status
         </Button>
           <Button
-            
+          onClick={handleDeleteUser}
             className={classes.buttonRed}
             startIcon={<DeleteIcon />}
           >
             Delete
       </Button>
           <Button
+            onClick={handleUptoAdmin}
             className={classes.button}
             variant="contained"
             color="primary"
             startIcon={<ExpandLessIcon />}
           >
-            Up role
+            Up admin
       </Button>
         </CardActions>
       </Card>
@@ -216,7 +232,10 @@ const Action = (props) => {
           <CardHeader title="Action" />
           <Divider></Divider>
           <CardActions className={classes.actions}>
-            <Button className={classes.button} variant="contained" color="primary" >
+            <Button
+
+              onClick={handleOpenEdit}
+              className={classes.button} variant="contained" color="primary" >
               <EditIcon className={classes.buttonIcon} />
             Edit
           </Button>
