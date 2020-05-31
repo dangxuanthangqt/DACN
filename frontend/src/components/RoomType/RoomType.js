@@ -9,7 +9,7 @@ RoomType.propTypes = {
 };
 const useStyles = makeStyles( them=>({
     textColor:{
-        color: 'white'
+        color: 'gray'
     }
 }))
 function RoomType(props) {
@@ -17,7 +17,7 @@ function RoomType(props) {
     const classes = useStyles();
     const match = useRouteMatch();
     let temp =`${match.url}/${id}`;
-    console.log(`${match.url}/${id}`);
+    //console.log(`${match.url}/${id}`);
     //console.log(match);
    // console.log(`/${match.url}/${slug}`);
     return (
@@ -26,7 +26,7 @@ function RoomType(props) {
                 <img src={images[0] } alt="single room" />
                 <div className="price-top">
                     <h6>${price}</h6>
-                    <Typography className={classes.textColor}>Per night</Typography>
+                    <Typography  className={classes.textColor}>Per night</Typography>
                 </div>
                 <Link to={`${match.url}/${id}`} className="btn-primary room-link" >features</Link>
              </div>

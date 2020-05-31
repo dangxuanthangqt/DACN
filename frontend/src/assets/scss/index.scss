@@ -92,13 +92,14 @@ a {
   letter-spacing: var(--mainSpacing);
 }
 .roomslist {
-  padding: 5rem 0;
+
+  padding: 0;
 }
 .roomslist-center {
   width: 80vw;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); //270
   grid-row-gap: 2rem;
   grid-column-gap: 30px;
 }
@@ -142,4 +143,12 @@ a {
 .btn-primary:hover {
   background: transparent;
   color: var(--primaryColor);
+}
+.img-thumbnail {
+  padding: 0.25rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  max-width: 100%;
+  height: auto;
 }

@@ -13,7 +13,7 @@ const RoomTypeList = (props) => {
     }
 
     return (
-        <section className="roomslist">
+    <section className="roomslist">
             <div className="roomslist-center">
                 { props.rooms.map(item => {
                     return <RoomType key={item.id} room={item} />
