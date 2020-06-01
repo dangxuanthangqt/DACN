@@ -10,7 +10,8 @@ var myReducer = (state = initialState, action) => (
             case loginActionTypes.LOGIN_SUCCESS:
                 { let token = action.payload;
                  //   console.log(jwt_decode(token))
-                    draft = jwt_decode(token);
+                   // draft = jwt_decode(token);
+                   draft =token;
                 return draft;}
             case "LOGOUT_SUCCESS":
                 draft = {};
