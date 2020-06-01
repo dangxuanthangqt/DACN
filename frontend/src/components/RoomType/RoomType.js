@@ -16,7 +16,7 @@ function RoomType(props) {
     const { name, thumbnail, price,id } = props.room;  
     const classes = useStyles();
     const match = useRouteMatch();
-    let temp =`${match.url}/${id}`;
+    //let temp =`${match.url}/${id}`;
     //console.log(`${match.url}/${id}`);
     //console.log(match);
    // console.log(`/${match.url}/${slug}`);

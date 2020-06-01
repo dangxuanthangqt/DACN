@@ -7,7 +7,7 @@ ImgCover.propTypes = {
 function ImgCover(props) {
 
     const {url}= props;
-    console.log(url);
+    //console.log(url);
     return (
         <div
         style={{

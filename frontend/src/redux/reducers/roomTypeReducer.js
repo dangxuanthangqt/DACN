@@ -6,6 +6,8 @@ import { FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_ROOMTYPE_DETAIL_SUCCESS } from 'redu
 const initialState={
     listRoomType: [],
     detailRoomType:{
+        
+
        images:[{
 
        }],

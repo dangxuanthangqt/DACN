@@ -3,50 +3,30 @@ import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { makeStyles } from '@material-ui/styles';
 import { FieldArray, Form, Formik } from 'formik';
-import React from 'react';
-import Dropzone from 'react-dropzone';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { storage } from 'utils/firebase';
+import { default as React, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import Thumb from './Thumb';
-import { addRoomtypeRequest } from 'redux/actionCreators/roomTypeActionCreator';
-AddRoomType.propTypes = {
-
+import ImageView from './ImageView';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { editRoomtypeRequest, fetchRoomTypeDetailRequest } from 'redux/actionCreators/roomTypeActionCreator';
+EditRoomtype.propTypes = {
+    
 };
 
-function AddRoomType(props) {
+function EditRoomtype(props) {
     const classes = useStyles();
-    const history = useHistory();
+    const roomtype= useSelector(state=>state.roomType.detailRoomType);
     const dispatch = useDispatch();
-    const handleCancel = (images) => {
-        //  console.log(images);
-
-        dispatch({ type: "SHOW_LOADING" });
-        if (images.length === 0) {
-
-            dispatch({ type: "HIDE_LOADING" });
-            history.goBack();
-        }
-        else {
-            let ArrayPromise = images.map(element => {
-                return storage.refFromURL(element).delete()
-            })
-            let PromiseAll = Promise.all(ArrayPromise);
-            PromiseAll.then(() => {
-
-                dispatch({ type: "HIDE_LOADING" });
-                history.goBack();
-            })
-
-
-        }
+    const history = useHistory();
+    const match =useRouteMatch();
+    const handleCancel =()=>{
+        history.goBack();
     }
+  
+    //console.log(roomtype);
     return (
-        <div
-            className={classes.root}
-        >
-            <Card className={classes.card} >
+        <div className={classes.root}>
+             <Card className={classes.card} >
                 <div style={{ width: "100%", textAlign: "center", padding: "1rem" }}>
                     <Typography variant="h3">Add Roomtype</Typography>
                 </div>
@@ -56,16 +36,16 @@ function AddRoomType(props) {
 
                     initialValues={
                         {
-                            name: "",
-                            type: "",
-                            price: 100,
-                            size: 100,
-                            capacity: 1,
-                            extras: ["Plush pillows and breathable bed linens"],
-                            description: "Street art edison bulb gluten-free, tofu try-hard lumbersexual brooklyn tattooed pickled chambray. Actually humblebrag next level, deep v art party wolf tofu direct trade readymade sustainable hell of banjo. Organic authentic subway tile cliche palo santo, street art XOXO dreamcatcher retro sriracha portland air plant kitsch stumptown. Austin small batch squid gastropub. Pabst pug tumblr gochujang offal retro cloud bread bushwick semiotics before they sold out sartorial literally mlkshk. Vaporware hashtag vice, sartorial before they sold out pok pok health goth trust fund cray.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-                            images: [],
-                            attachments: [],
-                            thumbnail: ""
+                            name: roomtype.name,
+                            type: roomtype.type,
+                            price: roomtype.price,
+                            size: roomtype.size ,
+                            capacity: roomtype.capacity,
+                            extras: roomtype.extras.map(item => item.name),
+                            description:roomtype.description,
+                            images: roomtype.images.map(item=>item.name),
+                            //attachments: [],
+                            thumbnail: roomtype.thumbnail
                         }
                     }
                     validationSchema={Yup.object().shape({
@@ -87,23 +67,24 @@ function AddRoomType(props) {
                             .max(6, "Maximum 6 peoples."),
                         description: Yup.string()
                             .required("Description is required !"),
-                        images: Yup.array()
-                            .required("Image is required, up more 2 images !")
+                        // images: Yup.array()
+                        //     .required("Image is required, up more 2 images !")
                     })
 
                     }
                     onSubmit={(values) => {
-                        dispatch(addRoomtypeRequest(
-                            {
+                        dispatch(editRoomtypeRequest(
+                            {   id:roomtype.id,
                                 name: values.name,
                                 type: values.type,
                                 size: values.size,
                                 price: values.price,
                                 capacity: values.capacity,
-                                extras: values.extras,
-                                images: values.images,
+                                extras: roomtype.extras,
+                                images: roomtype.images,
                                 description: values.description,
-                                thumbnail: values.thumbnail
+                                thumbnail: roomtype.thumbnail,
+                                
                             }))
                     }}
                 >
@@ -277,7 +258,7 @@ function AddRoomType(props) {
                                     <CardHeader title="Add image. Note: This may take several minutes :( "></CardHeader>
                                 </Card>
                                 <CardContent>
-                                    <Dropzone className={classes.dropzoneStyle} accept="image/*" onDrop={acceptedFiles => {
+                                    {/* <Dropzone className={classes.dropzoneStyle} accept="image/*" onDrop={acceptedFiles => {
                                         //if (acceptedFiles.length === 0) { return; }
                                         //   console.log("ngoai",acceptedFiles);
                                         // map(acceptedFiles, acceptedFiles =>{
@@ -332,9 +313,12 @@ function AddRoomType(props) {
                                             return props.values.attachments.map((file, i) => (<Thumb key={i} file={file} />));
                                         }}
                                     </Dropzone>
-                                    {
-                                        props.errors.images ? <small style={{ color: "red" }}>{props.errors.images}</small> : null
-                                    }
+                                    */}
+                                   <div className={classes.dropzoneStyle}>
+                                        {
+                                            props.values.images.map((url, index)=><ImageView url={url} key={index}></ImageView>)
+                                        }
+                                   </div>
                                 </CardContent>
                                 <Divider></Divider>
                                 <div style={{ width: "100%", padding: "2rem" }}>
@@ -344,22 +328,23 @@ function AddRoomType(props) {
                                     >
                                         <Grid item xs={12} sm={6}>
                                             <Button
-                                                disabled={!props.isValid || !props.dirty}
+                                                disabled={!props.isValid }
                                                 fullWidth
                                                 type="submit"
                                                 color="primary"
                                                 variant="contained"
+                                                
                                             >
                                                 <AddIcon></AddIcon>
-                                        ADD
+                                        EDIT
                                         </Button>
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <Button
                                                 style={{ background: "#b71c1c" }}
                                                 fullWidth
-                                                type="submit"
-                                                onClick={() => { handleCancel(props.values.images) }}
+                                                
+                                                onClick={() => { handleCancel() }}
                                                 variant="contained"
                                             >
                                                 <CancelIcon></CancelIcon>
@@ -423,4 +408,4 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 5,
     }
 }))
-export default AddRoomType;
+export default EditRoomtype;

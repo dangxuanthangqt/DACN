@@ -1,15 +1,14 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { Button, Card, CardContent, Container, Typography } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
-import ImgCover from './ImgCover';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRoomTypeDetailRequest } from 'redux/actionCreators/roomTypeActionCreator';
-import { connect } from 'react-redux';
-
-import image from '../../assets/images/room-1.jpeg'
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { fetchRoomTypeDetailRequest, deleteRoomtypeRequest } from 'redux/actionCreators/roomTypeActionCreator';
 import theme from 'theme';
+import ImgCover from './ImgCover';
+
 
 
 RoomTypeDetailView.propTypes = {
@@ -45,7 +44,8 @@ const useStyles = makeStyles((them) => ({
         height: '200px'
     },
     roomInfor: {
-        paddingTop: '2rem',
+        marginTop: "1em",
+        padding: '2rem',
         display: 'flex',
         justifyContent: 'space-between',
     },
@@ -54,14 +54,14 @@ const useStyles = makeStyles((them) => ({
         letterSpacing: '1.2rem'
     },
     inf: {
-        
+
         width: '45%'
     },
-    spacing: {marginBottom: theme.spacing(4)},
-    gridContainer:{
-        paddingTop:'2rem',
+    spacing: { marginBottom: theme.spacing(4) },
+    gridContainer: {
+        paddingTop: '2rem',
         display: 'grid',
-        gridTemplateColumns:'auto auto auto',
+        gridTemplateColumns: 'auto auto auto',
 
     }
 }))
@@ -72,7 +72,9 @@ function RoomTypeDetailView(props) {
     let dispatch = useDispatch();
     //const room = useSelector(state=> state.roomType.detailRoomType)
 
-
+    const handleLinkToEditView=()=>{
+        history.push(`/management/room-types/edit/${match.params.id}`)
+    }
     const handleGoback = () => {
         history.goBack();
     }
@@ -80,18 +82,24 @@ function RoomTypeDetailView(props) {
         dispatch(fetchRoomTypeDetailRequest(match.params.id))
 
     }, [dispatch]);
-    console.log(props.room);
-    if (!props.room) {
-        console.log("dangxuanthang")
-        return (
-            <div className="error">
-                <h3>no such room could be found...</h3>
-            </div>
-        );
+    const handleDeleteRoomtype =()=>{
+        if(window.confirm("Do you want to delete this roomtype?")){
+            dispatch(deleteRoomtypeRequest(match.params.id));
+        }
+       
     }
-  
+    //console.log(props.room);
+    // if (!props.room) {
+    //     console.log("dangxuanthang")
+    //     return (
+    //         <div className="error">
+    //             <h3>no such room could be found...</h3>
+    //         </div>
+    //     );
+    // }
+
     return (
-        <Fragment>
+        <Container style={{ marginTop: "2em" }}>
             <ImgCover url={props.room.thumbnail}>
 
                 <div className={classes.banner}>
@@ -115,72 +123,96 @@ function RoomTypeDetailView(props) {
                 <div className={classes.singleRoom}>
                     {
                         props.room.images.map((item, index) => {
-                            
-                                return <img className={classes.singleRoomImage} key={index} src={item.name}></img>
+
+                            return <img className={classes.singleRoomImage} key={index} src={item.name}></img>
                         })
                     }
                 </div>
-                <div className={classes.roomInfor}>
+                <Card className={classes.roomInfor}>
                     <div className={classes.desc}>
                         <Typography variant="h1">
                             Details
                     </Typography>
                         <div style={{
-                            marginTop:'1.5rem'
-                        }}> 
-                        <Typography >
-                            {
-                                props.room.description
-                            }
-                        </Typography>
+                            marginTop: '1.5rem'
+                        }}>
+                            <Typography >
+                                {
+                                    props.room.description
+                                }
+                            </Typography>
                         </div>
-                        
+
                     </div>
                     <div className={classes.inf}>
-                        <Typography  variant="h1"  >
+                        <Typography variant="h1"  >
                             Information
                         </Typography>
                         <div style={{
                             marginTop: '1.5rem',
                             display: 'flex',
-                            flexDirection:'column',
-                            justifyContent:'space-between',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
                         }}>
-                        <Typography className={classes.spacing} variant="h4">
-                            Price: {props.room.price} $
+                            <Typography className={classes.spacing} variant="h4">
+                                Price: {props.room.price} $
                         </Typography>
-                        <Typography  className={classes.spacing} variant="h4">
-                            Size: {props.room.size} M2
+                            <Typography className={classes.spacing} variant="h4">
+                                Size: {props.room.size} M2
                         </Typography>
-                        <Typography  className={classes.spacing} variant="h4">
-                            Capacity: {props.room.capacity} People
+                            <Typography className={classes.spacing} variant="h4">
+                                Capacity: {props.room.capacity} People
                         </Typography>
                         </div>
-                        
+
                     </div>
-                   
-                </div>
-                <div>
-                        <Typography variant="h1">
-                            Extras
+
+                </Card>
+                <Card style={{ padding: "2em" }}>
+                    <Typography variant="h1">
+                        Extras
                         </Typography>
-                <div className={classes.gridContainer}>
+                    <div className={classes.gridContainer}>
                         {
-                            props.room.extras.map((item, index)=>{
+                            props.room.extras.map((item, index) => {
                                 return (
-                                <Typography
-                                variant="h5"
-                                className={classes.spacing}
-                                 key={index}>
-                                    - {item.name}
-                                </Typography>)
+                                    <Typography
+                                        variant="h5"
+                                        className={classes.spacing}
+                                        key={index}>
+                                        - {item.name}
+                                    </Typography>)
                             })
                         }
-                </div>
-                </div>
+                    </div>
+                </Card>
+                <Card style={{ padding: "2em" }}>
+                    <Typography variant="h1">
+                        Action
+                     </Typography>
+                    <CardContent
+                    style={{
+                        display:"grid",
+                        gridTemplateColumns:"auto auto",
+                        gridGap: "2em"
+                    }}
+                    
+                    >
+                        <Button fullWidth color="primary"
+                        onClick={handleLinkToEditView}
+                         variant="contained">
+                        <EditIcon></EditIcon>
+                            EDIT ROOMTYPE</Button>
+                        <Button fullWidth color="primary"
+                        onClick={handleDeleteRoomtype}
+                         variant="contained">
+                        <DeleteIcon></DeleteIcon>
+                            DELETE ROOMTYPE</Button>
+                    </CardContent>
+                </Card>
             </section>
 
-        </Fragment>
+        </Container>
     );
 }
 const mapStateToProps = state => ({
