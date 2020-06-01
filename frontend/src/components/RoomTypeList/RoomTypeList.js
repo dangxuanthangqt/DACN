@@ -4,13 +4,13 @@ import RoomType from 'components/RoomType/RoomType';
 
 
 const RoomTypeList = (props) => {
-    if (props.rooms.length === 0) {
-        return (
-            <div className="empty-search">
-                <h3>unfortunately no rooms matched your search parameters</h3>
-            </div>
-        )
-    }
+    // if (props.rooms.length === 0) {
+    //     return (
+    //         <div className="empty-search">
+    //             <h3>unfortunately no rooms matched your search parameters</h3>
+    //         </div>
+    //     )
+    // }
 
     return (
     <section className="roomslist">

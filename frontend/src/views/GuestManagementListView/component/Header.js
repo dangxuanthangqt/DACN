@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Button } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root:{ marginTop : theme.spacing(2),
@@ -47,7 +46,7 @@ const Header = props => {
             color="primary"
             variant="contained"
           >
-            ADD GUEST
+            Back 
           </Button>
         </Grid> */}
       </Grid>

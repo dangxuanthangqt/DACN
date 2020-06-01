@@ -1,8 +1,7 @@
 import produce from 'immer';
 
-import {  } from 'module';
-import { DataRoomType } from 'assets/fakeData/DataRoomType';
-import { FETCH_ROOMTYPE_DETAIL_SUCCESS, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_SUCCESS } from 'redux/actionTypes/roomActionType';
+import { FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_ROOMTYPE_DETAIL_SUCCESS } from 'redux/actionTypes/roomActionType';
+
 
 const initialState={
     listRoomType: [],
@@ -10,7 +9,9 @@ const initialState={
        images:[{
 
        }],
-       extras:[]
+       extras:[{
+           
+       }]
     }
 
 }

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import { Button, Grid, Typography } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Button } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root:{ marginTop : theme.spacing(2),
     marginBottom: theme.spacing(2)
@@ -13,9 +13,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = props => {
  
- const {handleOpen}= props;
+  const history = useHistory();
   const classes = useStyles();
-
+  const handleBack =()=>{
+    history.goBack();
+  }
   return (
     <div
       
@@ -35,12 +37,15 @@ const Header = props => {
           >
             Management
           </Typography>
-          <Typography
-            component="h1"
-            variant="h3"
+          <Button
+          size="small"
+          onClick={handleBack}
+          variant="contained"
+          color="primary"
           >
-            ADD ROOMTYPE
-          </Typography>
+          <ArrowBackIosIcon></ArrowBackIosIcon>
+            Back to Roomtype management
+          </Button>
         </Grid>
         
       </Grid>

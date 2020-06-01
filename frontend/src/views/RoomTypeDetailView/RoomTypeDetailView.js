@@ -79,7 +79,7 @@ function RoomTypeDetailView(props) {
     useEffect(() => {
         dispatch(fetchRoomTypeDetailRequest(match.params.id))
 
-    }, []);
+    }, [dispatch]);
     console.log(props.room);
     if (!props.room) {
         console.log("dangxuanthang")
@@ -92,7 +92,7 @@ function RoomTypeDetailView(props) {
   
     return (
         <Fragment>
-            <ImgCover url={props.room.images[0]}>
+            <ImgCover url={props.room.thumbnail}>
 
                 <div className={classes.banner}>
                     <Typography className={classes.h1} variant="h1">
@@ -115,15 +115,15 @@ function RoomTypeDetailView(props) {
                 <div className={classes.singleRoom}>
                     {
                         props.room.images.map((item, index) => {
-                            if (index >= 1 && index <= 3)
-                                return <img className={classes.singleRoomImage} key={index} src={item}></img>
+                            
+                                return <img className={classes.singleRoomImage} key={index} src={item.name}></img>
                         })
                     }
                 </div>
                 <div className={classes.roomInfor}>
                     <div className={classes.desc}>
                         <Typography variant="h1">
-                            Detials
+                            Details
                     </Typography>
                         <div style={{
                             marginTop:'1.5rem'
@@ -153,7 +153,7 @@ function RoomTypeDetailView(props) {
                             Size: {props.room.size} M2
                         </Typography>
                         <Typography  className={classes.spacing} variant="h4">
-                            Capacity: {props.room.capacity} M2
+                            Capacity: {props.room.capacity} People
                         </Typography>
                         </div>
                         
@@ -172,7 +172,7 @@ function RoomTypeDetailView(props) {
                                 variant="h5"
                                 className={classes.spacing}
                                  key={index}>
-                                    - {item}
+                                    - {item.name}
                                 </Typography>)
                             })
                         }

@@ -13,7 +13,7 @@ const useStyles = makeStyles( them=>({
     }
 }))
 function RoomType(props) {
-    const { name, slug, images, price,id } = props.room;  
+    const { name, thumbnail, price,id } = props.room;  
     const classes = useStyles();
     const match = useRouteMatch();
     let temp =`${match.url}/${id}`;
@@ -23,7 +23,7 @@ function RoomType(props) {
     return (
         <article className="room">
              <div className="img-container">
-                <img src={images[0] } alt="single room" />
+                <img src={thumbnail } alt="single room" />
                 <div className="price-top">
                     <h6>${price}</h6>
                     <Typography  className={classes.textColor}>Per night</Typography>

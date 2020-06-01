@@ -2,7 +2,6 @@ import { Avatar, Card, CardContent, CardMedia, Divider, Link, Typography } from 
 import LockIcon from '@material-ui/icons/Lock';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 // import { Page } from 'components';
 import gradients from '../../utils/gradients';
@@ -73,7 +72,7 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+ 
   return (
     <div className={classes.root}>
      <Card className={classes.card}>

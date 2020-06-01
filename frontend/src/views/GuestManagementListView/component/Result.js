@@ -90,7 +90,7 @@ function Result(props) {
     const match = useRouteMatch();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, length - page * rowsPerPage);
+    //const emptyRows = rowsPerPage - Math.min(rowsPerPage, length - page * rowsPerPage);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
       };

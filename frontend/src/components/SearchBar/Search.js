@@ -50,7 +50,7 @@ const Search = props => {
       dispatch(fetchListGuestsRequest());
     }
     
-  },[value]);
+  },[value, dispatch]);
   return (
     <div
       {...rest}

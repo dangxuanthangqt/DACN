@@ -1,27 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
-import { Grid, Typography, Button } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import { makeStyles } from '@material-ui/styles';
 import history from 'helper/history';
+import PropTypes from 'prop-types';
+import React from 'react';
 const useStyles = makeStyles((theme) => ({
-  root:{ marginTop : theme.spacing(2),
+  root: {
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2)
 
-}
+  }
 }));
 
 const Header = props => {
- 
- 
+
+
   const classes = useStyles();
-  const handleClick=()=>{
+  const handleClick = () => {
     history.push('/management/room-types/add')
   }
   return (
     <div
-      
+
       className={classes.root}
     >
       <Grid
@@ -51,7 +51,7 @@ const Header = props => {
             color="primary"
             variant="contained"
           >
-              <AddIcon></AddIcon>
+            <AddIcon></AddIcon>
             ADD ROOMTYPE
           </Button>
         </Grid>

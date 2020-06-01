@@ -4,7 +4,7 @@ class axiosService {
     constructor() {
         const instance = axios.create();
         instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        instance.defaults.baseURL = 'https://online-hotel-kunlezisme.herokuapp.com';
+        instance.defaults.baseURL = 'https://online-hotel-management.herokuapp.com';
         instance.interceptors.response.use(this.handlesuccess, this.handleError);
         instance.interceptors.request.use((config)=>{
 
@@ -30,7 +30,7 @@ class axiosService {
         return res;
     }
     handleError=(error)=>{
-        return Promise.reject(error);
+        return Promise.reject(error.response);
     }
     get=(url)=>{
         return this.instance.get(url);

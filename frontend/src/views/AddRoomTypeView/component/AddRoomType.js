@@ -1,27 +1,51 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import { Button, Card, CardContent, CardHeader, Checkbox, Divider, FormControlLabel, Grid, TextField, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { makeStyles } from '@material-ui/styles';
-import { Formik, Form, ErrorMessage, FieldArray } from 'formik';
-import { TextField, Card, CardHeader, CardContent, Typography, Divider, TextareaAutosize, Button, Checkbox, FormControlLabel, FormGroup, FormLabel } from '@material-ui/core';
-import * as Yup from 'yup';
+import { FieldArray, Form, Formik } from 'formik';
+import React from 'react';
 import Dropzone from 'react-dropzone';
-import Thumb from './Thumb';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { storage } from 'utils/firebase';
+import * as Yup from 'yup';
+import Thumb from './Thumb';
+import { addRoomtypeRequest } from 'redux/actionCreators/roomTypeActionCreator';
 AddRoomType.propTypes = {
 
 };
 
 function AddRoomType(props) {
     const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const handleCancel = (images) => {
+        //  console.log(images);
 
+        dispatch({ type: "SHOW_LOADING" });
+        if (images.length === 0) {
+
+            dispatch({ type: "HIDE_LOADING" });
+            history.goBack();
+        }
+        else {
+            let ArrayPromise = images.map(element => {
+                return storage.refFromURL(element).delete()
+            })
+            let PromiseAll = Promise.all(ArrayPromise);
+            PromiseAll.then(() => {
+
+                dispatch({ type: "HIDE_LOADING" });
+                history.goBack();
+            })
+
+
+        }
+    }
     return (
         <div
             className={classes.root}
-
         >
-
-
-
             <Card className={classes.card} >
                 <div style={{ width: "100%", textAlign: "center", padding: "1rem" }}>
                     <Typography variant="h3">Add Roomtype</Typography>
@@ -40,7 +64,8 @@ function AddRoomType(props) {
                             extras: ["Plush pillows and breathable bed linens"],
                             description: "Street art edison bulb gluten-free, tofu try-hard lumbersexual brooklyn tattooed pickled chambray. Actually humblebrag next level, deep v art party wolf tofu direct trade readymade sustainable hell of banjo. Organic authentic subway tile cliche palo santo, street art XOXO dreamcatcher retro sriracha portland air plant kitsch stumptown. Austin small batch squid gastropub. Pabst pug tumblr gochujang offal retro cloud bread bushwick semiotics before they sold out sartorial literally mlkshk. Vaporware hashtag vice, sartorial before they sold out pok pok health goth trust fund cray.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
                             images: [],
-                            attachments: []
+                            attachments: [],
+                            thumbnail: ""
                         }
                     }
                     validationSchema={Yup.object().shape({
@@ -61,18 +86,31 @@ function AddRoomType(props) {
                             .min(1, "Minimum 1 people.")
                             .max(6, "Maximum 6 peoples."),
                         description: Yup.string()
-                            .required("Description is required !")
+                            .required("Description is required !"),
+                        images: Yup.array()
+                            .required("Image is required, up more 2 images !")
                     })
 
                     }
-                    onSubmit={(value) => {
-                        console.log(value)
+                    onSubmit={(values) => {
+                        dispatch(addRoomtypeRequest(
+                            {
+                                name: values.name,
+                                type: values.type,
+                                size: values.size,
+                                price: values.price,
+                                capacity: values.capacity,
+                                extras: values.extras,
+                                images: values.images,
+                                description: values.description,
+                                thumbnail: values.thumbnail
+                            }))
                     }}
-                    >
+                >
                     {
-                        (props) =>{
-                     //   console.log(props.values)
-                            return (   <Form onSubmit={props.handleSubmit}>
+                        (props) => {
+                            //   console.log(props.values)
+                            return (<Form onSubmit={props.handleSubmit}>
                                 <div style={{ display: "flex" }}>
                                     <Card style={{ width: '50%' }}>
                                         <CardContent>
@@ -192,8 +230,8 @@ function AddRoomType(props) {
                                         </CardContent>
                                     </Card>
                                 </div>
-                               
-                               <FieldArray
+
+                                <FieldArray
                                     name="extras"
                                     render={
                                         arrayHelpers => (
@@ -234,7 +272,7 @@ function AddRoomType(props) {
 
                                 >
                                 </FieldArray>
-                                
+
                                 <Card>
                                     <CardHeader title="Add image. Note: This may take several minutes :( "></CardHeader>
                                 </Card>
@@ -244,31 +282,37 @@ function AddRoomType(props) {
                                         //   console.log("ngoai",acceptedFiles);
                                         // map(acceptedFiles, acceptedFiles =>{
                                         //   // do nothing if no files
-                                       // console.log(acceptedFiles);
+                                        // console.log(acceptedFiles);
 
                                         //ACEPTED FILES tra ve ARAAY nen dung map hoac dung arr[0]
-                                       // props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
-                                        storage.ref('guests')
+                                        // props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
+                                        dispatch({ type: "SHOW_LOADING" });
+                                        storage.ref('room-type')
                                             .child(acceptedFiles[0].name)
                                             .put(acceptedFiles[0], {
                                                 contentType: acceptedFiles[0].type,
                                             })
                                             .then((snapshot) => {
-                                               
-                                                
+
+
                                                 snapshot.ref.getDownloadURL().then(url => {
-                                                   // console.log(url);
+                                                    // console.log(url);
                                                     //console.log(props.values.attachments)
                                                     props.setFieldValue("attachments", props.values.attachments.concat(acceptedFiles));
-                                                    
+
                                                     return url;
+
+                                                }).then((url) => {
+                                                    if (props.values.thumbnail === "") { props.setFieldValue("thumbnail", url) }
+                                                    else{
+                                                        props.setFieldValue("images", props.values.images.concat(url));
+                                                    }
                                                     
-                                                }).then((url)=>{
-                                                    props.setFieldValue("images", props.values.images.concat(url));
+                                                    dispatch({ type: "HIDE_LOADING" })
                                                 })
                                             })
 
-                                      
+
 
 
                                     }}>
@@ -288,27 +332,51 @@ function AddRoomType(props) {
                                             return props.values.attachments.map((file, i) => (<Thumb key={i} file={file} />));
                                         }}
                                     </Dropzone>
+                                    {
+                                        props.errors.images ? <small style={{ color: "red" }}>{props.errors.images}</small> : null
+                                    }
                                 </CardContent>
+                                <Divider></Divider>
+                                <div style={{ width: "100%", padding: "2rem" }}>
+                                    <Grid
+                                        container spacing={3}
 
-                                <Button
-                                    type="submit"
-                                >
-                                    ADD
-                   </Button>
-                   
-                            </Form>)}
-                        
-                       
+                                    >
+                                        <Grid item xs={12} sm={6}>
+                                            <Button
+                                                disabled={!props.isValid || !props.dirty}
+                                                fullWidth
+                                                type="submit"
+                                                color="primary"
+                                                variant="contained"
+                                            >
+                                                <AddIcon></AddIcon>
+                                        ADD
+                                        </Button>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <Button
+                                                style={{ background: "#b71c1c" }}
+                                                fullWidth
+                                                type="submit"
+                                                onClick={() => { handleCancel(props.values.images) }}
+                                                variant="contained"
+                                            >
+                                                <CancelIcon></CancelIcon>
+                                        Cancel
+                                        </Button>
+                                        </Grid>
 
+
+                                    </Grid>
+
+
+                                </div>
+
+                            </Form>)
+                        }
                     }
-
-
-                
                 </Formik>
-
-
-
-
             </Card>
         </div>
     );

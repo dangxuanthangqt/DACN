@@ -1,4 +1,4 @@
-import { FETCH_ROOMTYPE_DETAIL_REQUEST, FETCH_ROOMTYPE_DETAIL_SUCCESS, FETCH_ROOMTYPE_DETAIL_ERROR, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_LIST_ROOMTYPE_ERROR } from "redux/actionTypes/roomActionType"
+import { FETCH_ROOMTYPE_DETAIL_REQUEST, FETCH_ROOMTYPE_DETAIL_SUCCESS, FETCH_ROOMTYPE_DETAIL_ERROR, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_LIST_ROOMTYPE_ERROR, ADD_ROOMTYPE_REQUEST } from "redux/actionTypes/roomActionType"
 
 export const fetchListRoomTypeRequest =()=>{
     return{
@@ -32,5 +32,12 @@ export const fetchRoomTypeDetailSuccess=(data)=>{
 export const fetchRoomTypeDetailError=()=>{
     return {
         type: FETCH_ROOMTYPE_DETAIL_ERROR
+    }
+}
+
+export const addRoomtypeRequest=(data)=>{
+    return {
+        type: ADD_ROOMTYPE_REQUEST,
+        payload:data
     }
 }

@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterForm = props => {
-  const { className, ...rest } = props;
+  const { className } = props;
 
   const classes = useStyles();
 
@@ -68,7 +68,8 @@ const RegisterForm = props => {
         lastName: Yup.string()
           .required('LastName is required')
           .max(32, 'LastName have max 32 characters'),
-        phone: Yup.string().matches(/^(0)+([0-9]{9})\b$/,"Phone number is not valid !"),
+        phone: Yup.string().matches(/^(0)+([0-9]{9})\b$/,"Phone number is not valid !")
+        .required("Phone number is required"),
         email: Yup.string()
           .email('Email is invalid')
           .required('Email is required'),
@@ -244,7 +245,7 @@ const RegisterForm = props => {
             <Button
               className={classes.submitButton}
               color="secondary"
-              disabled={!props.isValid}
+              disabled={!props.isValid || !props.dirty}
               size="large"
               type="submit"
               variant="contained"

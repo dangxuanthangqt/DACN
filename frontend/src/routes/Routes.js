@@ -1,9 +1,8 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import AuthLayout from '../layouts/Auth';
-import { publicRoutes, privateRoutes } from './routeConfigs';
-import PublicRoutes from './PublicRoutes';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import PrivateRoutes from './PrivateRoutes';
+import PublicRoutes from './PublicRoutes';
+import { privateRoutes, publicRoutes } from './routeConfigs';
 const Routes = () => {
     return (
         <Switch>

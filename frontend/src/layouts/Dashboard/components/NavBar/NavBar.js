@@ -1,17 +1,14 @@
+import { Avatar, Divider, Drawer, Hidden, Paper, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import clsx from 'clsx';
+import { getAccessToken } from 'helper/localStorage';
+import jwt_decode from 'jwt-decode';
+import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/styles';
-import { Drawer, Divider, Paper, Avatar, Typography } from '@material-ui/core';
-import { Hidden } from '@material-ui/core';
-import jwt_decode from 'jwt-decode';
-//import useRouter from 'utils/useRouter';
-
-import navigationConfig from './navigationConfig';
 import { Navigation } from '../../../../components';
-import { getAccessToken } from 'helper/localStorage';
+//import useRouter from 'utils/useRouter';
+import navigationConfig from './navigationConfig';
 
 const useStyles = makeStyles(theme => ({
   root: {

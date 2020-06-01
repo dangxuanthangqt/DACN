@@ -1,10 +1,9 @@
+import { Container } from '@material-ui/core';
 import RoomTypeList from 'components/RoomTypeList';
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchListRoomTypeRequest } from 'redux/actionCreators/roomTypeActionCreator';
 import Header from './component/Header';
-import { Container } from '@material-ui/core';
-import ModalAddRoomType from './component/ModalAddRoomType';
 
 RoomTypeView.propTypes = {
     
@@ -16,7 +15,7 @@ function RoomTypeView(props) {
     useEffect(() => {
         dispatch(fetchListRoomTypeRequest())
       
-    }, []);
+    }, [dispatch]);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
@@ -29,7 +28,7 @@ function RoomTypeView(props) {
        <Container style={{display:"flex", justifyContent:"center"}}>
            <div>
            <Header handleOpen={handleOpen}></Header>
-           <ModalAddRoomType open={open} handleClose={handleClose}></ModalAddRoomType>
+           
            <RoomTypeList rooms={rooms} >
 
            </RoomTypeList>
