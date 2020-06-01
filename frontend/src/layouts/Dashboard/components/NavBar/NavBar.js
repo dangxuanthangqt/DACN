@@ -54,7 +54,8 @@ const NavBar = props => {
   });
   useEffect(() => {
     let token = getAccessToken();
-    setUser(jwt_decode(token));
+    if(token){setUser(jwt_decode(token));}
+    
     
   }, []);
   useEffect(() => {
