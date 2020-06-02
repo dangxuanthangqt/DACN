@@ -80,6 +80,7 @@ const Search = props => {
         Search
       </Button>
     </div>
+  
   );
 };
 

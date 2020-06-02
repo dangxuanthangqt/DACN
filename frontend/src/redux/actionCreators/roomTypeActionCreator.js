@@ -1,4 +1,4 @@
-import { FETCH_ROOMTYPE_DETAIL_REQUEST, FETCH_ROOMTYPE_DETAIL_SUCCESS, FETCH_ROOMTYPE_DETAIL_ERROR, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_LIST_ROOMTYPE_ERROR, ADD_ROOMTYPE_REQUEST, DELETE_ROOMTYPE_REQUEST, EDIT_ROOMTYPE_REQUEST } from "redux/actionTypes/roomActionType"
+import { FETCH_ROOMTYPE_DETAIL_REQUEST, FETCH_ROOMTYPE_DETAIL_SUCCESS, FETCH_ROOMTYPE_DETAIL_ERROR, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_SUCCESS, FETCH_LIST_ROOMTYPE_ERROR, ADD_ROOMTYPE_REQUEST, DELETE_ROOMTYPE_REQUEST, EDIT_ROOMTYPE_REQUEST, SEARCH_ROOMTYPE_REQUEST } from "redux/actionTypes/roomActionType"
 import { EDIT_GUEST_SUCCESS } from "redux/actionTypes/guestActionType"
 
 export const fetchListRoomTypeRequest =()=>{
@@ -51,6 +51,13 @@ export const deleteRoomtypeRequest=(data)=>{
 export const editRoomtypeRequest=(data)=>{
     return {
         type: EDIT_ROOMTYPE_REQUEST,
+        payload:data
+    }
+}
+
+export const searchRoomtypeRequest=(data)=>{
+    return {
+        type: SEARCH_ROOMTYPE_REQUEST,
         payload:data
     }
 }

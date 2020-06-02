@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchListRoomTypeRequest } from 'redux/actionCreators/roomTypeActionCreator';
 import Header from './component/Header';
+import SearchBar from './component/SearchBar';
 
 RoomTypeView.propTypes = {
     
@@ -28,7 +29,7 @@ function RoomTypeView(props) {
        <Container style={{display:"flex", justifyContent:"center"}}>
            <div>
            <Header handleOpen={handleOpen}></Header>
-           
+           <SearchBar></SearchBar>
            <RoomTypeList rooms={rooms} >
 
            </RoomTypeList>

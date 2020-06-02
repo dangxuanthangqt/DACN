@@ -2,16 +2,16 @@ import history from "helper/history";
 import { toastifyError, toastifySuccess } from "helper/Toastify";
 import { call, delay, put, takeEvery } from "redux-saga/effects";
 import { fetchListRoomTypeSuccess, fetchRoomTypeDetailSuccess } from "redux/actionCreators/roomTypeActionCreator";
-import { ADD_ROOMTYPE_REQUEST, DELETE_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_ROOMTYPE_DETAIL_REQUEST, EDIT_ROOMTYPE_REQUEST } from "redux/actionTypes/roomActionType";
+import { ADD_ROOMTYPE_REQUEST, DELETE_ROOMTYPE_REQUEST, FETCH_LIST_ROOMTYPE_REQUEST, FETCH_ROOMTYPE_DETAIL_REQUEST, EDIT_ROOMTYPE_REQUEST, SEARCH_ROOMTYPE_REQUEST } from "redux/actionTypes/roomActionType";
 import axiosService from "services/axios/axiosService";
-
-
+import queryString from 'query-string';
 export function* roomTypeSaga() {
     yield takeEvery(FETCH_LIST_ROOMTYPE_REQUEST, watchFetchListRoomType);
     yield takeEvery(FETCH_ROOMTYPE_DETAIL_REQUEST, watchFetchRoomDetail);
     yield takeEvery(ADD_ROOMTYPE_REQUEST, watchAddRoomtype);
     yield takeEvery(DELETE_ROOMTYPE_REQUEST, watchDeleteRoomtype);
     yield takeEvery(EDIT_ROOMTYPE_REQUEST, watchEditRoomtype);
+    yield takeEvery(SEARCH_ROOMTYPE_REQUEST, watchSearchRoomtype);
 }
 function* watchFetchRoomDetail(action) {
     //console.log("payload",payload);
@@ -93,6 +93,24 @@ function* watchEditRoomtype(action) {
         yield call(toastifyError,"ERROR :(( !")
         yield put({ type: "HIDE_LOADING" })
     }
-    
-    
+}
+function *watchSearchRoomtype(action){
+    //console.log(action.payload);
+    let temp = queryString.stringify({valueSearch: action.payload});
+   // console.log(temp);
+   yield put({ type: "SHOW_LOADING" });
+    try{
+        const res= yield call(axiosService.get,`/api/room-type/search?${temp}`);
+        if(res.data.body.length > 0){
+            yield put(fetchListRoomTypeSuccess(res.data.body));
+        }else{
+            yield call(toastifyError,"NOT FOUND :(( ");
+        }
+        
+        yield delay(500);
+        yield put({ type: "HIDE_LOADING" })
+    }catch(e){
+        yield call(toastifyError,"ERROR ");
+        yield put({ type: "HIDE_LOADING" })
+    }
 }
