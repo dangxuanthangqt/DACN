@@ -15,7 +15,13 @@ function* watchLogin({ payload }) {
     try {
         yield put({ type: "SHOW_LOADING" })
         const res = yield call(axiosService.post, "/api/auth/login", payload);
-       // console.log(res);
+    //     console.log(res);
+    //    yield call(toastifySuccess, "Login successfully !");
+          
+    //    yield call(setAccessToken, res.data.body.token);
+    //   // console.log(res.data.body.token);
+    //    yield put(loginSuccess(res.data.body.token));
+    //    yield call(history.push, '/test');
         if(checkRole(res.data.body.token)){
             yield call(toastifySuccess, "Login successfully !");
           
@@ -33,7 +39,8 @@ function* watchLogin({ payload }) {
 
     }
     catch (e) {
-        yield call(toastifyError, e.response.data.debugMessage ? e.response.data.debugMessage : "Please check your email or password !");
+        //console.log(e)
+        yield call(toastifyError, e.data.debugMessage ? e.data.debugMessage : "Please check your email or password !");
         yield put({ type: "HIDE_LOADING" });
     }
 
