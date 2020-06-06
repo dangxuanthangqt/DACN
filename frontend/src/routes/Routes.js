@@ -1,12 +1,12 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import PrivateRoutes from './PrivateRoutes';
-import PublicRoutes from './PublicRoutes';
-import { privateRoutes, publicRoutes } from './routeConfigs';
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import PrivateRoutes from "./PrivateRoutes";
+import PublicRoutes from "./PublicRoutes";
+import { privateRoutes, publicRoutes } from "./routeConfigs";
 const Routes = () => {
-    return (
-        <Switch>
-            {/* <Route exact path={['/auth/login','/auth/register']}>
+  return (
+    <Switch>
+      {/* <Route exact path={['/auth/login','/auth/register']}>
             <AuthLayout>
                 <Switch>
                     {
@@ -25,55 +25,45 @@ const Routes = () => {
             </AuthLayout>
            </Route>
         */}
-            <Redirect exact from="/" to="/test"></Redirect>
-            {
-                publicRoutes.map((element, index) => {
-                    let temp = element.subroutes.map((e, i) => e.path);
-                    return (
-                        <Route key={index} exact={element.subroutes.some(r => r.exact)} path={temp}>
-                            <element.layout >
-                                <Switch>
-                                {
-                                    element.subroutes.map((element, index) => (
-                                        <PublicRoutes
-                                            {...element}
-                                        >
-                                        </PublicRoutes>
-                                    ))
-                                }
-                                </Switch>
-                            </element.layout>
-                        </Route>
+      <Redirect exact from="/" to="/test"></Redirect>
+      {publicRoutes.map((element, index) => {
+        let temp = element.subroutes.map((e, i) => e.path);
+        return (
+          <Route
+            key={index}
+            exact={element.subroutes.some((r) => r.exact)}
+            path={temp}
+          >
+            <element.layout>
+              <Switch>
+                {element.subroutes.map((element, index) => (
+                  <PublicRoutes {...element}></PublicRoutes>
+                ))}
+              </Switch>
+            </element.layout>
+          </Route>
+        );
+      })}
+      {privateRoutes.map((element, index) => {
+        let temp = element.subroutes.map((e, i) => e.path);
+        return (
+          <Route
+            key={index}
+            exact={element.subroutes.some((r) => r.exact)}
+            path={temp}
+          >
+            <element.layout>
+              <Switch>
+                {element.subroutes.map((element, index) => (
+                  <PrivateRoutes {...element}></PrivateRoutes>
+                ))}
+              </Switch>
+            </element.layout>
+          </Route>
+        );
+      })}
 
-                    )
-                  
-                })
-            }
-            {
-                privateRoutes.map((element, index) => {
-                    let temp = element.subroutes.map((e, i) => e.path);
-                    return (
-                        <Route key={index} exact={element.subroutes.some(r => r.exact)} path={temp}>
-                            <element.layout >
-                                <Switch>
-                                {
-                                    element.subroutes.map((element, index) => (
-                                        <PrivateRoutes
-                                            {...element}
-                                        >
-                                        </PrivateRoutes>
-                                    ))
-                                }
-                                </Switch>
-                            </element.layout>
-                        </Route>
-
-                    )
-                  
-                })
-            }
-            
-            {/* {
+      {/* {
                 privateRoutes.map((element, index)=>{
                     let temp = element.subroutes.map((e, i)=> e.path)
                     return (
@@ -101,13 +91,13 @@ const Routes = () => {
 
                 })
             } */}
-            
-            
-            <Route path="*"  render={()=> <Redirect to="/errors/error-404"></Redirect>}>
-            </Route>
-            
-        </Switch>
-    );
-}
+
+      <Route
+        path="*"
+        render={() => <Redirect to="/errors/error-404"></Redirect>}
+      ></Route>
+    </Switch>
+  );
+};
 
 export default Routes;

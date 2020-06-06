@@ -1,0 +1,29 @@
+.container_header {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.title {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.text_filed_item {
+  width: 100%;
+}
+
+.gird_item {
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.paper_form {
+  width: 50%;
+  margin: auto;
+}
+
+.img_upload {
+  width: 50px;
+  height: auto;
+}
