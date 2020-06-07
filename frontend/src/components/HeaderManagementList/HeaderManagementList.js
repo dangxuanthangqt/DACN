@@ -1,9 +1,14 @@
+// material-ui
 import { Button, Grid, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/styles";
+
 import history from "helper/history";
-import PropTypes from "prop-types";
-import React from "react";
+
+import styles from "./HeaderManagementList.module.css";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
@@ -11,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (props) => {
-  const classes = useStyles();
-  const handleClick = () => {
-  history.push("/management/room-types/add");
+const HeaderManagementList = ({ title, path }) => {
+  const handleAddNewItem = () => {
+    history.push(`${path}/add`);
   };
+
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <Grid alignItems="flex-end" container justify="space-between" spacing={3}>
@@ -24,13 +30,17 @@ const Header = (props) => {
             Management
           </Typography>
           <Typography component="h1" variant="h3">
-            ROOM TYPES
+            {title}S
           </Typography>
         </Grid>
         <Grid item>
-          <Button onClick={handleClick} color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleAddNewItem}
+          >
             <AddIcon></AddIcon>
-            ADD ROOMTYPE
+            ADD {title}
           </Button>
         </Grid>
       </Grid>
@@ -38,8 +48,4 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {
-  className: PropTypes.string,
-};
-
-export default Header;
+export default HeaderManagementList;
