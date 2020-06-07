@@ -99,13 +99,13 @@ export const privateRoutes = [
         component: lazy(() => import("../views/GuestManagementDetailView")),
       },
       {
-        key: "Hotel",
+        key: "hotel",
         path: "/management/hotel",
         exact: true,
         component: lazy(() => import("../views/Hotel/Hotel")),
       },
       {
-        key: "Hotel Create",
+        key: "hotel_create",
         path: "/management/hotel/add",
         exact: true,
         component: lazy(() => import("../views/Hotel/components/HotelCreate")),

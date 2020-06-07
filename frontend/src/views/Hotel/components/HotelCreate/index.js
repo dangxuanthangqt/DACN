@@ -11,13 +11,21 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
+import CancelIcon from "@material-ui/icons/Cancel";
 //components
 import HeaderManagementCreate from "components/HeaderManagementCreate";
 
 //fire base
 import { storage } from "utils/firebase";
 
+// reducers
+import { addNewHotel } from "redux/actionCreators/hotelActionCreator";
+
+import history from "helper/history";
+
+import { privateRoutes } from "routes/routeConfigs";
 import styles from "./HotelCreate.module.css";
 
 const HotelCreate = () => {
@@ -26,14 +34,27 @@ const HotelCreate = () => {
 
   const dispatch = useDispatch();
 
-  const values = { name: "", description: "alo", images: [] };
+  const values = { name: "", description: "", images: [] };
 
   const onHandleDropImages = (acceptedFiles, props) => {};
 
   const submit = (data) => {
-    console.log(data);
+    // covert data images
+    data.images = data.images.map((item) => {
+      return {
+        name: item,
+      };
+    });
+    dispatch(addNewHotel(data));
   };
 
+  const handelCancel = () => {
+    const { path } = privateRoutes[0].subroutes.find(
+      (item) => item.key === "hotel"
+    );
+
+    history.push(path);
+  };
   return (
     <Container className={styles.container_header}>
       <div>
@@ -97,6 +118,7 @@ const HotelCreate = () => {
 
                       <Grid item xs={12} className={styles.gird_item}>
                         <Dropzone
+                          className={styles.drop_img}
                           accept="image/*"
                           onDrop={(acceptedFiles) => {
                             dispatch({ type: "SHOW_LOADING" });
@@ -127,13 +149,16 @@ const HotelCreate = () => {
                               return "This file is not authorized";
                             }
 
-                            return images.map((item, index) => (
-                              <img
-                                src={item}
-                                key={index}
-                                className={styles.img_upload}
-                              />
-                            ));
+                            if (images && images.length != 0) {
+                              return images.map((item, index) => (
+                                <img
+                                  src={item}
+                                  key={index}
+                                  className={styles.img_upload}
+                                />
+                              ));
+                            }
+                            return <p>Up load image in here!!!</p>;
                           }}
                         </Dropzone>
                         {props.errors.images ? (
@@ -141,6 +166,31 @@ const HotelCreate = () => {
                             {props.errors.images}
                           </small>
                         ) : null}
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6} className={styles.gird_btn}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          startIcon={<SaveIcon />}
+                          className={styles.btn_form}
+                          disabled={!props.isValid || !props.dirty}
+                          type="submit"
+                        >
+                          Save
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6} className={styles.gird_btn}>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          startIcon={<CancelIcon />}
+                          onClick={handelCancel}
+                          className={styles.btn_form}
+                        >
+                          Cancel
+                        </Button>
                       </Grid>
                     </Grid>
                   </Paper>
