@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAccessToken } from 'helper/localStorage';
+import { getAccessToken, clearAccesstoken } from 'helper/localStorage';
 import { checkTokenExpration } from 'helper/checkTokenExpration';
 import history from 'helper/history';
 class axiosService {
@@ -17,6 +17,7 @@ class axiosService {
                 config.headers.Authorization = token ? `Bearer ${token}`:"";
                }
                else{
+                   clearAccesstoken();
                    history.push('/auth/login')
                }
                 
