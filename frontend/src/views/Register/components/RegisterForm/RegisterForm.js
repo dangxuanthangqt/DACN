@@ -141,6 +141,7 @@ const RegisterForm = props => {
                 
               />
               <KeyboardDatePicker
+              
                autoOk
                 size="small"
                 name="birthday"
