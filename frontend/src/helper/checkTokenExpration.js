@@ -7,7 +7,7 @@ export function checkTokenExpration(){
             if(jwtDecode(token).exp > Date.now()/1000) return true;
             else return false;
         }else
-        console.log("Aaaaaa");
+        return false;
     }catch(e){
         return false;
     }

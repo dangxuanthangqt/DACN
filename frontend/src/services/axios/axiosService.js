@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { getAccessToken } from 'helper/localStorage';
+import { checkTokenExpration } from 'helper/checkTokenExpration';
+import history from 'helper/history';
 class axiosService {
     constructor() {
         const instance = axios.create();
@@ -11,7 +13,13 @@ class axiosService {
             try{
                 const token = getAccessToken();
                // console.log("11111111");
+               if(checkTokenExpration(token)){
                 config.headers.Authorization = token ? `Bearer ${token}`:"";
+               }
+               else{
+                   history.push('/auth/login')
+               }
+                
             }catch(e){
                 
             }
