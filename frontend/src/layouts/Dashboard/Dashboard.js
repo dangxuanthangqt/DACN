@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     overflowY: "auto",
     flex: "1 1 auto",
+    marginTop: "20px",
   },
 }));
 

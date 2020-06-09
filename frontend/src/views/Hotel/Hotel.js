@@ -13,12 +13,20 @@ import HotelList from "./components/HotelList";
 
 //import redux fuc
 import { useDispatch, useSelector } from "react-redux";
-import { fetchListHotelRequest } from "redux/actionCreators/hotelActionCreator";
+import { fetchPaginationHotel } from "redux/actionCreators/hotelActionCreator";
 
 const Hotel = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchListHotelRequest());
+    dispatch(
+      fetchPaginationHotel({
+        size: 8,
+        index: 0,
+        valueSearch: "",
+        keySort: "",
+      })
+    );
   }, [dispatch]);
 
   const hotels = useSelector((state) => {
@@ -32,6 +40,7 @@ const Hotel = () => {
           <HeaderManagementList
             title={ValueRoutes.Hotel.name}
             path={ValueRoutes.Hotel.path}
+            api={ValueRoutes.Hotel.api}
           />
           <HotelList hotels={hotels} />
         </div>
