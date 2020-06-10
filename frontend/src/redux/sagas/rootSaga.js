@@ -5,6 +5,7 @@ import { logoutSaga } from "./logoutSaga";
 import { roomTypeSaga } from "./roomTypeSaga";
 import { guestSaga } from "./guestSaga";
 import { hotelSaga } from "./hotelSaga";
+import {promoSaga} from "./promoSaga";
 function* rootSaga() {
   yield fork(loginSaga);
   yield fork(logoutSaga);
@@ -12,5 +13,6 @@ function* rootSaga() {
   yield fork(roomTypeSaga);
   yield fork(guestSaga);
   yield fork(hotelSaga);
+  yield fork(promoSaga)
 }
 export default rootSaga;
