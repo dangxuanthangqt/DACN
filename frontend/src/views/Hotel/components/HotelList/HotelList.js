@@ -29,6 +29,7 @@ const HotelList = ({ hotels, count }) => {
     setPagination({
       ...pagination,
       valueSearch: valueSearchChanged,
+      index: 0,
     });
   };
 
