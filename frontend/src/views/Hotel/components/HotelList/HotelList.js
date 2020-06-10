@@ -14,39 +14,38 @@ import HotelItem from "../HotelItem";
 
 import { fetchPaginationHotel } from "redux/actionCreators/hotelActionCreator";
 
-const HotelList = ({ hotels }) => {
-  // const dispatch = useDispatch();
+const HotelList = ({ hotels, count }) => {
+  const dispatch = useDispatch();
 
-  // const [search, setSearch] = useState({
-  //   size: 6,
-  //   index: 0,
-  //   valueSearch: "",
-  //   keySort: "",
-  // });
-  // const handleSearch = () => {
-  //   console.log(search);
-  // };
+  const [pagination, setPagination] = useState(paginationInitValue);
 
-  const [a, setA] = useState(0);
+  let valueSearchChanged = "";
 
-  const handleChangeInputSearch = (event) => {
-    // const valueTemp = {
-    //   ...search,
-    //   valueSearch: event.target.value,
-    // };
-    // setSearch(valueTemp);
-    setA(event.target.value);
-    console.log(a);
+  useEffect(() => {
+    fetchPagination();
+  }, [pagination]);
+
+  const handleSearch = () => {
+    setPagination({
+      ...pagination,
+      valueSearch: valueSearchChanged,
+    });
   };
 
-  // const handleChangeIndexPagination = (event, value) => {
-  //   const valueTemp = {
-  //     ...search,
-  //     index: value,
-  //   };
-  //   setSearch(valueTemp);
-  //   console.log(search);
-  // };
+  const handleChangeInputSearch = (event) => {
+    valueSearchChanged = event.target.value;
+  };
+
+  const handleChangeIndexPagination = (event, value) => {
+    setPagination({
+      ...pagination,
+      index: value - 1,
+    });
+  };
+
+  const fetchPagination = () => {
+    dispatch(fetchPaginationHotel(pagination));
+  };
 
   return (
     <div>
@@ -60,7 +59,7 @@ const HotelList = ({ hotels }) => {
           />
 
           <Button
-            // onClick={handleSearch}
+            onClick={handleSearch}
             startIcon={<SearchIcon />}
             className={styles.item_search}
           >
@@ -78,15 +77,22 @@ const HotelList = ({ hotels }) => {
         })}
         <Grid item xs={12}>
           <Pagination
-            count={10}
+            count={parseInt((count / paginationInitValue.size).toFixed(0)) + 1}
             color="primary"
-            // onChange={handleChangeIndexPagination}
+            onChange={handleChangeIndexPagination}
             className={styles.pagination}
           />
         </Grid>
       </Grid>
     </div>
   );
+};
+
+export const paginationInitValue = {
+  size: 8,
+  index: 0,
+  valueSearch: "",
+  keySort: "",
 };
 
 export default HotelList;

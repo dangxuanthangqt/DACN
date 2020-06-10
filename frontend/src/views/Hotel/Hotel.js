@@ -15,22 +15,21 @@ import HotelList from "./components/HotelList";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPaginationHotel } from "redux/actionCreators/hotelActionCreator";
 
+import { paginationInitValue } from "./components/HotelList/HotelList";
+
 const Hotel = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      fetchPaginationHotel({
-        size: 8,
-        index: 0,
-        valueSearch: "",
-        keySort: "",
-      })
-    );
+    dispatch(fetchPaginationHotel(paginationInitValue));
   }, [dispatch]);
 
   const hotels = useSelector((state) => {
     return state.hotels.listHotel;
+  });
+
+  const count = useSelector((state) => {
+    return state.hotels.count;
   });
 
   return (
@@ -42,7 +41,7 @@ const Hotel = () => {
             path={ValueRoutes.Hotel.path}
             api={ValueRoutes.Hotel.api}
           />
-          <HotelList hotels={hotels} />
+          <HotelList hotels={hotels} count={count} />
         </div>
       </Container>
     </div>

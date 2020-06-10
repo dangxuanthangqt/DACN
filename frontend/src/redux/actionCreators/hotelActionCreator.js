@@ -12,10 +12,13 @@ export const fetchListHotelRequest = () => {
   };
 };
 
-export const fetchListHotelSuccess = (data) => {
+export const fetchListHotelSuccess = (data, count) => {
   return {
     type: FETCH_LIST_HOTEL_SUCCESS,
-    payload: data,
+    payload: {
+      data,
+      count,
+    },
   };
 };
 

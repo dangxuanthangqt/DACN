@@ -17,24 +17,6 @@ import history from "helper/history";
 
 const uri = "api/hotels";
 
-function* watchFetchListHotel() {
-  yield put({ type: "SHOW_LOADING" });
-
-  try {
-    const res = yield call(axiosService.get, `${uri}`);
-
-    try {
-      yield put(fetchListHotelSuccess(res.data.body));
-    } catch (e) {
-      yield put({ type: "SHOW_LOADING" });
-    }
-  } catch (e) {
-    yield put({ type: "HIDE_LOADING" });
-    yield put(fetchListHotelFailure(e));
-  }
-  yield put({ type: "HIDE_LOADING" });
-}
-
 function* watchCreateNewHotel(action) {
   yield put({ type: "SHOW_LOADING" });
 
@@ -63,7 +45,9 @@ function* watchFetchPagination(action) {
     const res = yield call(axiosService.get, `${url}`);
 
     try {
-      yield put(fetchListHotelSuccess(res.data.body));
+      yield put(
+        fetchListHotelSuccess(res.data.body.hotelDTOs, res.data.body.count)
+      );
     } catch (e) {
       yield put({ type: "SHOW_LOADING" });
     }
@@ -75,7 +59,6 @@ function* watchFetchPagination(action) {
 }
 
 export function* hotelSaga() {
-  yield takeEvery(FETCH_LIST_HOTEL_REQUEST, watchFetchListHotel);
   yield takeEvery(ADD_HOTEL_REQUEST, watchCreateNewHotel);
   yield takeEvery(FETCH_PAGINATION_HOTEL_REQUEST, watchFetchPagination);
 }
