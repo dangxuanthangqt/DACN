@@ -64,8 +64,8 @@ export default [
             href: "/management/orders",
           },
           {
-            title: "test Details",
-            href: "/management/orders/1",
+            title: "Promotion",
+            href: "/management/promotions",
           },
           {
             title: "Hotel",
