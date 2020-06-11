@@ -11,7 +11,7 @@ function GlobalLoading(props) {
     if (!showLoading.showLoading) xhtml = <div></div>;
     else xhtml = (<div style={{
         background: 'rgba(0,0,0,0.4)',
-        zIndex: 999,
+        zIndex: 10000,
         width: '100%',
         height: '100%',
         position: 'fixed',
