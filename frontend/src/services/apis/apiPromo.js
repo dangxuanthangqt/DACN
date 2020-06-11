@@ -12,3 +12,7 @@ export const editPromo =(data)=>{
 export const deletePromo=(id)=>{
     return axiosService.delete(`/api/promos/${id}`);
 }
+export const getAllPromoStillActive=()=>{
+    return axiosService.get("/api/promos/active");
+}
+

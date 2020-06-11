@@ -13,7 +13,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined";
 import ListOutlinedIcon from "@material-ui/icons/ListOutlined";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
+import { deletePromoRequest } from "redux/actionCreators/promoActionCreator";
+import ModalEditPromo from "../ModalEditPromo";
 
 PromoItem.propTypes = {};
 
@@ -21,9 +24,24 @@ function PromoItem(props) {
   const { promoItem } = props;
   const classes = useStyles();
   //console.log(promoItem);
+  const [open, setOpen]= useState(false);
+  const handleOpen=()=>{
+    setOpen(true);
+  }
+  const handleClose=()=>{
+    setOpen(false);
+  }
+  const dispatch=useDispatch();
+  const handleDeletePromo=(id)=>{
+    if(window.confirm("Do you want to delete this promotion ?")){
+        dispatch(deletePromoRequest(id));
+    }
+  }
   return (
+    <Fragment>
+    <ModalEditPromo open={open} handleClose={handleClose} promoItem ={promoItem}></ModalEditPromo>
     <Grid item xs={3}>
-      <Card className={classes.root}>
+      <Card className={classes.root}> 
         <CardMedia
           className={classes.media}
           image={promoItem.roomType.thumbnail}
@@ -45,15 +63,19 @@ function PromoItem(props) {
         </CardContent>
 
         <CardActions>
-          <IconButton size="small" className={classes.btnDelete}>
+          <IconButton
+          onClick={()=>{handleDeletePromo(promoItem.id)}}
+          
+          size="small" className={classes.btnDelete}>
             <HighlightOffOutlinedIcon></HighlightOffOutlinedIcon>
           </IconButton>
-          <IconButton size="small" className={classes.btnEdit}>
+          <IconButton onClick={handleOpen} size="small" className={classes.btnEdit}>
             <ListOutlinedIcon></ListOutlinedIcon>
           </IconButton>
         </CardActions>
       </Card>
     </Grid>
+    </Fragment>
   );
 }
 const useStyles = makeStyles((theme) => ({

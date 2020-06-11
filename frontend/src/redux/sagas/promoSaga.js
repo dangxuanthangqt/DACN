@@ -1,26 +1,71 @@
-import { takeLatest, call, put, delay } from "redux-saga/effects";
-import {
-  FETCH_LIST_ROOMTYPE_REQUEST1,
-  ADD_PROMO_REQUEST,
-  ADD_PROMO_SUCCESS,
-  FETCH_LIST_PROMOS_REQUEST,
-} from "redux/actionTypes/promoActionType";
-import axiosService from "services/axios/axiosService";
-import {
-  fetchListRoomtypeSuccess1,
-  fetchListPromoSuccess,
-  addPromoSuccess,
-  fetchListPromoRequest,
-  fetchLengthPromoSuccess,
-} from "redux/actionCreators/promoActionCreator";
 import { toastifyError, toastifySuccess } from "helper/Toastify";
-
-import { addNewPromo, getAllPromo } from "services/apis/apiPromo";
+import { call, delay, put, takeLatest } from "redux-saga/effects";
+import {
+  fetchLengthPromoSuccess,
+  fetchListPromoRequest,
+  fetchListPromoSuccess,
+  fetchListRoomtypeSuccess1,
+  fetchListActivePromoSuccess,
+} from "redux/actionCreators/promoActionCreator";
+import {
+  ADD_PROMO_REQUEST,
+  FETCH_LIST_PROMOS_REQUEST,
+  FETCH_LIST_ROOMTYPE_REQUEST1,
+  DELETE_PROMO_REQUEST,
+  FETCH_LIST_ACTIVE_PROMO_REQUEST,
+  EDIT_PROMO_REQUEST,
+} from "redux/actionTypes/promoActionType";
+import {
+  addNewPromo,
+  getAllPromo,
+  deletePromo,
+  getAllPromoStillActive,
+  editPromo,
+} from "services/apis/apiPromo";
+import axiosService from "services/axios/axiosService";
 
 export function* promoSaga() {
   yield takeLatest(FETCH_LIST_ROOMTYPE_REQUEST1, watchFetchListRoomtype);
   yield takeLatest(ADD_PROMO_REQUEST, watchAddPromo);
   yield takeLatest(FETCH_LIST_PROMOS_REQUEST, watchFetchListPromos);
+  yield takeLatest(DELETE_PROMO_REQUEST, watchDeletePromo);
+  yield takeLatest(FETCH_LIST_ACTIVE_PROMO_REQUEST, watchFetchListActivePromo);
+  yield takeLatest(EDIT_PROMO_REQUEST, watchEditPromo);
+}
+function* watchEditPromo({ payload }) {
+  console.log(payload);
+  yield put({ type: "SHOW_LOADING" });
+  try {
+    yield call(editPromo, payload);
+    yield call(toastifySuccess, "Edit promotion successfully ! ");
+
+    yield put(fetchListPromoRequest());
+  } catch (e) {
+    yield call(toastifyError,"ERROR !");
+    yield delay(500);
+    yield put({ type: "HIDE_LOADING" });
+  }
+}
+function* watchFetchListActivePromo({ payload }) {
+  yield put({ type: "SHOW_LOADING" });
+  try {
+    const res = yield call(getAllPromoStillActive);
+    yield put(fetchListActivePromoSuccess(res.data.body));
+    yield delay(500);
+    yield put({ type: "HIDE_LOADING" });
+  } catch (e) {
+    yield delay(500);
+    yield put({ type: "HIDE_LOADING" });
+  }
+}
+function* watchDeletePromo({ payload }) {
+  try {
+    const res = yield call(deletePromo, payload);
+    yield call(toastifySuccess, "DELETE PROMO SUCCESSFULLY !");
+    yield put(fetchListPromoRequest());
+  } catch (e) {
+    yield call(toastifyError, "DELETE FAILURE !");
+  }
 }
 function* watchFetchListPromos() {
   yield put({ type: "SHOW_LOADING" });
@@ -74,8 +119,8 @@ function* watchAddPromo({ payload }) {
     const res = yield call(addNewPromo, data);
     yield call(toastifySuccess, "Add promotion successfully !");
     yield put(fetchListPromoRequest());
-    yield delay(500);
-    yield put({ type: "HIDE_LOADING" });
+    // yield delay(500);
+    // yield put({ type: "HIDE_LOADING" });
   } catch (e) {
     yield call(toastifyError, "Error !");
     yield delay(500);

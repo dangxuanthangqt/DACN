@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { FETCH_LIST_ROOMTYPE_SUCCESS1, ADD_PROMO_SUCCESS, FETCH_LIST_PROMOS_SUCCESS, FETCH_LENGTH_PROMO_SUCCESS } from 'redux/actionTypes/promoActionType';
+import { FETCH_LIST_ROOMTYPE_SUCCESS1, ADD_PROMO_SUCCESS, FETCH_LIST_PROMOS_SUCCESS, FETCH_LENGTH_PROMO_SUCCESS, FETCH_LIST_ACTIVE_PROMO_SUCCESS } from 'redux/actionTypes/promoActionType';
 
 
 const initialState = {
@@ -78,6 +78,10 @@ var myReducer = (state = initialState, action) => (
             }
             case FETCH_LENGTH_PROMO_SUCCESS:{
                 draft.length = action.payload;
+                return draft;
+            }
+            case FETCH_LIST_ACTIVE_PROMO_SUCCESS:{
+                draft.listPromos = action.payload;
                 return draft;
             }
             default:

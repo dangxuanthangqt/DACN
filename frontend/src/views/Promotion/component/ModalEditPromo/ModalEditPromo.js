@@ -9,18 +9,23 @@ import {
 import Backdrop from "@material-ui/core/Backdrop";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addPromoRequest } from "redux/actionCreators/promoActionCreator";
+import {
+  addPromoRequest,
+  editPromoRequest,
+} from "redux/actionCreators/promoActionCreator";
 import * as Yup from "yup";
-import MySelect from "./MySelect";
-ModalAddPromo.propTypes = {};
 
-function ModalAddPromo(props) {
+ModalEditPromo.propTypes = {};
+
+function ModalEditPromo(props) {
+  const { promoItem } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const { open, handleClose } = props;
+
   return (
     <div>
       <Modal
@@ -37,25 +42,50 @@ function ModalAddPromo(props) {
         }}
       >
         <Card className={classes.root}>
-          <CardHeader title="ADD PROMOTION"></CardHeader>
+          <CardHeader title="EDIT PROMOTION"></CardHeader>
           <CardContent>
             <Formik
-              initialValues={initialValue}
+              initialValues={{
+                description: promoItem.description,
+                dollarDiscount: promoItem.dollarDiscount,
+                startDate: new Date(promoItem.startDate),
+                endDate: new Date(promoItem.endDate),
+                roomType: promoItem.roomType.name,
+                percentDiscount: promoItem.percentDiscount,
+                promoCode: promoItem.promoCode,
+              }}
               validationSchema={validationSchema}
               onSubmit={(values) => {
-                dispatch(addPromoRequest(values));
+                let temp = {
+                  description: values.description,
+                  dollarDiscount: values.dollarDiscount,
+                  id: promoItem.id,
+                  roomType: {
+                    id: promoItem.roomType.id,
+                  },
+                  startDate: values.startDate,
+                  endDate: values.endDate,
+                  percentDiscount: values.percentDiscount,
+                  promoCode: values.promoCode,
+                };
+                dispatch(editPromoRequest(temp));
                 handleClose();
               }}
             >
               {(props) => {
                 return (
                   <Form className={classes.fields}>
-                    <Field
-                      name="roomTypeId"
-                      component={MySelect}
-                      label="Roomtype"
-                      placeholder="Select roomtype"
-                    ></Field>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      name="RoomType"
+                      label="RoomType"
+                      value={props.values.roomType}
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      disabled
+                      variant="outlined"
+                    ></TextField>
                     <TextField
                       error={
                         props.errors.description && props.touched.description
@@ -78,6 +108,7 @@ function ModalAddPromo(props) {
                       rows="2"
                       variant="outlined"
                     ></TextField>
+
                     <TextField
                       error={
                         props.errors.dollarDiscount &&
@@ -204,15 +235,7 @@ function ModalAddPromo(props) {
     </div>
   );
 }
-const initialValue = {
-  description: "",
-  dollarDiscount: "",
-  startDate: new Date(),
-  endDate: new Date(),
-  roomTypeId: "",
-  percentDiscount: "",
-  promoCode: "",
-};
+
 const validationSchema = Yup.object().shape({
   description: Yup.string().required("Description is require"),
   dollarDiscount: Yup.number()
@@ -223,7 +246,6 @@ const validationSchema = Yup.object().shape({
     .min(0, "Min 0% ")
     .max(100, "Max 100% "),
   promoCode: Yup.string().required("PromoCode is requied !"),
-  roomTypeId: Yup.number().required("Require !"),
 });
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -254,4 +276,4 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.error.light,
   },
 }));
-export default ModalAddPromo;
+export default ModalEditPromo;
