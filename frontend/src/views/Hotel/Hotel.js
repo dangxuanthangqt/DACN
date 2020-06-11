@@ -13,16 +13,23 @@ import HotelList from "./components/HotelList";
 
 //import redux fuc
 import { useDispatch, useSelector } from "react-redux";
-import { fetchListHotelRequest } from "redux/actionCreators/hotelActionCreator";
+import { fetchPaginationHotel } from "redux/actionCreators/hotelActionCreator";
+
+import { paginationInitValue } from "./components/HotelList/HotelList";
 
 const Hotel = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchListHotelRequest());
+    dispatch(fetchPaginationHotel(paginationInitValue));
   }, [dispatch]);
 
   const hotels = useSelector((state) => {
     return state.hotels.listHotel;
+  });
+
+  const count = useSelector((state) => {
+    return state.hotels.count;
   });
 
   return (
@@ -32,8 +39,9 @@ const Hotel = () => {
           <HeaderManagementList
             title={ValueRoutes.Hotel.name}
             path={ValueRoutes.Hotel.path}
+            api={ValueRoutes.Hotel.api}
           />
-          <HotelList hotels={hotels} />
+          <HotelList hotels={hotels} count={count} />
         </div>
       </Container>
     </div>

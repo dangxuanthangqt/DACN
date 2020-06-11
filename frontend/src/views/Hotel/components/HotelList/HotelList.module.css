@@ -1,0 +1,15 @@
+.pagination {
+  float: right;
+}
+.container_search {
+  margin-bottom: 10px;
+}
+.item_search {
+  display: inline;
+  margin: 5px;
+}
+
+.pagination {
+  width: 50%;
+  float: right;
+}

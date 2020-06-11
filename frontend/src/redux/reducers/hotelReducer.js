@@ -14,7 +14,8 @@ var myReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case FETCH_LIST_HOTEL_SUCCESS: {
-        draft.listHotel = action.payload;
+        draft.listHotel = action.payload.data;
+        draft.count = action.payload.count;
         return draft;
       }
       case FETCH_LIST_HOTEL_FAILURE: {
