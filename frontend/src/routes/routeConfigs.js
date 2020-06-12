@@ -49,6 +49,13 @@ export const privateRoutes = [
     layout: Dashboardlayout,
     subroutes: [
       {
+        key: "OverView",
+        path: "/overview",
+        exact: true,
+        component: lazy(() => import("../views/Overview")),
+      }
+      ,
+      {
         key: "test",
         path: "/test",
         exact: true,

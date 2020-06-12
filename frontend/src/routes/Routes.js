@@ -6,7 +6,7 @@ import { privateRoutes, publicRoutes } from "./routeConfigs";
 const Routes = () => {
   return (
     <Switch>
-      <Redirect exact from="/" to="/test"></Redirect>
+      <Redirect exact from="/" to="/overview"></Redirect>
       {publicRoutes.map((element, index) => {
         let temp = element.subroutes.map((e, i) => e.path);
         return (
