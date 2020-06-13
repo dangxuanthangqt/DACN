@@ -6,26 +6,7 @@ import { privateRoutes, publicRoutes } from "./routeConfigs";
 const Routes = () => {
   return (
     <Switch>
-      {/* <Route exact path={['/auth/login','/auth/register']}>
-            <AuthLayout>
-                <Switch>
-                    {
-                        publicRouteAuth.map((element)=>{
-                            return (
-                                <PublicRoutes 
-                                {...element}
-                                
-                                >
-
-                                </PublicRoutes>
-                            )
-                        })
-                    }
-                </Switch>
-            </AuthLayout>
-           </Route>
-        */}
-      <Redirect exact from="/" to="/test"></Redirect>
+      <Redirect exact from="/" to="/overview"></Redirect>
       {publicRoutes.map((element, index) => {
         let temp = element.subroutes.map((e, i) => e.path);
         return (
@@ -62,36 +43,6 @@ const Routes = () => {
           </Route>
         );
       })}
-
-      {/* {
-                privateRoutes.map((element, index)=>{
-                    let temp = element.subroutes.map((e, i)=> e.path)
-                    return (
-                        <Route key={index} path={temp}>
-                            <element.layout>
-                                <Switch>
-
-                                
-                                {
-                                    element.subroutes.map((element, index)=>{
-                                        return (
-                                            <PrivateRoutes
-                                            {...element}
-                                            >
-
-                                            </PrivateRoutes>
-                                        )
-                                    
-                                    })
-                                }
-                                </Switch>
-                            </element.layout>
-                        </Route>
-                    )
-
-                })
-            } */}
-
       <Route
         path="*"
         render={() => <Redirect to="/errors/error-404"></Redirect>}
