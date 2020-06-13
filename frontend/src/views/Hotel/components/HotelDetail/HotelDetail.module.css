@@ -1,0 +1,51 @@
+.container_header {
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.line_title {
+  width: 10rem;
+  height: 5px;
+  background: rgb(227, 242, 253);
+  margin: 1.7rem auto;
+}
+.card_title_content {
+  color: #fff;
+  height: 200px;
+  margin: auto;
+  display: inline-block;
+  padding: 2rem 8rem;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  letter-spacing: 3px;
+  text-transform: capitalize;
+}
+
+.container_list_image_item {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.img_item {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+}
+
+.content_description {
+  width: 100%;
+}
+
+.container_item {
+  margin-top: 20px;
+}
+
+.btn_action {
+  width: 80%;
+}
+
+.item_btn {
+  text-align: center;
+}
+
+

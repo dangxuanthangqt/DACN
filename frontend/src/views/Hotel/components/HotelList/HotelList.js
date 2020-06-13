@@ -30,8 +30,6 @@ const HotelList = ({ hotels, count }) => {
   }, [pagination]);
 
   useEffect(() => {
-    console.log(activeStep);
-
     setPagination({
       ...pagination,
       index: activeStep,

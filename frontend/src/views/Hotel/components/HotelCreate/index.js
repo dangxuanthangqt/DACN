@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Dropzone from "react-dropzone";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
+
+import RUG from "react-upload-gallery";
+import "react-upload-gallery/dist/style.css";
 
 //material-ui
 import { Container } from "@material-ui/core";
@@ -36,15 +38,9 @@ const HotelCreate = () => {
 
   const values = { name: "", description: "", images: [] };
 
-  const onHandleDropImages = (acceptedFiles, props) => {};
+  const submit = async (data) => {
+    data.images = await uploadImagesToFirebase();
 
-  const submit = (data) => {
-    // covert data images
-    data.images = data.images.map((item) => {
-      return {
-        name: item,
-      };
-    });
     dispatch(addNewHotel(data));
   };
 
@@ -55,6 +51,38 @@ const HotelCreate = () => {
 
     history.push(path);
   };
+
+  const handleChangeImages = (images) => {
+    if (images) {
+      const fileImages = images.map((item) => {
+        return item.file;
+      });
+      setImages(fileImages);
+    }
+  };
+
+  const uploadImagesToFirebase = async () => {
+    dispatch({ type: "SHOW_LOADING" });
+
+    let result = [];
+
+    for (let i = 0; i < images.length; ++i) {
+      const snapshot = await storage
+        .ref("hotel")
+        .child(images[i].name)
+        .put(images[i], {
+          contentType: images[i].type,
+        });
+
+      const url = await snapshot.ref.getDownloadURL();
+
+      result.push({ name: url });
+      dispatch({ type: "HIDE_LOADING" });
+    }
+
+    return result;
+  };
+
   return (
     <Container className={styles.container_header}>
       <div>
@@ -117,55 +145,42 @@ const HotelCreate = () => {
                       </Grid>
 
                       <Grid item xs={12} className={styles.gird_item}>
-                        <Dropzone
-                          className={styles.drop_img}
-                          accept="image/*"
-                          onDrop={(acceptedFiles) => {
-                            dispatch({ type: "SHOW_LOADING" });
-                            storage
-                              .ref("hotel")
-                              .child(acceptedFiles[0].name)
-                              .put(acceptedFiles[0], {
-                                contentType: acceptedFiles[0].type,
-                              })
-                              .then((snapshot) => {
-                                snapshot.ref.getDownloadURL().then((url) => {
-                                  dispatch({ type: "HIDE_LOADING" });
-                                  props.setFieldValue(
-                                    "images",
-                                    props.values.images.concat(url)
-                                  );
-                                  setImages([...images, url]);
-                                });
-                              });
+                        <RUG
+                          action="null"
+                          rules={{
+                            limit: 5,
                           }}
-                        >
-                          {({ isDragActive, isDragReject }) => {
-                            if (isDragActive) {
-                              return "This file is authorized";
-                            }
+                          accept={["jpg", "jpeg", "png"]}
+                          onWarning={(type, rules) => {
+                            switch (type) {
+                              case "accept":
+                                console.log(`Only ${rules.accept.join(", ")}`);
 
-                            if (isDragReject) {
-                              return "This file is not authorized";
-                            }
+                              case "limit":
+                                console.log("limit <= ", rules.limit);
 
-                            if (images && images.length != 0) {
-                              return images.map((item, index) => (
-                                <img
-                                  src={item}
-                                  key={index}
-                                  className={styles.img_upload}
-                                />
-                              ));
+                              case "size":
+                                console.log("max size <= ", rules.size);
+
+                              case "minWidth":
+                              case "minHeight":
+                                console.log(
+                                  "Dimensions > ",
+                                  `${rules.width.min}x${rules.height.min}`
+                                );
+
+                              case "maxWidth":
+                              case "maxHeight":
+                                console.log(
+                                  "Dimensions < ",
+                                  `${rules.width.max}x${rules.height.max}`
+                                );
+
+                              default:
                             }
-                            return <p>Up load image in here!!!</p>;
                           }}
-                        </Dropzone>
-                        {props.errors.images ? (
-                          <small style={{ color: "red", float: "left" }}>
-                            {props.errors.images}
-                          </small>
-                        ) : null}
+                          onChange={handleChangeImages}
+                        />
                       </Grid>
                     </Grid>
                     <Grid container spacing={2}>
@@ -209,7 +224,7 @@ const validationSchema = Yup.object().shape({
   description: Yup.string("Enter a description").required(
     "Description is required"
   ),
-  images: Yup.array().required("Images is required !"),
+  // images: Yup.array().required("Images is required !"),
 });
 
 export default HotelCreate;

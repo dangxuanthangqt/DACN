@@ -110,6 +110,12 @@ export const privateRoutes = [
         exact: true,
         component: lazy(() => import("../views/Hotel/components/HotelCreate")),
       },
+      {
+        key: "hotel_detail",
+        path: "/management/hotel/detail/:id",
+        exact: true,
+        component: lazy(() => import("../views/Hotel/components/HotelDetail")),
+      },
     ],
   },
 ];

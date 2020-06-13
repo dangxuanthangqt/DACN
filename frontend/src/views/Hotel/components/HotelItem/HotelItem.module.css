@@ -1,0 +1,8 @@
+.card_content {
+  background-color: var(--darkGrey);
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: var(--mainSpacing);
+  font-weight: 700px;
+  border-radius: 5px;
+}

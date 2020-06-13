@@ -6,11 +6,14 @@ import {
   FETCH_LIST_HOTEL_REQUEST,
   ADD_HOTEL_REQUEST,
   FETCH_PAGINATION_HOTEL_REQUEST,
+  FETCH_HOTEL_DETAIL_REQUEST,
 } from "../actionTypes/hotelActionType";
 
 import {
   fetchListHotelSuccess,
   fetchListHotelFailure,
+  fetchDetailHotelSuccess,
+  fetchDetailHotelFailure,
 } from "redux/actionCreators/hotelActionCreator";
 
 import history from "helper/history";
@@ -58,7 +61,25 @@ function* watchFetchPagination(action) {
   yield put({ type: "HIDE_LOADING" });
 }
 
+function* watchFetchDetailHotel(action) {
+  try {
+    const { payload } = action;
+
+    const url = `${uri}/${payload}`;
+    const res = yield call(axiosService.get, `${url}`);
+    try {
+      yield put(fetchDetailHotelSuccess(res.data.body));
+    } catch (e) {
+      yield put({ type: "SHOW_LOADING" });
+    }
+  } catch (e) {
+    yield put({ type: "HIDE_LOADING" });
+    yield put(fetchListHotelFailure(e));
+  }
+  yield put({ type: "HIDE_LOADING" });
+}
 export function* hotelSaga() {
   yield takeEvery(ADD_HOTEL_REQUEST, watchCreateNewHotel);
   yield takeEvery(FETCH_PAGINATION_HOTEL_REQUEST, watchFetchPagination);
+  yield takeEvery(FETCH_HOTEL_DETAIL_REQUEST, watchFetchDetailHotel);
 }

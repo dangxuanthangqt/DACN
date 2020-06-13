@@ -6,16 +6,25 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import CardActions from "@material-ui/core/CardActions";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
+
+import { privateRoutes } from "routes/routeConfigs";
+import history from "helper/history";
 
 import styles from "./HotelItem.module.css";
 
 const HotelItem = ({ hotel }) => {
+  const handleClickToHotelDetail = () => {
+    const { path } = privateRoutes[0].subroutes.find(
+      (item) => item.key === "hotel_detail"
+    );
+
+    const url = path.replace(":id", `${hotel.id}`);
+    history.push(url);
+  };
+
   return (
     <Card>
-      <CardActionArea>
+      <CardActionArea onClick={handleClickToHotelDetail}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
@@ -25,21 +34,19 @@ const HotelItem = ({ hotel }) => {
         />
 
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {hotel.name}
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            className={styles.card_content}
+          >
+            {hotel.name.toUpperCase()}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {hotel.description}
+            {hotel.description.substring(0, 69)} ...
           </Typography>
         </CardContent>
       </CardActionArea>
-
-      <CardActions>
-        <Button size="small" color="primary">
-          <BorderColorIcon color="primary" />
-          Detail
-        </Button>
-      </CardActions>
     </Card>
   );
 };

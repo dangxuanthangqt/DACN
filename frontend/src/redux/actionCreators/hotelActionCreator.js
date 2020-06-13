@@ -4,6 +4,9 @@ import {
   FETCH_LIST_HOTEL_SUCCESS,
   ADD_HOTEL_REQUEST,
   FETCH_PAGINATION_HOTEL_REQUEST,
+  FETCH_HOTEL_DETAIL_REQUEST,
+  FETCH_HOTEL_DETAIL_REQUEST_FAILURE,
+  FETCH_HOTEL_DETAIL_REQUEST_SUCCESS,
 } from "redux/actionTypes/hotelActionType";
 
 export const fetchListHotelRequest = () => {
@@ -40,5 +43,28 @@ export const fetchPaginationHotel = (paginationData) => {
   return {
     type: FETCH_PAGINATION_HOTEL_REQUEST,
     payload: paginationData,
+  };
+};
+
+export const fetchDetailHotelRequest = (id) => {
+  return {
+    type: FETCH_HOTEL_DETAIL_REQUEST,
+    payload: id,
+  };
+};
+
+export const fetchDetailHotelSuccess = (data) => {
+  return {
+    type: FETCH_HOTEL_DETAIL_REQUEST_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};
+
+export const fetchDetailHotelFailure = (error) => {
+  return {
+    type: FETCH_HOTEL_DETAIL_REQUEST_FAILURE,
+    payload: error,
   };
 };
