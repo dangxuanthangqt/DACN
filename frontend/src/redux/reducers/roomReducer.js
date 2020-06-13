@@ -1,0 +1,30 @@
+import produce from "immer";
+import {
+  FETCH_LIST_HOTEL_OPTION_SUCCESS,
+  SELECT_BRAND_OF_HOTEL,
+  GET_ALL_ROOM_BY_BRANDID_SUCCESS,
+} from "redux/actionTypes/roomActionType";
+
+const initialState = {
+  listHotel: [],
+  brandSelected: {},
+  listRoomOfBrand: [],
+};
+const myReducer = (state = initialState, action) => {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case FETCH_LIST_HOTEL_OPTION_SUCCESS:
+        draft.listHotel = action.payload;
+        return draft;
+      case SELECT_BRAND_OF_HOTEL:
+        draft.brandSelected = action.payload;
+        return draft;
+      case GET_ALL_ROOM_BY_BRANDID_SUCCESS:
+        draft.listRoomOfBrand= action.payload;
+        return draft;
+      default:
+        return draft;
+    }
+  });
+};
+export default myReducer;

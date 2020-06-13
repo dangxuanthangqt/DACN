@@ -123,6 +123,12 @@ export const privateRoutes = [
         exact: true,
         component: lazy(() => import("../views/Promotion")),
       },
+      {
+        key: "room",
+        path: "/management/rooms",
+        exact: true,
+        component: lazy(() => import("../views/RoomManagement")),
+      }
     ],
   },
 ];
