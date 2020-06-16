@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select'
+import { useDispatch } from 'react-redux';
+import { resetStateOnRedux } from 'redux/actionCreators/roomActionCreator';
 HotelSelection.propTypes = {
     
 };
 
 function HotelSelection(props) {
     const listHotel = props.listHotel.map(item=> { return {value: item.id, label: item.name}});
+    const dispatch = useDispatch();
     const {handleChangeListBrand} = props;
     const handleChange=(values)=>{
         handleChangeListBrand(values);
+        dispatch(resetStateOnRedux());
     }
     return (
        <Select
-       placeholder="Please chose a hotel."
+       placeholder="Please select a hotel."
        options={listHotel}
        onChange={handleChange}
        formatGroupLabel={formatGroupLabel}

@@ -2,6 +2,7 @@ import { Grid, Button, Container } from "@material-ui/core";
 import React, { useState } from "react";
 import BrandSelection from "./BrandSelection";
 import HotelSelection from "./HotelSelection";
+import { toastifyError } from "helper/Toastify";
 
 Action.propTypes = {};
 
@@ -20,7 +21,7 @@ function Action(props) {
   };
   const handleAddRoom = () => {
     if (listBrand.length === 0 || brandSelected === null) {
-      window.alert("Please chose hotel and brand :(");
+      toastifyError("Please chose hotel and brand ");
     } else {
       handleOpen();
     }

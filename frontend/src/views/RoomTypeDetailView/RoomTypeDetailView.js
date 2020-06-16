@@ -83,7 +83,7 @@ function RoomTypeDetailView(props) {
 
     }, [dispatch]);
     const handleDeleteRoomtype =()=>{
-        if(window.confirm("Do you want to delete this roomtype?")){
+        if(window.confirm("Do you want to delete this roomtype 🙄🙄🙄?")){
             dispatch(deleteRoomtypeRequest(match.params.id));
         }
        

@@ -3,12 +3,18 @@ import {
   FETCH_LIST_HOTEL_OPTION_SUCCESS,
   SELECT_BRAND_OF_HOTEL,
   GET_ALL_ROOM_BY_BRANDID_SUCCESS,
+  RESET_ROOMS_STATE_ON_REDUX,
+  PUSH_ROOM_ITEM_DATA_TO_STORE,
 } from "redux/actionTypes/roomActionType";
 
 const initialState = {
   listHotel: [],
   brandSelected: {},
   listRoomOfBrand: [],
+  roomSelected: {
+    roomType: {},
+    brand: {},
+  },
 };
 const myReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
@@ -20,7 +26,14 @@ const myReducer = (state = initialState, action) => {
         draft.brandSelected = action.payload;
         return draft;
       case GET_ALL_ROOM_BY_BRANDID_SUCCESS:
-        draft.listRoomOfBrand= action.payload;
+        draft.listRoomOfBrand = action.payload;
+        return draft;
+      case RESET_ROOMS_STATE_ON_REDUX:
+        draft.brandSelected = {};
+        draft.listRoomOfBrand = [];
+        return draft;
+      case PUSH_ROOM_ITEM_DATA_TO_STORE:
+        draft.roomSelected = action.payload;
         return draft;
       default:
         return draft;

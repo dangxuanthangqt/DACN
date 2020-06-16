@@ -29,7 +29,7 @@ function BrandSelection(props) {
     return (
         <Select
         value={value}
-        placeholder="Please chose brand of hotel."
+        placeholder="Please select brand of hotel."
         onChange={handleChange}
         options={ optionBrand}
         >

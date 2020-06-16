@@ -33,7 +33,7 @@ function PromoItem(props) {
   }
   const dispatch=useDispatch();
   const handleDeletePromo=(id)=>{
-    if(window.confirm("Do you want to delete this promotion ?")){
+    if(window.confirm("Do you want to delete this promotion 🙄🙄🙄?")){
         dispatch(deletePromoRequest(id));
     }
   }

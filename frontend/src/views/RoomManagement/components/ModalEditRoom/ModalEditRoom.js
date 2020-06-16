@@ -7,21 +7,21 @@ import {
   TextField,
 } from "@material-ui/core";
 import Backdrop from "@material-ui/core/Backdrop";
-import { KeyboardDatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { editRoomRequest } from "redux/actionCreators/roomActionCreator.js";
 import * as Yup from "yup";
 import MySelect from "./MySelect.js";
-import { addRoomRequest } from "redux/actionCreators/roomActionCreator.js";
-ModalAddRoom.propTypes = {};
 
-function ModalAddRoom(props) {
+ModalEditRoom.propTypes = {};
+
+function ModalEditRoom(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const brandSelected = useSelector((state) => state.rooms.brandSelected);
+  const roomSelected = useSelector((state) => state.rooms.roomSelected);
+  
   const { open, handleClose } = props;
   return (
     <div>
@@ -39,33 +39,48 @@ function ModalAddRoom(props) {
         }}
       >
         <Card className={classes.root}>
-          <CardHeader title="ADD ROOM"></CardHeader>
+          <CardHeader title="EDIT ROOM"></CardHeader>
           <CardContent>
             <Formik
-              initialValues={initialValue}
+              initialValues={{
+                id: roomSelected.id,
+                floor: roomSelected.floor,
+                roomTypeId: roomSelected.roomType.id,
+                price: roomSelected.roomType.price,
+                brand: roomSelected.brand.name,
+                name: roomSelected.name,
+                size: roomSelected.roomType.size,
+              }}
               validationSchema={Yup.object().shape({
                 floor: Yup.number()
-                  .required("floor is require")
+                  .required("Floor is require")
                   .min(1, "Minimum 1.")
-                  .max(brandSelected.floor, `Maximum ${brandSelected.floor}`),
+                  .max(
+                    roomSelected.brand.floor,
+                    `Maximum ${roomSelected.brand.floor}`
+                  ),
                 name: Yup.number()
-                  .required("name is Required")
+                  .required("Name of room is Required")
                   .min(100, "Minimum 100")
-                  .max(brandSelected.floor*100+99, `Maximum ${brandSelected.floor*100+99}`),
+                  .max(
+                    roomSelected.brand.floor * 100 + 99,
+                    `Maximum ${roomSelected.brand.floor * 100 + 99}`
+                  ),
                 roomTypeId: Yup.number().required("Require !"),
               })}
               onSubmit={(values) => {
-                let temp={
-                    floor: values.floor,
-                    name: values.name,
-                    roomType : {
-                        id: values.roomTypeId
-                    },
-                    brand:{
-                        id: brandSelected.id
-                    }
-                }
-                dispatch(addRoomRequest(temp));
+                let temp = {
+                  id: values.id,
+                  floor: values.floor,
+                  name: values.name,
+                  roomType: {
+                    id: values.roomTypeId,
+                  },
+                  brand: {
+                    id: roomSelected.brand.id,
+                  },
+                };
+                dispatch(editRoomRequest(temp));
 
                 handleClose();
               }}
@@ -73,6 +88,15 @@ function ModalAddRoom(props) {
               {(props) => {
                 return (
                   <Form className={classes.fields}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      name="brand"
+                      label="Brand"
+                      value={props.values.brand}
+                      disabled
+                      variant="outlined"
+                    ></TextField>
                     <Field
                       name="roomTypeId"
                       component={MySelect}
@@ -118,10 +142,26 @@ function ModalAddRoom(props) {
                       onBlur={props.handleBlur}
                       variant="outlined"
                     ></TextField>
-
-                    
-
-                    <div style={{ display: "flex", marginTop:"5em" }}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      name="price"
+                      label="Price"
+                      placeholder="Price of room"
+                      value={props.values.price}
+                      disabled
+                      variant="outlined"
+                    ></TextField>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      name="size"
+                      label="Size"
+                      value={props.values.size}
+                      disabled
+                      variant="outlined"
+                    ></TextField>
+                    <div style={{ display: "flex" }}>
                       <Button
                         color="primary"
                         fullWidth
@@ -150,12 +190,6 @@ function ModalAddRoom(props) {
     </div>
   );
 }
-const initialValue = {
-  floor: "",
-  id: "",
-  name: "",
-  roomTypeId: "",
-};
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -165,7 +199,6 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: "30%",
-    height:"70%"
   },
   fields: {
     margin: theme.spacing(-1),
@@ -176,15 +209,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    // border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
   btnCancel: {
     width: "100%",
     backgroundColor: theme.palette.error.light,
   },
 }));
-export default ModalAddRoom;
+export default ModalEditRoom;
