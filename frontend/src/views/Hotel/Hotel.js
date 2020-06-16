@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPaginationHotel } from "redux/actionCreators/hotelActionCreator";
 
 import { paginationInitValue } from "./components/HotelList/HotelList";
-
 const Hotel = () => {
   const dispatch = useDispatch();
 
