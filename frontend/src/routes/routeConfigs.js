@@ -56,12 +56,6 @@ export const privateRoutes = [
       }
       ,
       {
-        key: "test",
-        path: "/test",
-        exact: true,
-        component: lazy(() => import("../views/Test/Test")),
-      },
-      {
         key: "room type",
         path: "/management/room-types",
         exact: true,

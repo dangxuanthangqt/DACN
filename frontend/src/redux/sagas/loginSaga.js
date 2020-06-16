@@ -28,7 +28,7 @@ function* watchLogin({ payload }) {
             yield call(setAccessToken, res.data.body.token);
            // console.log(res.data.body.token);
             yield put(loginSuccess(res.data.body.token));
-            yield call(history.push, '/test');
+            yield call(history.push, '/overview');
         }else {
             yield call(toastifyError,"Please login with admin role !")
         }
