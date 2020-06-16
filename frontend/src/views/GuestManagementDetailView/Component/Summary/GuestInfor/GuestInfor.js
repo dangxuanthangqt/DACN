@@ -48,19 +48,19 @@ const GuestInfor = (props) => {
 
   const dispatch = useDispatch();
   const handleChangeStatus = () => {
-    if (window.confirm("Do you want to change status this user?")) {
+    if (window.confirm("Do you want to change status this user? 🙄🙄🙄")) {
       dispatch(changeStatusRequest(guestInfor.id));
       //console.log('aaaaaaaaaaaaaaaa')
     }
   }
   const handleUptoAdmin = () => {
-    if (window.confirm("Up to admin ?")) {
+    if (window.confirm("Up to admin 🙄🙄🙄?")) {
       dispatch(uptoAdminRequest(guestInfor.id));
       //console.log('aaaaaaaaaaaaaaaa')
     }
   }
   const handleDeleteUser = () => {
-    if (window.confirm("Do you want to delete this user?")) {
+    if (window.confirm("Do you want to delete this user 🙄🙄🙄?")) {
       dispatch(deleteUserRequest(guestInfor.id))
     }
   }

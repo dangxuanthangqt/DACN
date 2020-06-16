@@ -14,7 +14,7 @@ function MySelect(props) {
     const {field, form , label, placeholder} = props;
     const {name, value }= field;
     const options= useSelector(state => state.promotions.roomtypeSelect);
-    const selectedOption = options.find(item=> item.value === value);
+    const selectedOption = options.find(item=> item === value);
     const dispatch =useDispatch();
     const handleChange =(selectedOption)=>{
         const changeEvent ={
