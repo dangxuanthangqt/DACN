@@ -16,7 +16,10 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { useSelector, useDispatch } from "react-redux";
 import Warning from "./Warning";
-import { deleteRoomRequest,pushRoomItemDataToStore } from "redux/actionCreators/roomActionCreator";
+import {
+  deleteRoomRequest,
+  pushRoomItemDataToStore,
+} from "redux/actionCreators/roomActionCreator";
 import ModalEditRoom from "../ModalEditRoom";
 
 ListRoomOfBrand.propTypes = {};
@@ -41,73 +44,76 @@ function ListRoomOfBrand(props) {
   };
   const Result = () => {
     const temp = [];
-    for (let i = 1; i <= brandSelected.floor; i++) {
+    for (var i = 1; i <= brandSelected.floor; i++) {
+      let temp1 = listRoomOfBrand.filter((item, index) => item.floor === i);
+
+      temp1.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        } else if (a.name < b.name) return -1;
+        return 0;
+      });
+     
       let floor = (
         <Card key={i} style={{ width: "100%", margin: "1em 0 1em 0" }}>
           <CardHeader title={`Floor ${i}`}></CardHeader>
           <Divider></Divider>
           <CardContent>
             <Grid container spacing={2}>
-              {listRoomOfBrand.map((item, index) => {
-                if (item.floor === i) {
-                  return (
-                    <Fragment key={index}>
-                      <Grid item xs={2}>
-                        <Card style={{ height: "12em", position: "relative" }}>
-                          <CardMedia
-                            className={classes.room}
-                            component="img"
-                            alt="Contemplative Reptile"
-                            height="140"
-                            image={item.roomType.thumbnail}
-                            title="Contemplative Reptile"
-                          ></CardMedia>
-                          <CardContent className={classes.content}>
-                            <Typography
-                              gutterBottom
-                              variant="h4"
-                              component="h1"
-                            >
-                              Name: {`${item.name}`}
-                            </Typography>
-                            <Typography
-                              className={classes.textColor}
-                              gutterBottom
-                              variant="h6"
-                              component="h1"
-                            >
-                              Roomtype: {`${item.roomType.name}`}
-                            </Typography>
-                            <Typography
-                              className={classes.textColor}
-                              gutterBottom
-                              variant="h6"
-                              component="h1"
-                            >
-                              Price: {`${item.roomType.price} $`}
-                            </Typography>
-                          </CardContent>
-                          <CardActions className={classes.cardAction}>
-                            <IconButton
-                              onClick={() => handleDeleteRoom(item.id)}
-                              size="small"
-                              className={classes.btnDelete}
-                            >
-                              <HighlightOffIcon></HighlightOffIcon>
-                            </IconButton>
-                            <IconButton
-                              onClick={()=>handleOpen(item)}
-                              size="small"
-                              className={classes.btnEdit}
-                            >
-                              <EditIcon></EditIcon>
-                            </IconButton>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    </Fragment>
-                  );
-                }
+              {temp1.map((item, index) => {
+                return (
+                  <Fragment key={index}>
+                    <Grid item xs={2}>
+                      <Card style={{ height: "12em", position: "relative" }}>
+                        <CardMedia
+                          className={classes.room}
+                          component="img"
+                          alt="Contemplative Reptile"
+                          height="140"
+                          image={item.roomType.thumbnail}
+                          title="Contemplative Reptile"
+                        ></CardMedia>
+                        <CardContent className={classes.content}>
+                          <Typography gutterBottom variant="h4" component="h1">
+                            Name: {`${item.name}`}
+                          </Typography>
+                          <Typography
+                            className={classes.textColor}
+                            gutterBottom
+                            variant="h6"
+                            component="h1"
+                          >
+                            Roomtype: {`${item.roomType.name}`}
+                          </Typography>
+                          <Typography
+                            className={classes.textColor}
+                            gutterBottom
+                            variant="h6"
+                            component="h1"
+                          >
+                            Price: {`${item.roomType.price} $`}
+                          </Typography>
+                        </CardContent>
+                        <CardActions className={classes.cardAction}>
+                          <IconButton
+                            onClick={() => handleDeleteRoom(item.id)}
+                            size="small"
+                            className={classes.btnDelete}
+                          >
+                            <HighlightOffIcon></HighlightOffIcon>
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleOpen(item)}
+                            size="small"
+                            className={classes.btnEdit}
+                          >
+                            <EditIcon></EditIcon>
+                          </IconButton>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  </Fragment>
+                );
               })}
             </Grid>
           </CardContent>
