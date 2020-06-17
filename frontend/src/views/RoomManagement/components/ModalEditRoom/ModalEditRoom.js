@@ -21,7 +21,7 @@ function ModalEditRoom(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const roomSelected = useSelector((state) => state.rooms.roomSelected);
-  
+
   const { open, handleClose } = props;
   return (
     <div>
@@ -88,6 +88,12 @@ function ModalEditRoom(props) {
               {(props) => {
                 return (
                   <Form className={classes.fields}>
+                    <Field
+                      name="roomTypeId"
+                      component={MySelect}
+                      label="Roomtype"
+                      placeholder="Select roomtype"
+                    ></Field>
                     <TextField
                       size="small"
                       fullWidth
@@ -97,12 +103,6 @@ function ModalEditRoom(props) {
                       disabled
                       variant="outlined"
                     ></TextField>
-                    <Field
-                      name="roomTypeId"
-                      component={MySelect}
-                      label="Roomtype"
-                      placeholder="Select roomtype"
-                    ></Field>
                     <TextField
                       error={
                         props.errors.floor && props.touched.floor ? true : false
@@ -123,6 +123,7 @@ function ModalEditRoom(props) {
                       onBlur={props.handleBlur}
                       variant="outlined"
                     ></TextField>
+
                     <TextField
                       error={
                         props.errors.name && props.touched.name ? true : false
