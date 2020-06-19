@@ -80,7 +80,7 @@ function EditRoomtype(props) {
                                 size: values.size,
                                 price: values.price,
                                 capacity: values.capacity,
-                                extras: roomtype.extras,
+                                extras:roomtype.extras,
                                 images: roomtype.images,
                                 description: values.description,
                                 thumbnail: roomtype.thumbnail,
