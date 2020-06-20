@@ -15,7 +15,6 @@ function* watchGetAllRoomReservation({ payload }) {
   try {
   
     const res = yield call(getAllRoom_RoomReservationByBrand,payload);
-    console.log(res.data.body)
     yield put(getAllRoomReservationSuccess(res.data.body));
     
     yield delay(700);

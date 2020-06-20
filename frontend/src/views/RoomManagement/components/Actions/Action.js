@@ -21,7 +21,7 @@ function Action(props) {
   };
   const handleAddRoom = () => {
     if (listBrand.length === 0 || brandSelected === null) {
-      toastifyError("Please chose hotel and brand ");
+      toastifyError("Please select hotel and brand ");
     } else {
       handleOpen();
     }

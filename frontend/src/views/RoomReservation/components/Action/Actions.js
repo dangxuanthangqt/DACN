@@ -1,4 +1,4 @@
-import { Grid, Button, Container } from "@material-ui/core";
+import { Grid, Button, Container, Card } from "@material-ui/core";
 import React, { useState } from "react";
 import BrandSelection from "./BrandSelection";
 import HotelSelection from "./HotelSelection";
@@ -18,7 +18,7 @@ function Action(props) {
   const handleChangeBrandSelected = (brandSelected) => {
     setBrandSelected(brandSelected);
   };
- 
+
   //console.log(listBrand, brandSelected);
   return (
     <div style={{ display: "flex", width: "100%" }}>
@@ -37,6 +37,15 @@ function Action(props) {
           ></BrandSelection>
         </Grid>
       </Grid>
+      {/* <Grid item xs={1}>
+          <Button
+          size ="small"
+          fullWidth
+          >
+            Pending
+          </Button>
+        </Grid> */}
+     
     </div>
   );
 }

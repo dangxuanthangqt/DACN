@@ -11,6 +11,7 @@ import {
 } from "redux/actionCreators/roomActionCreator";
 import { useSelector, useDispatch } from "react-redux";
 import Action from "./components/Action/Actions";
+import { resetListRoomReservationOnRedux } from "redux/actionCreators/roomReservationActionCreator";
 RoomReservation.propTypes = {};
 
 function RoomReservation(props) {
@@ -20,6 +21,7 @@ function RoomReservation(props) {
     dispatch(fetchListHotelOptionRequest());
     return () => {
       dispatch(resetStateOnRedux());
+      dispatch(resetListRoomReservationOnRedux());
     };
   }, [dispatch]);
   const classes = useStyles();

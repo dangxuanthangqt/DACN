@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import moment from "moment";
 
 import Timeline, {
@@ -6,7 +6,7 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
 } from "react-calendar-timeline";
-import { Typography, Card } from "@material-ui/core";
+import { Typography, Card, Grid, Button, Badge } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import Warning from "views/RoomManagement/components/ListRoomOfBrand/Warning";
@@ -39,97 +39,95 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function CustomTimeLine() {
   const classes = useStyles();
-  const defaultTimeStart = moment().startOf("month").toDate();
-  const defaultTimeEnd = moment().startOf("month").add(30, "day").toDate();
-  const groups = useSelector(state => state.roomReservation.groups);
-  const items= useSelector(state => state.roomReservation.items);
-  
-  if(groups.length === 0) return <Warning></Warning>;
+  const defaultTimeStart = moment().startOf("day").add(-5, "day").toDate();
+  const defaultTimeEnd = moment()
+    .startOf("day")
+    .add(+25, "day")
+    .toDate();
+  const groups = useSelector((state) => state.roomReservation.groups);
+  const items = useSelector((state) => state.roomReservation.items);
+  const pendingCount = useSelector(
+    (state) => state.roomReservation.pendingCount
+  );
+  const completeCount = useSelector(
+    (state) => state.roomReservation.completeCount
+  );
+  if (groups.length === 0) return <Warning></Warning>;
   return (
-    <Card className={classes.root}>
-      <Timeline
-        
-        groups={groups}
-        items={items}
-        keys={keys}
-        sidebarContent={<div>Above The Leftaaaa</div>}
-        itemsSorted
-        itemTouchSendsClick={false}
-        onItemClick={(a, b, c) => {
-          console.log(a, b, new Date(c));
+    <Fragment>
+      <div
+        style={{
+          marginTop: "1em",
+          display: "flex",
+          borderRadius: "5px",
+          padding: "1em",
+          border: "1px solid gray",
         }}
-        stackItems
-        itemHeightRatio={0.75}
-        showCursorLine
-        canMove={false}
-        canResize={false}
-        defaultTimeStart={defaultTimeStart}
-        defaultTimeEnd={defaultTimeEnd}
+        spacing={3}
       >
-        <TimelineHeaders className="sticky">
-          <SidebarHeader>
-            {({ getRootProps }) => {
-              return (
-                <div {...getRootProps()} className={classes.SidebarHeader}>
-                  <Typography variant="h5">Room</Typography>
-                </div>
-              );
-            }}
-          </SidebarHeader>
-          <DateHeader className={classes.DateHeader} unit="primaryHeader" />
-          <DateHeader />
-        </TimelineHeaders>
-      </Timeline>
-    </Card>
+        <Grid item style={{ marginRight: "1em" }}>
+          <Badge color="secondary" badgeContent={pendingCount}>
+            <Button
+              style={{ backgroundColor: "#ff9800" }}
+              size="small"
+              fullWidth
+              color="primary"
+              variant="contained"
+            >
+              Reservation pending
+            </Button>
+          </Badge>
+        </Grid>
+        <Grid item>
+          <Badge color="secondary" badgeContent={completeCount}>
+            <Button
+              style={{
+                backgroundColor: "#4caf50",
+              }}
+              size="small"
+              fullWidth
+              color="primary"
+              variant="contained"
+            >
+              Reservation accepted
+            </Button>
+          </Badge>
+        </Grid>
+      </div>
+      <Card className={classes.root}>
+        <Timeline
+          groups={groups}
+          items={items}
+          keys={keys}
+          sidebarContent={<div>Above The Leftaaaa</div>}
+          itemsSorted
+          itemTouchSendsClick={false}
+          onItemClick={(itemId) => {
+            console.log(itemId);
+          }}
+          stackItems
+          itemHeightRatio={0.75}
+          showCursorLine
+          canMove={false}
+          canResize={false}
+          defaultTimeStart={defaultTimeStart}
+          defaultTimeEnd={defaultTimeEnd}
+        >
+          <TimelineHeaders className="sticky">
+            <SidebarHeader>
+              {({ getRootProps }) => {
+                return (
+                  <div {...getRootProps()} className={classes.SidebarHeader}>
+                    <Typography variant="h5">Room</Typography>
+                  </div>
+                );
+              }}
+            </SidebarHeader>
+            <DateHeader className={classes.DateHeader} unit="primaryHeader" />
+            <DateHeader />
+          </TimelineHeaders>
+        </Timeline>
+      </Card>
+    </Fragment>
   );
 }
-
-const groups = [
-  {
-    id: 1,
-    title: "101",
-  },
-  {
-    id: 2,
-    title: "102",
-  },
-  {
-    id: 3,
-    title: "103",
-  },
-];
-const items = [
-  {
-    id: 1,
-    group: 1,
-    title: "item 1",
-    start: moment(),
-    end: moment().add(24, "hour"),
-    itemProps: {
-      // these optional attributes are passed to the root <div /> of each item as <div {...itemProps} />
-      "data-custom-attribute": "Random content",
-      "aria-hidden": true,
-      onClick: () => {
-        console.log("You clicked double!");
-      },
-      className: "weekend",
-      style: {
-        backgroundColor: "fuchsia",
-      },
-    },
-  },
-  {
-    id: 2,
-    group: 1,
-    title: "item 1",
-    start: moment().add(2, "day"),
-    end: moment().add(5, "day"),
-  },
-  {
-    id: 3,
-    group: 3,
-    title: "item 1",
-    start: moment(),
-    end: moment().add(3, "day"),
-  },
-];
