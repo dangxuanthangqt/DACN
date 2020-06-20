@@ -9,8 +9,9 @@ import {
 
 const initialState = {
   listHotel: [],
-  brandSelected: {},
+  brandSelected: null,
   listRoomOfBrand: [],
+  hotelSelected:null,
   roomSelected: {
     roomType: {},
     brand: {},
@@ -25,11 +26,14 @@ const myReducer = (state = initialState, action) => {
       case SELECT_BRAND_OF_HOTEL:
         draft.brandSelected = action.payload;
         return draft;
+      case "SET_HOTEL_SELECTED":
+        draft.hotelSelected = action.payload;
+        return draft;
       case GET_ALL_ROOM_BY_BRANDID_SUCCESS:
         draft.listRoomOfBrand = action.payload;
         return draft;
       case RESET_ROOMS_STATE_ON_REDUX:
-        draft.brandSelected = {};
+       // draft.brandSelected = {};
         draft.listRoomOfBrand = [];
         return draft;
       case PUSH_ROOM_ITEM_DATA_TO_STORE:

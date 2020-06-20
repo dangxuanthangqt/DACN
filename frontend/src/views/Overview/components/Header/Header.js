@@ -36,7 +36,7 @@ const Header = (props) => {
     exp: 1593179146,
   });
   const handleClick = () => {
-    history.push("/management/room-types");
+    history.push("/management/room-reservation");
   };
   useEffect(() => {
     let token = getAccessToken();

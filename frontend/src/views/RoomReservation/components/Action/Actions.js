@@ -1,8 +1,7 @@
-import { Grid, Button, Container } from "@material-ui/core";
+import { Grid, Button, Container, Card } from "@material-ui/core";
 import React, { useState } from "react";
 import BrandSelection from "./BrandSelection";
 import HotelSelection from "./HotelSelection";
-import { toastifyError } from "helper/Toastify";
 
 Action.propTypes = {};
 
@@ -19,13 +18,7 @@ function Action(props) {
   const handleChangeBrandSelected = (brandSelected) => {
     setBrandSelected(brandSelected);
   };
-  const handleAddRoom = () => {
-    if (listBrand.length === 0 || brandSelected === null) {
-      toastifyError("Please select hotel and brand ");
-    } else {
-      handleOpen();
-    }
-  };
+
   //console.log(listBrand, brandSelected);
   return (
     <div style={{ display: "flex", width: "100%" }}>
@@ -44,16 +37,15 @@ function Action(props) {
           ></BrandSelection>
         </Grid>
       </Grid>
-      <Grid item xs={2}>
-        <Button
-          onClick={handleAddRoom}
+      {/* <Grid item xs={1}>
+          <Button
+          size ="small"
           fullWidth
-          color="primary"
-          variant="contained"
-        >
-          ADD ROOM
-        </Button>
-      </Grid>
+          >
+            Pending
+          </Button>
+        </Grid> */}
+     
     </div>
   );
 }

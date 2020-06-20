@@ -64,6 +64,10 @@ export default [
             href: "/management/rooms",
           },
           {
+            title: "Room-reservation",
+            href: "/management/room-reservation",
+          },
+          {
             title: "Promotion",
             href: "/management/promotions",
           },
