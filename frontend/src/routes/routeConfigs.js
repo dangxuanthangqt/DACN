@@ -128,6 +128,13 @@ export const privateRoutes = [
         exact: true,
         component: lazy(() => import("../views/RoomReservation")),
       },
+      {
+        key: "list room-reservation",
+        path: "/management/room-reservation/filter-status/:status",
+        exact: true,
+        component: lazy(() => import("../views/RoomReservationList")),
+      },
+
     ],
   },
 ];

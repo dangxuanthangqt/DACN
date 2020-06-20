@@ -4,6 +4,10 @@ const { default: produce } = require("immer");
 const {
   GET_ALL_ROOM_RESERVATION_SUCCESS,
   RESET_LIST_ROOM_RESERVATION_ON_REDUX,
+  GET_ALL_RESERVATION_SUCCESS,
+  FILTER_FOLLOW_COMPLETED_STATUS,
+  FILTER_FOLLOW_PENDDING_STATUS,
+  FILTER_FOLLOW_CANCELLED_STATUS,
 } = require("redux/actionTypes/roomReservationActionType");
 
 const initialState = {
@@ -20,6 +24,10 @@ const initialState = {
   items: [],
   pendingCount: 0,
   completeCount: 0,
+  totalCount: 0,
+  cancelledCount: 0,
+  listReservation: [],
+  dataModalReservation: { usersBooking: {} },
 };
 const myReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
@@ -28,6 +36,8 @@ const myReducer = (state = initialState, action) => {
         let tempItems = [];
         let tempPendingCount = 0;
         let tempCompleteCount = 0;
+        let tempTotalCount = 0;
+        let tempCancelledCount = 0;
         try {
           draft.listRoomReservation = action.payload;
           let tempGroups = action.payload.map((room, index) => {
@@ -52,12 +62,18 @@ const myReducer = (state = initialState, action) => {
                   },
                 },
               };
-              tempItems.push(temp);
+              if (element.status !== "CANCELLED") {
+                tempItems.push(temp);
+              }
+
               if (element.status === "PENDING") {
                 tempPendingCount += 1;
               } else if (element.status === "COMPLETED") {
                 tempCompleteCount += 1;
+              } else {
+                tempCancelledCount += 1;
               }
+              tempTotalCount += 1;
             });
 
             return {
@@ -65,6 +81,8 @@ const myReducer = (state = initialState, action) => {
               title: room.name,
             };
           });
+          draft.cancelledCount = tempCancelledCount;
+          draft.totalCount = tempTotalCount;
           draft.pendingCount = tempPendingCount;
           draft.completeCount = tempCompleteCount;
           draft.groups = tempGroups.sort((a, b) => {
@@ -78,6 +96,28 @@ const myReducer = (state = initialState, action) => {
           console.log(e);
         }
 
+        return draft;
+
+      case GET_ALL_RESERVATION_SUCCESS:
+        draft.listReservation = action.payload;
+        return draft;
+      case FILTER_FOLLOW_COMPLETED_STATUS:
+        draft.listReservation = draft.listReservation.filter((item) => {
+          return item.status === "COMPLETED";
+        });
+        return draft;
+      case FILTER_FOLLOW_PENDDING_STATUS:
+        draft.listReservation = draft.listReservation.filter((item) => {
+          return item.status === "PENDING";
+        });
+        return draft;
+      case FILTER_FOLLOW_CANCELLED_STATUS:
+        draft.listReservation = draft.listReservation.filter((item) => {
+          return item.status === "CANCELLED";
+        });
+        return draft;
+      case "SET_DATA_MODAL_RESEVATION_DETAIL":
+        draft.dataModalReservation = action.payload;
         return draft;
       case RESET_LIST_ROOM_RESERVATION_ON_REDUX:
         draft.listRoomReservation = [];

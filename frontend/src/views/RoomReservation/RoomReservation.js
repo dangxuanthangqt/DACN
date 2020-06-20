@@ -20,8 +20,8 @@ function RoomReservation(props) {
   useEffect(() => {
     dispatch(fetchListHotelOptionRequest());
     return () => {
-      dispatch(resetStateOnRedux());
-      dispatch(resetListRoomReservationOnRedux());
+    //  dispatch(resetStateOnRedux());
+     // dispatch(resetListRoomReservationOnRedux());
     };
   }, [dispatch]);
   const classes = useStyles();

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { resetListRoomReservationOnRedux } from "redux/actionCreators/roomReservationActionCreator";
 HotelSelection.propTypes = {};
@@ -9,10 +9,15 @@ function HotelSelection(props) {
     return { value: item.id, label: item.name };
   });
   const dispatch = useDispatch();
+  const hotelSelected = useSelector(state => state.rooms.hotelSelected);
   const { handleChangeListBrand } = props;
   const handleChange = (values) => {
     handleChangeListBrand(values);
     dispatch(resetListRoomReservationOnRedux());
+    dispatch({
+      type:"SET_HOTEL_SELECTED",
+      payload: values
+    })
   };
   return (
     <Select
@@ -20,6 +25,7 @@ function HotelSelection(props) {
         // Fixes the overlapping problem of the component
         menu: (provided) => ({ ...provided, zIndex: 9999 }),
       }}
+      defaultValue={hotelSelected ? hotelSelected :""}
       placeholder="Please select a hotel."
       options={listHotel}
       onChange={handleChange}
