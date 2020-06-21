@@ -99,9 +99,9 @@ const myReducer = (state = initialState, action) => {
 
       case GET_ALL_RESERVATION_SUCCESS:
         draft.listReservation = action.payload.sort((a, b) => {
-          if (a.room.name > b.room.name) {
+          if (a.reservation.status < b.reservation.status) {
             return 1;
-          } else if (a.room.name < b.room.name) return -1;
+          } else if (a.reservation.status > b.reservation.status) return -1;
           return 0;
         });
         return draft;
@@ -111,9 +111,9 @@ const myReducer = (state = initialState, action) => {
             return item.status === "COMPLETED";
           })
           .sort((a, b) => {
-            if (a.room.name > b.room.name) {
+            if (a.reservation.status < b.reservation.status) {
               return 1;
-            } else if (a.room.name < b.room.name) return -1;
+            } else if (a.reservation.status > b.reservation.status) return -1;
             return 0;
           });
         return draft;
