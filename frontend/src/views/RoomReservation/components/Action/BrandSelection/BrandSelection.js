@@ -14,7 +14,7 @@ BrandSelection.defaultProps = {
 };
 function BrandSelection(props) {
   const { handleChangeBrandSelected, value } = props;
-  const brandSelected = useSelector(state => state.rooms.brandSelected)
+  const brandSelected = useSelector(state => state.rooms.brandSelected1)
   const dispatch = useDispatch();
   const optionBrand = props.listBrand.map((item) => ({
     value: item.id,

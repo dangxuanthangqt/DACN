@@ -12,12 +12,11 @@ function RoomReservationList(props) {
   const listReservation = useSelector(
     (state) => state.roomReservation.listReservation
   );
-  const brandSelected = useSelector((state) => state.rooms.brandSelected);
+  const brandSelected = useSelector((state) => state.rooms.brandSelected1);
   const dispatch = useDispatch();
   useEffect(() => {
     return () => {
-        if(brandSelected)
-      dispatch(getAllReservationRequest(brandSelected.id));
+      if (brandSelected) dispatch(getAllReservationRequest(brandSelected.id));
     };
   }, [dispatch]);
   return (

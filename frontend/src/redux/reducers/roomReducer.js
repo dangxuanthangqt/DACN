@@ -9,7 +9,8 @@ import {
 
 const initialState = {
   listHotel: [],
-  brandSelected: null,
+  brandSelected: {},
+  brandSelected1:null,
   listRoomOfBrand: [],
   hotelSelected:null,
   roomSelected: {
@@ -25,6 +26,7 @@ const myReducer = (state = initialState, action) => {
         return draft;
       case SELECT_BRAND_OF_HOTEL:
         draft.brandSelected = action.payload;
+        draft.brandSelected1 = action.payload;
         return draft;
       case "SET_HOTEL_SELECTED":
         draft.hotelSelected = action.payload;

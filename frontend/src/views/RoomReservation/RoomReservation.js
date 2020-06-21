@@ -12,7 +12,7 @@ RoomReservation.propTypes = {};
 
 function RoomReservation(props) {
   const listHotel = useSelector((state) => state.rooms.listHotel);
-  const brandSelected = useSelector((state) => state.rooms.brandSelected);
+  const brandSelected = useSelector((state) => state.rooms.brandSelected1);
   const dispatch = useDispatch();
   useEffect(() => {
     if (brandSelected) {
