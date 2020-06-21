@@ -5,6 +5,7 @@ import { toastifyError, toastifySuccess } from "helper/Toastify";
 import {
   FETCH_LIST_HOTEL_REQUEST,
   ADD_HOTEL_REQUEST,
+  DELETE_HOTEL_REQUEST,
   FETCH_PAGINATION_HOTEL_REQUEST,
   FETCH_HOTEL_DETAIL_REQUEST,
 } from "../actionTypes/hotelActionType";
@@ -14,11 +15,17 @@ import {
   fetchListHotelFailure,
   fetchDetailHotelSuccess,
   fetchDetailHotelFailure,
+  deleteHotel,
 } from "redux/actionCreators/hotelActionCreator";
+
+import { ValueRoutes } from "common/Constant";
 
 import history from "helper/history";
 
 const uri = "api/hotels";
+const {
+  Hotel: { path },
+} = ValueRoutes;
 
 function* watchCreateNewHotel(action) {
   yield put({ type: "SHOW_LOADING" });
@@ -28,7 +35,7 @@ function* watchCreateNewHotel(action) {
   try {
     const res = yield call(axiosService.post, `${uri}`, payload);
     yield call(toastifySuccess, "Add hotel successfully !");
-    yield call(history.push, "/management/hotel");
+    yield call(history.push, `${path}`);
     yield put({ type: "HIDE_LOADING" });
   } catch (e) {
     yield call(toastifyError, "Add hotel Error !");
@@ -78,8 +85,25 @@ function* watchFetchDetailHotel(action) {
   }
   yield put({ type: "HIDE_LOADING" });
 }
+
+function* watchDeleteHotel(action) {
+  yield put({ type: "SHOW_LOADING" });
+
+  try {
+    const { payload } = action;
+    const res = yield call(axiosService.delete, `${uri}/${payload}`);
+    yield call(toastifySuccess, "Delete Hotel Successfully !");
+    yield call(history.push, `${path}`);
+    yield put({ type: "HIDE_LOADING" });
+  } catch (e) {
+    yield call(toastifyError, "Delete Hotel Error !");
+    yield put({ type: "HIDE_LOADING" });
+  }
+}
+
 export function* hotelSaga() {
   yield takeEvery(ADD_HOTEL_REQUEST, watchCreateNewHotel);
+  yield takeEvery(DELETE_HOTEL_REQUEST, watchDeleteHotel);
   yield takeEvery(FETCH_PAGINATION_HOTEL_REQUEST, watchFetchPagination);
   yield takeEvery(FETCH_HOTEL_DETAIL_REQUEST, watchFetchDetailHotel);
 }

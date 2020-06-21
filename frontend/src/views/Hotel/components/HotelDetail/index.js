@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,8 +15,14 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import history from "helper/history";
 import ImageCover from "views/RoomTypeDetailView/ImgCover";
-import { fetchDetailHotelRequest } from "redux/actionCreators/hotelActionCreator";
+import {
+  fetchDetailHotelRequest,
+  deleteHotel,
+} from "redux/actionCreators/hotelActionCreator";
 import BrandCard from "../BrandCard";
+import { DialogDelete } from "components/Dialog";
+
+import { ValueRoutes } from "common/Constant";
 
 import styles from "./HotelDetail.module.css";
 
@@ -31,6 +37,10 @@ const HotelDetail = () => {
   const classes = useStyles();
   const match = useRouteMatch();
   const dispatch = useDispatch();
+  const [statusDialogDelete, setStatusDialogDelete] = useState(false);
+  const {
+    Hotel: { path },
+  } = ValueRoutes;
 
   const hotel = useSelector((state) => {
     return state.hotels.hotelDetail;
@@ -44,13 +54,31 @@ const HotelDetail = () => {
     history.goBack();
   };
 
-  if (hotel) {
-    console.log(hotel);
-  }
+  const clickDeleteHotel = () => {
+    setStatusDialogDelete(true);
+  };
+
+  const handleDeleteHotel = () => {
+    dispatch(deleteHotel(hotel.id));
+  };
+
+  const clickEditHotel = () => {
+    history.push(`${path}/edit/${match.params.id}`);
+  };
 
   if (hotel) {
     return (
       <div>
+        {/* Dialog */}
+        <DialogDelete
+          status={statusDialogDelete}
+          subtitle={"Data of hotel will delete all!!!"}
+          title={"HOTEL"}
+          handleDelete={handleDeleteHotel}
+          handleCancel={() => {
+            setStatusDialogDelete(false);
+          }}
+        />
         <Container className={(styles.container_header, classes.root)}>
           <Grid container>
             <Grid item xs={12}>
@@ -117,6 +145,7 @@ const HotelDetail = () => {
                         color="primary"
                         className={styles.btn_action}
                         startIcon={<EditIcon />}
+                        onClick={clickEditHotel}
                       >
                         Edit
                       </Button>
@@ -128,6 +157,7 @@ const HotelDetail = () => {
                         color="secondary"
                         className={styles.btn_action}
                         startIcon={<DeleteIcon />}
+                        onClick={clickDeleteHotel}
                       >
                         Delete
                       </Button>
@@ -162,7 +192,7 @@ const HotelDetail = () => {
       </div>
     );
   } else {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 };
 
