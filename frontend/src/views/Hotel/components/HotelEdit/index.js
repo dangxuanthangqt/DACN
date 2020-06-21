@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useRouteMatch } from "react-router-dom";
 import "react-upload-gallery/dist/style.css";
-
 //material-ui
 import { Container } from "@material-ui/core";
-
 //components
 import HeaderManagementCreate from "components/HeaderManagementCreate";
 import HotelForm from "../HotelForm";
@@ -14,15 +12,26 @@ import { ValueRoutes } from "common/Constant";
 import { storage } from "utils/firebase";
 
 // reducers
-import { addNewHotel } from "redux/actionCreators/hotelActionCreator";
+import {
+  addNewHotel,
+  fetchDetailHotelRequest,
+} from "redux/actionCreators/hotelActionCreator";
 
-import styles from "./HotelCreate.module.css";
+import styles from "./HotelEdit.module.css";
 
 const HotelCreate = () => {
+  const match = useRouteMatch();
+  const dispatch = useDispatch();
   // state
   const [images, setImages] = useState([]);
 
-  const dispatch = useDispatch();
+  const hotel = useSelector((state) => {
+    return state.hotels.hotelDetail;
+  });
+
+  useEffect(() => {
+    dispatch(fetchDetailHotelRequest(match.params.id));
+  }, [dispatch]);
 
   const handleSubmit = async (data) => {
     data.images = await uploadImagesToFirebase();
@@ -71,13 +80,8 @@ const HotelCreate = () => {
         <HotelForm
           handleSubmit={handleSubmit}
           handleChangeImages={handleChangeImages}
-          title={"Add Hotel"}
-          isCreate={true}
-          data={{
-            name: "",
-            description: "",
-            images: [],
-          }}
+          title={"Edit Hotel"}
+          data={hotel}
         />
       </div>
     </Container>

@@ -37,6 +37,7 @@
     "react-scripts": "^3.4.1",
     "react-select": "^3.1.0",
     "react-toastify": "^5.5.0",
+    "react-upload-gallery": "^0.1.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-saga": "^1.1.3",

@@ -1,6 +1,8 @@
 import {
   FETCH_LIST_HOTEL_FAILURE,
   FETCH_LIST_HOTEL_SUCCESS,
+  FETCH_HOTEL_DETAIL_REQUEST_SUCCESS,
+  FETCH_HOTEL_DETAIL_REQUEST_FAILURE,
 } from "../actionTypes/hotelActionType";
 import produce from "immer";
 
@@ -19,6 +21,17 @@ var myReducer = (state = initialState, action) =>
         return draft;
       }
       case FETCH_LIST_HOTEL_FAILURE: {
+        let message = action.payload.data.debugMessage
+          ? action.payload.data.debugMessage
+          : action.payload.data.error;
+        toastifyError(`${action.payload.status}: ${message}`);
+        return draft;
+      }
+      case FETCH_HOTEL_DETAIL_REQUEST_SUCCESS: {
+        draft.hotelDetail = action.payload.data;
+        return draft;
+      }
+      case FETCH_HOTEL_DETAIL_REQUEST_FAILURE: {
         let message = action.payload.data.debugMessage
           ? action.payload.data.debugMessage
           : action.payload.data.error;
