@@ -1,4 +1,5 @@
 import { id } from "date-fns/locale";
+import { element } from "prop-types";
 
 const { default: produce } = require("immer");
 const {
@@ -8,16 +9,13 @@ const {
   FILTER_FOLLOW_COMPLETED_STATUS,
   FILTER_FOLLOW_PENDDING_STATUS,
   FILTER_FOLLOW_CANCELLED_STATUS,
+  CHANGE_STATUS_PAYMENT_SUCCESS,
 } = require("redux/actionTypes/roomReservationActionType");
 
 const initialState = {
   listRoomReservation: [
     {
-      roomReservationDTOList: [
-        {
-          userBooking: {},
-        },
-      ],
+      roomReservationDTOList: [{}],
     },
   ],
   groups: [],
@@ -27,7 +25,8 @@ const initialState = {
   totalCount: 0,
   cancelledCount: 0,
   listReservation: [],
-  dataModalReservation: { usersBooking: {} },
+  dataModalReservation: {},
+  dataModalPayment: { user: {} },
 };
 const myReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
@@ -47,7 +46,7 @@ const myReducer = (state = initialState, action) => {
                 group: room.id,
                 start: new Date(element.startDate),
                 end: new Date(element.endDate),
-                title: element.usersBooking.email,
+                title: element.email,
                 className:
                   element.status == "PENDING"
                     ? "item-type-pending "
@@ -99,26 +98,76 @@ const myReducer = (state = initialState, action) => {
         return draft;
 
       case GET_ALL_RESERVATION_SUCCESS:
-        draft.listReservation = action.payload;
+        draft.listReservation = action.payload.sort((a, b) => {
+          if (a.room.name > b.room.name) {
+            return 1;
+          } else if (a.room.name < b.room.name) return -1;
+          return 0;
+        });
         return draft;
       case FILTER_FOLLOW_COMPLETED_STATUS:
-        draft.listReservation = draft.listReservation.filter((item) => {
-          return item.status === "COMPLETED";
-        });
+        draft.listReservation = draft.listReservation
+          .filter((item) => {
+            return item.status === "COMPLETED";
+          })
+          .sort((a, b) => {
+            if (a.room.name > b.room.name) {
+              return 1;
+            } else if (a.room.name < b.room.name) return -1;
+            return 0;
+          });
         return draft;
       case FILTER_FOLLOW_PENDDING_STATUS:
-        draft.listReservation = draft.listReservation.filter((item) => {
-          return item.status === "PENDING";
-        });
+        draft.listReservation = draft.listReservation
+          .filter((item) => {
+            return item.status === "PENDING";
+          })
+          .sort((a, b) => {
+            if (a.room.name > b.room.name) {
+              return 1;
+            } else if (a.room.name < b.room.name) return -1;
+            return 0;
+          });
         return draft;
       case FILTER_FOLLOW_CANCELLED_STATUS:
-        draft.listReservation = draft.listReservation.filter((item) => {
-          return item.status === "CANCELLED";
-        });
+        draft.listReservation = draft.listReservation
+          .filter((item) => {
+            return item.status === "CANCELLED";
+          })
+          .sort((a, b) => {
+            if (a.room.name > b.room.name) {
+              return 1;
+            } else if (a.room.name < b.room.name) return -1;
+            return 0;
+          });
         return draft;
       case "SET_DATA_MODAL_RESEVATION_DETAIL":
         draft.dataModalReservation = action.payload;
         return draft;
+      case "SET_DATA_MODAL_PAYMENT_DETAIL":
+        draft.dataModalPayment = action.payload;
+        return draft;
+      case CHANGE_STATUS_PAYMENT_SUCCESS:
+        let tempArray = [...draft.listReservation];
+        let index = tempArray.findIndex(
+          (element) => element.reservation.id === action.payload.id
+        );
+
+        let temp1 = {
+          ...tempArray[index],
+          reservation: {
+            ...tempArray[index].reservation,
+            status: "PAID",
+          },
+        };
+
+        tempArray.splice(index, 1, temp1);
+        //  tempArray[index] = {...temp1};
+
+        return {
+          ...draft,
+          listReservation: [...tempArray],
+        };
       case RESET_LIST_ROOM_RESERVATION_ON_REDUX:
         draft.listRoomReservation = [];
         draft.groups = [];

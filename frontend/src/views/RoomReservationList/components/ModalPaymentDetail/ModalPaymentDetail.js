@@ -14,7 +14,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeStatusCompletedRequest, changeStatusCancelledRequest } from "redux/actionCreators/roomReservationActionCreator";
+import {
+  changeStatusCompletedRequest,
+  changeStatusCancelledRequest,
+  changeStatusPaymentRequest,
+} from "redux/actionCreators/roomReservationActionCreator";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -36,34 +40,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ModalReservationDetail(props) {
+export default function ModalPaymentDetail(props) {
   const classes = useStyles();
   const { open, handleClose } = props;
   const dispatch = useDispatch();
-  const brandSelected = useSelector(state => state.rooms.brandSelected);
-  const dataModalReservation = useSelector(
-    (state) => state.roomReservation.dataModalReservation
+  const brandSelected = useSelector((state) => state.rooms.brandSelected);
+  const dataModalPayment = useSelector(
+    (state) => state.roomReservation.dataModalPayment
   );
-  const handleAccept = () => {
-    dispatch(
-      changeStatusCompletedRequest({
-        brandId: brandSelected.id,
-        id: dataModalReservation.id,
-        status: "COMPLETED",
-      })
-    );
+  const handlePay = () => {
+    dispatch(changeStatusPaymentRequest(dataModalPayment.id));
     handleClose();
   };
-  const handleReject = () => {
-    dispatch(
-      changeStatusCancelledRequest({
-        brandId: brandSelected.id,
-        id: dataModalReservation.id,
-        status: "CANCELLED",
-      })
-    );
-    handleClose();
-  };
+
   return (
     <div>
       <Modal
@@ -79,76 +68,72 @@ export default function ModalReservationDetail(props) {
         }}
       >
         <Card className={classes.card}>
-          <CardHeader title="Room Reservation Detail"></CardHeader>
+          <CardHeader title="Payment Detail"></CardHeader>
           <Divider></Divider>
           <CardContent>
             <form>
               <TextField
-              disabled
+                disabled
                 className={classes.field}
                 fullWidth
                 label="Full name"
-                defaultValue={`${dataModalReservation.firstName} ${dataModalReservation.lastName}`}
+                defaultValue={`${dataModalPayment.user.firstName} ${dataModalPayment.user.lastName}`}
                 variant="outlined"
                 size="small"
               />
               <TextField
-              disabled
+                disabled
                 fullWidth
                 className={classes.field}
                 label="Email"
-                defaultValue={dataModalReservation.email}
+                defaultValue={dataModalPayment.user.email}
                 variant="outlined"
                 size="small"
               />
-              <KeyboardDatePicker
-              disabled
-                className={classes.field}
+              <TextField
+                disabled
                 fullWidth
-                disableToolbar
-                variant="dialog"
-                format="MM/dd/yyyy"
-                label="Start date"
-                value={new Date(dataModalReservation.startDate)}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
+                className={classes.field}
+                label="Total before tax ($)"
+                defaultValue={dataModalPayment.totalBeforeTax}
+                variant="outlined"
+                size="small"
               />
-              <KeyboardDatePicker
-              disabled
+              <TextField
+                disabled
                 fullWidth
                 className={classes.field}
-                disableToolbar
-                variant="dialog"
-                format="MM/dd/yyyy"
-                label="End date"
-                value={new Date(dataModalReservation.endDate)}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
+                label="Total after tax ($)"
+                defaultValue={dataModalPayment.totalAfterTax}
+                variant="outlined"
+                size="small"
               />
             </form>
           </CardContent>
           <CardActions>
             <Grid container spacing={3}>
+              {dataModalPayment.status === "PAID" ? (
+                ""
+              ) : (
+                <Grid item xs={6}>
+                  <Button
+                    onClick={handlePay}
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                  >
+                    Pay
+                  </Button>
+                </Grid>
+              )}
               <Grid item xs={6}>
                 <Button
-                  onClick={handleAccept}
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                >
-                  Accept
-                </Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  onClick={handleReject}
+                  onClick={handleClose}
                   fullWidth
                   style={{ backgroundColor: "red" }}
                   variant="contained"
                 >
-                  Reject
+                  Cancel
                 </Button>
               </Grid>
             </Grid>
