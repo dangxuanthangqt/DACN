@@ -60,8 +60,12 @@ export default [
             href: "/management/room-types",
           },
           {
-            title: "Reservations",
-            href: "/management/orders",
+            title: "Rooms",
+            href: "/management/rooms",
+          },
+          {
+            title: "Room-reservation",
+            href: "/management/room-reservation",
           },
           {
             title: "Promotion",

@@ -25,7 +25,6 @@ function ModalEditPromo(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { open, handleClose } = props;
-
   return (
     <div>
       <Modal

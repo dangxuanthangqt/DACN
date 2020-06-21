@@ -55,12 +55,6 @@ export const privateRoutes = [
         component: lazy(() => import("../views/Overview")),
       },
       {
-        key: "test",
-        path: "/test",
-        exact: true,
-        component: lazy(() => import("../views/Test/Test")),
-      },
-      {
         key: "room type",
         path: "/management/room-types",
         exact: true,
@@ -133,6 +127,24 @@ export const privateRoutes = [
         path: "/management/promotions",
         exact: true,
         component: lazy(() => import("../views/Promotion")),
+      },
+      {
+        key: "room",
+        path: "/management/rooms",
+        exact: true,
+        component: lazy(() => import("../views/RoomManagement")),
+      },
+      {
+        key: "room-reservation",
+        path: "/management/room-reservation",
+        exact: true,
+        component: lazy(() => import("../views/RoomReservation")),
+      },
+      {
+        key: "list room-reservation",
+        path: "/management/room-reservation/filter-status/:status",
+        exact: true,
+        component: lazy(() => import("../views/RoomReservationList")),
       },
     ],
   },
