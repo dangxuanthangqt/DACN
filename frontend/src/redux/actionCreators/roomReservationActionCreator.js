@@ -9,6 +9,8 @@ import {
   GET_ALL_RESERVATION_SUCCESS,
   CHANGE_STATUS_COMPLETED_REQUEST,
   CHANGE_STATUS_CANCELLED_REQUEST,
+  CHANGE_STATUS_PAYMENT_REQUEST,
+  CHANGE_STATUS_PAYMENT_SUCCESS,
 } from "redux/actionTypes/roomReservationActionType";
 
 export const getAllRoomReservationRequest = (data) => {
@@ -65,5 +67,17 @@ export const changeStatusCancelledRequest =(data)=>{
   return {
     type:CHANGE_STATUS_CANCELLED_REQUEST,
     payload: data
+  }
+}
+export const changeStatusPaymentRequest =(data)=>{
+  return {
+    type: CHANGE_STATUS_PAYMENT_REQUEST,
+    payload:data
+  }
+}
+export const changeStatusPaymentSuccess =(data)=>{
+  return {
+    type: CHANGE_STATUS_PAYMENT_SUCCESS,
+    payload:data
   }
 }

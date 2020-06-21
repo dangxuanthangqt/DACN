@@ -65,20 +65,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ReservationItem = (props) => {
-  const { handleOpen, reservationItem, className, ...rest } = props;
+  const { handleOpen,handleOpen1, reservationItem, className, ...rest } = props;
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const handleClick = () => {
+  const handleClickAccept = () => {
     if (reservationItem.status === "PENDING") {
       dispatch({
         type: "SET_DATA_MODAL_RESEVATION_DETAIL",
         payload: reservationItem,
       });
       handleOpen();
-    }else {
-      toastifyError("STATUS RESERVATION IS NOT PENDING !")
+    } else {
+      toastifyError("STATUS RESERVATION IS NOT PENDING !");
     }
+  };
+  const handleClickPayment = () => {
+    dispatch({
+      type: "SET_DATA_MODAL_PAYMENT_DETAIL",
+      payload: reservationItem.reservation,
+    });
+    handleOpen1();
   };
   return (
     <Card
@@ -96,7 +103,7 @@ const ReservationItem = (props) => {
       <CardContent className={classes.content}>
         <div className={classes.header}>
           <Avatar alt="Author" className={classes.avatar}>
-            {reservationItem.usersBooking.firstName}
+            {reservationItem.firstName}
           </Avatar>
           <div>
             <Link
@@ -106,8 +113,7 @@ const ReservationItem = (props) => {
               to="#"
               variant="h5"
             >
-              {reservationItem.usersBooking.firstName}{" "}
-              {reservationItem.usersBooking.lastName}
+              {reservationItem.firstName} {reservationItem.lastName}
             </Link>
             <Typography variant="body2">
               email{" "}
@@ -117,7 +123,7 @@ const ReservationItem = (props) => {
                 to="/management/customers/1"
                 variant="h6"
               >
-                {reservationItem.usersBooking.email}
+                {reservationItem.email}
               </Link>
             </Typography>
           </div>
@@ -126,14 +132,7 @@ const ReservationItem = (props) => {
           <Typography variant="h6">{reservationItem.room.name} </Typography>
           <Typography variant="body2">Room</Typography>
         </div>
-        <div className={classes.stats}>
-          <Typography variant="h6">
-            {" "}
-            
-            {reservationItem.usersBooking.phone}
-          </Typography>
-          <Typography variant="body2">Phone number</Typography>
-        </div>
+
         <div className={classes.stats}>
           <Typography variant="h6">
             {moment(new Date(reservationItem.startDate)).format("DD MMMM YYYY")}
@@ -152,14 +151,25 @@ const ReservationItem = (props) => {
         </div>
         <div className={classes.actions}>
           <Button
-            onClick={handleClick}
+            onClick={handleClickAccept}
             color="primary"
             size="small"
-            variant="outlined"
+            variant="contained"
           >
-            View
+            Accept
           </Button>
           <Typography variant="body2">Action</Typography>
+        </div>
+        <div className={classes.actions}>
+          <Button
+            onClick={handleClickPayment}
+            color="primary"
+            size="small"
+            variant="contained"
+          >
+            {reservationItem.reservation.status}
+          </Button>
+          <Typography variant="body2">Payment status</Typography>
         </div>
       </CardContent>
     </Card>
