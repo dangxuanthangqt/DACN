@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useRef, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/styles";
 import {
   AppBar,
   Badge,
@@ -20,76 +20,76 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ClickAwayListener
-} from '@material-ui/core';
-import LockIcon from '@material-ui/icons/LockOutlined';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import history from '../../../../helper/history';
-import { logoutRequest } from '../../../../redux/actionCreators/logoutActionCreator';
+  ClickAwayListener,
+} from "@material-ui/core";
+import LockIcon from "@material-ui/icons/LockOutlined";
+import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
+import InputIcon from "@material-ui/icons/Input";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import history from "../../../../helper/history";
+import { logoutRequest } from "../../../../redux/actionCreators/logoutActionCreator";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    boxShadow: 'none'
+    boxShadow: "none",
   },
   flexGrow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   search: {
-    backgroundColor: 'rgba(255,255,255, 0.1)',
+    backgroundColor: "rgba(255,255,255, 0.1)",
     borderRadius: 4,
     flexBasis: 300,
     height: 36,
     padding: theme.spacing(0, 2),
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   searchIcon: {
     marginRight: theme.spacing(2),
-    color: 'inherit'
+    color: "inherit",
   },
   searchInput: {
     flexGrow: 1,
-    color: 'inherit',
-    '& input::placeholder': {
+    color: "inherit",
+    "& input::placeholder": {
       opacity: 1,
-      color: 'inherit'
-    }
+      color: "inherit",
+    },
   },
   searchPopper: {
-    zIndex: theme.zIndex.appBar + 100
+    zIndex: theme.zIndex.appBar + 100,
   },
   searchPopperContent: {
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   trialButton: {
     marginLeft: theme.spacing(2),
     color: theme.palette.white,
     backgroundColor: colors.green[600],
-    '&:hover': {
-      backgroundColor: colors.green[900]
-    }
+    "&:hover": {
+      backgroundColor: colors.green[900],
+    },
   },
   trialIcon: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   notificationsButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   notificationsBadge: {
-    backgroundColor: colors.orange[600]
+    backgroundColor: colors.orange[600],
   },
   logoutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   logoutIcon: {
-    marginRight: theme.spacing(1)
-  }
+    marginRight: theme.spacing(1),
+  },
 }));
 
-const TopBar = props => {
+const TopBar = (props) => {
   const { onOpenNavBar, className, ...rest } = props;
 
   const classes = useStyles();
@@ -99,7 +99,7 @@ const TopBar = props => {
   const notificationsRef = useRef(null);
   const [pricingModalOpen, setPricingModalOpen] = useState(false);
   const [openSearchPopover, setOpenSearchPopover] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [openNotifications, setOpenNotifications] = useState(false);
 
@@ -122,7 +122,7 @@ const TopBar = props => {
   // }, []);
 
   const handleLogout = () => {
-    dispatch(logoutRequest());
+    if (window.confirm("Do you want to log out 🙄🙄🙄?")) dispatch(logoutRequest());
   };
 
   const handlePricingOpen = () => {
@@ -141,7 +141,7 @@ const TopBar = props => {
     setOpenNotifications(false);
   };
 
-  const handleSearchChange = event => {
+  const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
 
     if (event.target.value) {
@@ -157,31 +157,19 @@ const TopBar = props => {
     setOpenSearchPopover(false);
   };
 
-  
-
   return (
-    <AppBar
-      {...rest}
-      className={clsx(classes.root, className)}
-      color="primary"
-    >
+    <AppBar {...rest} className={clsx(classes.root, className)} color="primary">
       <Toolbar>
-      <Hidden xlUp>
-          <IconButton
-            color="inherit"
-            onClick={onOpenNavBar}
-          >
+        <Hidden xlUp>
+          <IconButton color="inherit" onClick={onOpenNavBar}>
             <MenuIcon />
           </IconButton>
         </Hidden>
         <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/team5.svg"
-          />
+          <img alt="Logo" src="/images/logos/team5.svg" />
         </RouterLink>
         <div className={classes.flexGrow} />
-        <Hidden smDown>
+        {/* <Hidden smDown>
           <div
             className={classes.search}
             ref={searchRef}
@@ -205,6 +193,7 @@ const TopBar = props => {
             TEST BUTTON
           </Button>
         </Hidden>
+         */}
         <Hidden mdDown>
           <IconButton
             className={classes.notificationsButton}
@@ -229,7 +218,6 @@ const TopBar = props => {
             Sign out
           </Button>
         </Hidden>
-     
       </Toolbar>
       {/* <PricingModal
         onClose={handlePricingClose}
@@ -247,7 +235,7 @@ const TopBar = props => {
 
 TopBar.propTypes = {
   className: PropTypes.string,
-  onOpenNavBarMobile: PropTypes.func
+  onOpenNavBarMobile: PropTypes.func,
 };
 
 export default TopBar;

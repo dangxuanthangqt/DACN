@@ -76,6 +76,9 @@ function* watchGetAllReservation({ payload }) {
   try {
     const res = yield call(getRoomReservationByBrandId, payload);
     yield delay(500);
+    if(res.data.body.length ===0){
+      yield call (toastifyError,"Brand ni chưa có đơn mô đặt hết á.")
+    }
     yield put(getAllReservationSuccess(res.data.body));
   } catch (e) {
     yield call(toastifyError, "ERROR 500 !");
@@ -85,6 +88,7 @@ function* watchGetAllRoomReservation({ payload }) {
   yield put({ type: "SHOW_LOADING" });
   try {
     const res = yield call(getAllRoom_RoomReservationByBrand, payload);
+    
     yield put(getAllRoomReservationSuccess(res.data.body));
 
     yield put({ type: "HIDE_LOADING" });

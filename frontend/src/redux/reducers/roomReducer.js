@@ -41,6 +41,18 @@ const myReducer = (state = initialState, action) => {
       case PUSH_ROOM_ITEM_DATA_TO_STORE:
         draft.roomSelected = action.payload;
         return draft;
+      case "RESET_ROOM_STORE":
+        return {
+          listHotel: [],
+          brandSelected: {},
+          brandSelected1:null,
+          listRoomOfBrand: [],
+          hotelSelected:null,
+          roomSelected: {
+            roomType: {},
+            brand: {},
+          }
+        }
       default:
         return draft;
     }

@@ -24,6 +24,9 @@ function RoomManagement(props) {
     dispatch(fetchListHotelOptionRequest());
     return () => {
       dispatch(resetStateOnRedux());
+      dispatch({
+        type:"RESET_ROOM_STORE"
+    })
     };
   }, [dispatch]);
   const handleClose = () => {

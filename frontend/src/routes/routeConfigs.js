@@ -146,6 +146,12 @@ export const privateRoutes = [
         exact: true,
         component: lazy(() => import("../views/RoomReservationList")),
       },
+      {
+        key: "analytics",
+        path:  "/dashboards/analytics",
+        exact: true,
+        component: lazy(() => import("../views/Analytics")),
+      },
     ],
   },
 ];

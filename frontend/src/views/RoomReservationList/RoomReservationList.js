@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import ReservationList from "./components/ReservationList";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllReservationRequest } from "redux/actionCreators/roomReservationActionCreator";
+import { Redirect } from "react-router-dom";
 
 RoomReservationList.propTypes = {};
 
@@ -19,6 +20,7 @@ function RoomReservationList(props) {
       if (brandSelected) dispatch(getAllReservationRequest(brandSelected.id));
     };
   }, [dispatch]);
+  if(listReservation.length ===0) return <Redirect to="/management/room-reservation"></Redirect>
   return (
     <Container>
       <Header></Header>

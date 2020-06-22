@@ -27,6 +27,7 @@ const initialState = {
   listReservation: [],
   dataModalReservation: {},
   dataModalPayment: { user: {} },
+  dataReservationInYear: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
 };
 const myReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
@@ -99,11 +100,32 @@ const myReducer = (state = initialState, action) => {
 
       case GET_ALL_RESERVATION_SUCCESS:
         draft.listReservation = action.payload.sort((a, b) => {
-          if (a.reservation.status < b.reservation.status) {
+          let temp1 = new Date(a.createDate);
+          let temp2 = new Date(b.createDate);
+          if (temp1.getTime() < temp2.getTime()) {
             return 1;
-          } else if (a.reservation.status > b.reservation.status) return -1;
+          } else if (temp1.getTime() > temp2.getTime()) return -1;
           return 0;
         });
+        let temp = [];
+        let test =0;
+        for (let i = 1; i <= 12; i++) {
+          let count = 0;
+          
+          action.payload.forEach((element) => {
+            let createDate = new Date(element.createDate);
+            test ++;
+            let nowYear = new Date().getFullYear();
+            if (createDate.getMonth() + 1 === i && createDate.getFullYear() === nowYear ) {
+              
+              count++;
+            }
+          });
+        
+          temp.push(count);
+        }
+     //   console.log(test);
+        draft.dataReservationInYear = temp;
         return draft;
       case FILTER_FOLLOW_COMPLETED_STATUS:
         draft.listReservation = draft.listReservation
@@ -111,9 +133,11 @@ const myReducer = (state = initialState, action) => {
             return item.status === "COMPLETED";
           })
           .sort((a, b) => {
-            if (a.reservation.status < b.reservation.status) {
+            let temp1 = new Date(a.createDate);
+            let temp2 = new Date(b.createDate);
+            if (temp1.getTime() < temp2.getTime()) {
               return 1;
-            } else if (a.reservation.status > b.reservation.status) return -1;
+            } else if (temp1.getTime() > temp2.getTime()) return -1;
             return 0;
           });
         return draft;
@@ -123,9 +147,11 @@ const myReducer = (state = initialState, action) => {
             return item.status === "PENDING";
           })
           .sort((a, b) => {
-            if (a.room.name > b.room.name) {
+            let temp1 = new Date(a.createDate);
+            let temp2 = new Date(b.createDate);
+            if (temp1.getTime() < temp2.getTime()) {
               return 1;
-            } else if (a.room.name < b.room.name) return -1;
+            } else if (temp1.getTime() > temp2.getTime()) return -1;
             return 0;
           });
         return draft;
@@ -135,9 +161,11 @@ const myReducer = (state = initialState, action) => {
             return item.status === "CANCELLED";
           })
           .sort((a, b) => {
-            if (a.room.name > b.room.name) {
+            let temp1 = new Date(a.createDate);
+            let temp2 = new Date(b.createDate);
+            if (temp1.getTime() < temp2.getTime()) {
               return 1;
-            } else if (a.room.name < b.room.name) return -1;
+            } else if (temp1.getTime() > temp2.getTime()) return -1;
             return 0;
           });
         return draft;
@@ -174,6 +202,24 @@ const myReducer = (state = initialState, action) => {
         draft.pendingCount = 0;
         draft.completeCount = 0;
         return draft;
+      case "RESET_ROOM_RESERVATION_STORE":
+        return {
+          listRoomReservation: [
+            {
+              roomReservationDTOList: [{}],
+            },
+          ],
+          groups: [],
+          items: [],
+          pendingCount: 0,
+          completeCount: 0,
+          totalCount: 0,
+          cancelledCount: 0,
+          listReservation: [],
+          dataModalReservation: {},
+          dataModalPayment: { user: {} },
+          dataReservationInYear: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
+        }
       default:
         return draft;
     }
