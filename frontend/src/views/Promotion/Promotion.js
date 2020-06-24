@@ -9,6 +9,7 @@ import PromoList from "./component/PromoList";
 import Filter from './component/Filter';
 Promotion.propTypes = {};
 
+
 function Promotion(props) {
     const [open, setOpen] = useState(false)
     const handleOpen =()=>{
@@ -20,6 +21,7 @@ function Promotion(props) {
     const dispatch= useDispatch();
     const promoList =useSelector(state=>state.promotions.listPromos)
    
+
   return (
     <Container>
       <Header handleOpen={handleOpen}></Header>
