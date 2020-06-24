@@ -10,7 +10,6 @@ import { loginRequest } from '../../../../redux/actionCreators/loginActionCreato
 
 
 
-
 const schema = {
   email: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -20,7 +19,6 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' }
   }
 };
-
 const useStyles = makeStyles(theme => ({
   root: {},
   fields: {
@@ -37,7 +35,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   }
 }));
-
 const LoginForm = props => {
   const { className, ...rest } = props;
 
@@ -136,6 +133,8 @@ const LoginForm = props => {
     </form>
   );
 };
+
+
 
 LoginForm.propTypes = {
   className: PropTypes.string

@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import EditRoomtype from './component/EditRoomtype';
 import { useSelector } from 'react-redux';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: theme.spacing(2),
