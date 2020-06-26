@@ -81,11 +81,16 @@ const ReservationItem = (props) => {
     }
   };
   const handleClickPayment = () => {
-    dispatch({
-      type: "SET_DATA_MODAL_PAYMENT_DETAIL",
-      payload: reservationItem.reservation,
-    });
-    handleOpen1();
+    if(reservationItem.status === "COMPLETED"){
+      dispatch({
+        type: "SET_DATA_MODAL_PAYMENT_DETAIL",
+        payload: reservationItem.reservation,
+      });
+      handleOpen1();
+    }else {
+      toastifyError("STATUS RESERVATION IS NOT ACCEPTED !");
+    }
+    
   };
   return (
     <Card

@@ -14,7 +14,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeStatusCompletedRequest, changeStatusCancelledRequest } from "redux/actionCreators/roomReservationActionCreator";
+import {
+  changeStatusCompletedRequest,
+  changeStatusCancelledRequest,
+} from "redux/actionCreators/roomReservationActionCreator";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -40,7 +43,7 @@ export default function ModalReservationDetail(props) {
   const classes = useStyles();
   const { open, handleClose } = props;
   const dispatch = useDispatch();
-  const brandSelected = useSelector(state => state.rooms.brandSelected);
+  const brandSelected = useSelector((state) => state.rooms.brandSelected);
   const dataModalReservation = useSelector(
     (state) => state.roomReservation.dataModalReservation
   );
@@ -84,7 +87,7 @@ export default function ModalReservationDetail(props) {
           <CardContent>
             <form>
               <TextField
-              disabled
+                disabled
                 className={classes.field}
                 fullWidth
                 label="Full name"
@@ -93,7 +96,7 @@ export default function ModalReservationDetail(props) {
                 size="small"
               />
               <TextField
-              disabled
+                disabled
                 fullWidth
                 className={classes.field}
                 label="Email"
@@ -102,7 +105,7 @@ export default function ModalReservationDetail(props) {
                 size="small"
               />
               <KeyboardDatePicker
-              disabled
+                disabled
                 className={classes.field}
                 fullWidth
                 disableToolbar
@@ -115,7 +118,7 @@ export default function ModalReservationDetail(props) {
                 }}
               />
               <KeyboardDatePicker
-              disabled
+                disabled
                 fullWidth
                 className={classes.field}
                 disableToolbar
@@ -130,28 +133,32 @@ export default function ModalReservationDetail(props) {
             </form>
           </CardContent>
           <CardActions>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <Button
-                  onClick={handleAccept}
-                  fullWidth
-                  color="primary"
-                  variant="contained"
-                >
-                  Accept
-                </Button>
+            {dataModalReservation.status === "PENDING" ? (
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <Button
+                    onClick={handleAccept}
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                  >
+                    Accept
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    onClick={handleReject}
+                    fullWidth
+                    style={{ backgroundColor: "red" }}
+                    variant="contained"
+                  >
+                    Reject
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Button
-                  onClick={handleReject}
-                  fullWidth
-                  style={{ backgroundColor: "red" }}
-                  variant="contained"
-                >
-                  Reject
-                </Button>
-              </Grid>
-            </Grid>
+            ) : (
+              ""
+            )}
           </CardActions>
         </Card>
       </Modal>

@@ -17,6 +17,7 @@ import {
   getAllReservationSuccess,
   getAllRoomReservationRequest,
   changeStatusPaymentSuccess,
+  getAllReservationRequest,
 } from "redux/actionCreators/roomReservationActionCreator";
 import history from "helper/history";
 import { apiPayment } from "services/apis/apiPayment";
@@ -50,6 +51,7 @@ function* watchChangeCancelledStatus({ payload }) {
     yield call(toastifySuccess, "Reject reservation successfully!");
     yield delay(300);
     yield put(getAllRoomReservationRequest(payload.brandId));
+    yield put(getAllReservationRequest(payload.brandId));
     yield call(history.push, "/management/room-reservation");
 
     // getAllRoomReservationRequest(values.value)
@@ -65,6 +67,7 @@ function* watchChangeCompletedStatus({ payload }) {
     yield call(toastifySuccess, "Accept reservation successfully!");
     yield delay(300);
     yield put(getAllRoomReservationRequest(payload.brandId));
+    yield put(getAllReservationRequest(payload.brandId));
     yield call(history.push, "/management/room-reservation");
     // getAllRoomReservationRequest(values.value)
   } catch (e) {

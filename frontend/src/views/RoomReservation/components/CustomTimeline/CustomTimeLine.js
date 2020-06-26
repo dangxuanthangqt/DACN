@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect } from "react";
+import React, { Component, Fragment, useEffect, useState } from "react";
 import moment from "moment";
 
 import Timeline, {
@@ -19,6 +19,7 @@ import {
 import history from "helper/history";
 import { useRouteMatch } from "react-router-dom";
 import { toastifyError } from "helper/Toastify";
+import ModalReservationDetail from "views/RoomReservationList/components/ModalReservationDetail";
 
 var keys = {
   groupIdKey: "id",
@@ -53,6 +54,7 @@ export default function CustomTimeLine() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const match = useRouteMatch();
+  const [open, setOpen] = useState(false);
   const defaultTimeStart = moment().startOf("day").add(-5, "day").toDate();
   const defaultTimeEnd = moment()
     .startOf("day")
@@ -78,6 +80,26 @@ export default function CustomTimeLine() {
     (state) => state.roomReservation.cancelledCount
   );
   const totalCount = useSelector((state) => state.roomReservation.totalCount);
+  const handleOpen = ()=>{
+    setOpen(true);
+  }
+  const handleClose=()=>{
+    
+     setOpen(false);
+   
+  }
+  const handleClick=(itemId)=>{
+    let index = listReservation.findIndex(element=> element.id === itemId);
+    
+      dispatch({
+        type: "SET_DATA_MODAL_RESEVATION_DETAIL",
+        payload: listReservation[index]
+      })
+      handleOpen();
+    
+
+    
+  }
   const handleFilterFolowStatus = (status) => {
     // history.push(`${match.url}/filter-status`);
     // console.log(`${match.url}/filter-status`)
@@ -115,6 +137,7 @@ export default function CustomTimeLine() {
   if (groups.length === 0) return <Warning></Warning>;
   return (
     <Fragment>
+      <ModalReservationDetail open={open} handleClose={handleClose}></ModalReservationDetail>
       <div
         style={{
           marginTop: "1em",
@@ -189,7 +212,7 @@ export default function CustomTimeLine() {
           itemsSorted
           itemTouchSendsClick={false}
           onItemClick={(itemId) => {
-            console.log(itemId);
+            handleClick(itemId);
           }}
           stackItems
           itemHeightRatio={0.75}
