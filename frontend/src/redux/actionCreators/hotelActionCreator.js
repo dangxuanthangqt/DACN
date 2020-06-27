@@ -3,6 +3,7 @@ import {
   FETCH_LIST_HOTEL_FAILURE,
   FETCH_LIST_HOTEL_SUCCESS,
   ADD_HOTEL_REQUEST,
+  EDIT_HOTEL_REQUEST,
   DELETE_HOTEL_REQUEST,
   FETCH_PAGINATION_HOTEL_REQUEST,
   FETCH_HOTEL_DETAIL_REQUEST,
@@ -36,6 +37,13 @@ export const fetchListHotelFailure = (error) => {
 export const addNewHotel = (data) => {
   return {
     type: ADD_HOTEL_REQUEST,
+    payload: data,
+  };
+};
+
+export const editHotel = (data) => {
+  return {
+    type: EDIT_HOTEL_REQUEST,
     payload: data,
   };
 };

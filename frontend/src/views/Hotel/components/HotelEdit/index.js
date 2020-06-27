@@ -13,7 +13,7 @@ import { storage } from "utils/firebase";
 
 // reducers
 import {
-  addNewHotel,
+  editHotel,
   fetchDetailHotelRequest,
 } from "redux/actionCreators/hotelActionCreator";
 
@@ -35,12 +35,13 @@ const HotelCreate = () => {
 
   const handleSubmit = async (data) => {
     data.images = await uploadImagesToFirebase();
+    data.id = match.params.id;
 
-    dispatch(addNewHotel(data));
+    dispatch(editHotel(data));
   };
 
   const handleChangeImages = (images) => {
-    if (images) {
+    if (images && images instanceof Array) {
       const fileImages = images.map((item) => {
         return item.file;
       });

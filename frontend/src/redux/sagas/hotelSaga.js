@@ -5,6 +5,7 @@ import { toastifyError, toastifySuccess } from "helper/Toastify";
 import {
   FETCH_LIST_HOTEL_REQUEST,
   ADD_HOTEL_REQUEST,
+  EDIT_HOTEL_REQUEST,
   DELETE_HOTEL_REQUEST,
   FETCH_PAGINATION_HOTEL_REQUEST,
   FETCH_HOTEL_DETAIL_REQUEST,
@@ -39,6 +40,22 @@ function* watchCreateNewHotel(action) {
     yield put({ type: "HIDE_LOADING" });
   } catch (e) {
     yield call(toastifyError, "Add hotel Error !");
+    yield put({ type: "HIDE_LOADING" });
+  }
+}
+
+function* watchEditHotel(action) {
+  yield put({ type: "SHOW_LOADING" });
+
+  const { payload } = action;
+
+  try {
+    const res = yield call(axiosService.put, `${uri}/${payload.id}`, payload);
+    yield call(toastifySuccess, "Edit hotel successfully !");
+    yield call(history.push, `${path}`);
+    yield put({ type: "HIDE_LOADING" });
+  } catch (e) {
+    yield call(toastifyError, "Edit hotel Error !");
     yield put({ type: "HIDE_LOADING" });
   }
 }
@@ -106,4 +123,5 @@ export function* hotelSaga() {
   yield takeEvery(DELETE_HOTEL_REQUEST, watchDeleteHotel);
   yield takeEvery(FETCH_PAGINATION_HOTEL_REQUEST, watchFetchPagination);
   yield takeEvery(FETCH_HOTEL_DETAIL_REQUEST, watchFetchDetailHotel);
+  yield takeEvery(EDIT_HOTEL_REQUEST, watchEditHotel);
 }

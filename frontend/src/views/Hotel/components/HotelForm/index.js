@@ -4,16 +4,16 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouteMatch } from "react-router-dom";
 
-import RUG from "react-upload-gallery";
+import RUG, { DragArea } from "react-upload-gallery";
 //material ui
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import CancelIcon from "@material-ui/icons/Cancel";
+import Badge from "@material-ui/core/Badge";
 
 import history from "helper/history";
 // reducers
@@ -30,6 +30,11 @@ const HotelFrom = ({
 }) => {
   const dispatch = useDispatch();
   const match = useRouteMatch();
+
+  const [statusPaperImageLoaded, setStatusPaperImageLoaded] = useState(
+    !isCreate
+  );
+  const [validateImage, setValidateImage] = useState(true);
 
   const handelCancel = () => {
     history.goBack();
@@ -73,6 +78,7 @@ const HotelFrom = ({
                       value={props.values.name}
                     />
                   </Grid>
+
                   <Grid item xs={12} className={styles.gird_item}>
                     <TextField
                       multiline
@@ -97,9 +103,12 @@ const HotelFrom = ({
 
                   <Grid item xs={12} className={styles.gird_item}>
                     <RUG
-                      action="null"
+                      style={{
+                        display: statusPaperImageLoaded ? "none" : "block",
+                      }}
+                      action=""
                       rules={{
-                        limit: 5,
+                        limit: 4,
                       }}
                       accept={["jpg", "jpeg", "png"]}
                       onWarning={(type, rules) => {
@@ -128,10 +137,41 @@ const HotelFrom = ({
                             );
 
                           default:
+                            setValidateImage(true);
                         }
                       }}
-                      onChange={handleChangeImages}
+                      onChange={(handleChangeImages)}
+                      name="images"
                     />
+                    <Paper
+                      elevation={3}
+                      style={{
+                        display: statusPaperImageLoaded ? "block" : "none",
+                      }}
+                    >
+                      <Badge
+                        className={styles.badge_img_loaded}
+                        badgeContent={<CancelIcon color="error" />}
+                        style={{ display: isCreate ? "none" : "block" }}
+                        onClick={() => {
+                          setStatusPaperImageLoaded(false);
+                        }}
+                      />
+
+                      <Typography variant="body2" display="block">
+                        Image loaded
+                      </Typography>
+                      {data.images.map((item, index) => {
+                        return (
+                          <div className={styles.card_img} key={index}>
+                            <img
+                              src={item.name}
+                              className={styles.img_loaded}
+                            />
+                          </div>
+                        );
+                      })}
+                    </Paper>
                   </Grid>
                 </Grid>
                 <Grid container spacing={2}>
@@ -141,7 +181,9 @@ const HotelFrom = ({
                       color="primary"
                       startIcon={<SaveIcon />}
                       className={styles.btn_form}
-                      disabled={!props.isValid || !props.dirty}
+                      disabled={
+                        !props.isValid || !props.dirty || !validateImage
+                      }
                       type="submit"
                     >
                       Save
@@ -173,7 +215,6 @@ const validationSchema = Yup.object().shape({
   description: Yup.string("Enter a description").required(
     "Description is required"
   ),
-  // images: Yup.array().required("Images is required !"),
 });
 
 export default HotelFrom;

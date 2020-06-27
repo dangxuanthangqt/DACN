@@ -1,0 +1,26 @@
+.tf_item {
+  /* width: 500px; */
+  width: 100%;
+  margin-top: 25px;
+}
+
+.DialogActionsCustom {
+  float: right;
+  margin-top: 20px;
+}
+
+.badge_img_loaded {
+  cursor: pointer;
+  transition: 0.4s;
+  float: right;
+}
+
+.badge_img_loaded:hover {
+  transform: rotate(180deg);
+}
+
+.img_loaded {
+  width: 200px;
+  height: auto;
+  margin: 5px;
+}
