@@ -1,10 +1,12 @@
-import styles from "./BrandCard.module.css";
-
-import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import clsx from "clsx";
+import { useRouteMatch } from "react-router-dom";
 
+import { deleteBrand } from "redux/actionCreators/brandActionCreator";
+import { DialogDelete } from "components/Dialog";
+import BrandEdit from "../BrandEdit";
 //material ui
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
@@ -19,6 +21,8 @@ import { makeStyles } from "@material-ui/styles";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import styles from "./BrandCard.module.css";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
@@ -26,18 +30,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BrandCard = ({ brand }) => {
+const BrandCard = ({ brand, handleDeleteBrand }) => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [statusDialogDelete, setStatusDialogDelete] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  console.log(brand);
+  const onClickDeleteBrand = () => {
+    setStatusDialogDelete(true);
+  };
+
+  const onDeleteBrand = () => {
+    dispatch(deleteBrand(brand.id));
+    handleDeleteBrand(brand.id);
+    setStatusDialogDelete(false);
+  };
+
+  const handleClickEdit = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseBrandEdit = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSubmitBrand = (data) => {
+    handleDeleteBrand(brand.id);
+  };
 
   return (
     <Card className={classes.root}>
+      <DialogDelete
+        status={statusDialogDelete}
+        subtitle={"Data of brand will delete!"}
+        title={"Brand"}
+        handleDelete={onDeleteBrand}
+        handleCancel={() => {
+          setStatusDialogDelete(false);
+        }}
+      />
+      <BrandEdit
+        open={openDialog}
+        onClose={handleCloseBrandEdit}
+        handleSubmitBrand={handleSubmitBrand}
+        data={brand}
+      />
+
       <CardHeader
         action={
           <IconButton aria-label="settings">
@@ -61,10 +104,10 @@ const BrandCard = ({ brand }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={handleClickEdit}>
           <EditIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={onClickDeleteBrand}>
           <DeleteIcon />
         </IconButton>
         <IconButton

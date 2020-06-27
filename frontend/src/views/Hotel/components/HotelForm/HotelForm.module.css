@@ -35,3 +35,33 @@
 .btn_form {
   width: 100%;
 }
+
+.select_gird_item {
+  padding: 20px;
+  text-align: left;
+}
+
+.select_item {
+  width: 100%;
+}
+
+.img_loaded {
+  width: 200px;
+  height: auto;
+  margin: 5px;
+}
+
+.card_img {
+  display: inline-flex;
+  margin: 15px;
+}
+
+.badge_img_loaded {
+  cursor: pointer;
+  transition: 0.4s;
+  float: right;
+}
+
+.badge_img_loaded:hover {
+  transform: rotate(180deg);
+}

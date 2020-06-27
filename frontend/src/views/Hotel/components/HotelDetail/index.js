@@ -19,10 +19,9 @@ import {
   fetchDetailHotelRequest,
   deleteHotel,
 } from "redux/actionCreators/hotelActionCreator";
-import BrandCard from "../BrandCard";
 import { DialogDelete } from "components/Dialog";
-
 import { ValueRoutes } from "common/Constant";
+import BrandList from "../BrandList";
 
 import styles from "./HotelDetail.module.css";
 
@@ -116,7 +115,7 @@ const HotelDetail = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Typography gutterBottom variant="h2" component="h2">
+                  <Typography gutterBottom variant="h3" component="h2">
                     Description
                   </Typography>
                   <Typography
@@ -135,7 +134,7 @@ const HotelDetail = () => {
             <Grid item xs={12}>
               <Card>
                 <CardContent>
-                  <Typography gutterBottom variant="h2" component="h2">
+                  <Typography gutterBottom variant="h3" component="h2">
                     Actions
                   </Typography>
                   <Grid container>
@@ -170,22 +169,7 @@ const HotelDetail = () => {
 
           <Grid container className={styles.container_item}>
             <Grid item xs={12}>
-              <Card>
-                <CardContent>
-                  <Typography gutterBottom variant="h2" component="h2">
-                    Brands
-                  </Typography>
-                  <Grid container spacing={3}>
-                    {hotel.brands.map((item, index) => {
-                      return (
-                        <Grid item xs={4} key={index}>
-                          <BrandCard brand={item} />
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-                </CardContent>
-              </Card>
+              <BrandList brands={hotel.brands} />
             </Grid>
           </Grid>
         </Container>
